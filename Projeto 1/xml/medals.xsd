@@ -1,0 +1,30 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="olympics">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="country" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:byte" name="position"/>
+              <xs:element type="xs:string" name="name"/>
+              <xs:element type="xs:string" name="abbreviation"/>
+              <xs:element type="xs:byte" name="gold"/>
+              <xs:element type="xs:byte" name="silver"/>
+              <xs:element type="xs:byte" name="bronze"/>
+              <xs:element type="xs:byte" name="total"/>
+              <xs:element name="athlete" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="medal"/>
+                    <xs:element type="xs:string" name="name"/>
+                    <xs:element type="xs:string" name="modality"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
