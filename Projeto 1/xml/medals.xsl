@@ -7,6 +7,7 @@
             <!-->
             ESTA PARTE DO CSS FOI ROUBADO DO TRABALHO DO TOMAS, DEPOIS TEMOS DE MUDAR ISTO EHEH
             PARA TESTAR
+
             <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'/>
             <style>
                 body {
@@ -53,16 +54,19 @@
             <body>
                 <h2>Olympic Medals</h2>
                 <table border="1">
-                    <tr bgcolor="#9acd32">
-                        <th>Position</th>
-                        <th>Name</th>
-                        <th>Abbreviation</th>
-                        <th>Gold</th>
-                        <th>Silver</th>
-                        <th>Bronze</th>
-                        <th>Total</th>
-                    </tr>
+
+
                     <xsl:for-each select="olympics/country">
+                        <tr bgcolor="#9acd32">
+                            <th>Position</th>
+                            <th>Name</th>
+                            <th>Abbreviation</th>
+                            <th>Gold</th>
+                            <th>Silver</th>
+                            <th>Bronze</th>
+                            <th>Total</th>
+                        </tr>
+
                         <tr>
                             <td><xsl:value-of select="position" /></td>
                             <td><xsl:value-of select="name" /></td>
@@ -71,23 +75,22 @@
                             <td><xsl:value-of select="silver" /></td>
                             <td><xsl:value-of select="bronze" /></td>
                             <td><xsl:value-of select="total" /></td>
+                                <tr bgcolor="#0F607B">
+                                    <th>Medal</th>
+                                    <th>Name</th>
+                                    <th colspan = "5">Modality</th>
+                                </tr>
+                                <xsl:for-each select="athlete">
+                                    <tr>
+                                        <td><xsl:value-of select="medal"/></td>
+                                        <td><xsl:value-of select="name"/></td>
+                                        <td colspan = "5"><xsl:value-of select="modality"/></td>
+                                    </tr>
+                                </xsl:for-each>
                         </tr>
                     </xsl:for-each>
                 </table>
-                <table border="1">
-                    <tr bgcolor="#0F607B">
-                        <th>Medal</th>
-                        <th>Name</th>
-                        <th>Modality</th>
-                    </tr>
-                    <xsl:for-each select="olympics/country/athlete">
-                        <tr>
-                        <td><xsl:value-of select="medal"/></td>
-                        <td><xsl:value-of select="name"/></td>
-                        <td><xsl:value-of select="modality"/></td>
-                        </tr>
-                    </xsl:for-each>
-                </table>
+
             </body>
 
         </html>
