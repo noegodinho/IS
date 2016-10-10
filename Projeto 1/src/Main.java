@@ -2,12 +2,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import javax.jms.*;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main{
 	public static void main(String[] args){
@@ -115,16 +120,19 @@ public class Main{
 					athletes.add(athlete);
 				}
 
-				System.out.println(linkText);
+				//System.out.println(linkText);
 			}
 
 			country.setAthlete(athletes);
 			countries.add(country);
+
+			createMarshal(olympics);
+			new Sender();
 		}catch(IOException ioe){
 			ioe.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-
-		createMarshal(olympics);
 	}
 	
 	public static String createString(String[] actual_country_name, String[] splitted){
@@ -173,6 +181,26 @@ public class Main{
 			jaxbMarshaller.marshal(olympics, file);
 		}catch(JAXBException jaxbe){
 			jaxbe.printStackTrace();
+		}
+	}
+
+	public static class Sender{
+		private ConnectionFactory cf;
+		private Destination d;
+
+		public Sender() throws NamingException, FileNotFoundException{
+			this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
+			this.d = InitialContext.doLookup("jms/topic/XMLTopic");
+			send(new Scanner(new File("xml/medals.xml")).useDelimiter("\\Z").next());
+		}
+
+		private void send(String text){
+			try(JMSContext jcontext = cf.createContext("Is", "isisisis")){
+				JMSProducer mp = jcontext.createProducer();
+				mp.send(d, text);
+			}catch (JMSRuntimeException re){
+				re.printStackTrace();
+			}
 		}
 	}
 }
