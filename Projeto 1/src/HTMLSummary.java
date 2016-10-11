@@ -69,10 +69,11 @@ public class HTMLSummary{
         private String receive(){
             String msg = null;
 
-            try(JMSContext jcontex = cf.createContext("Is", "isisisis")) {
-                JMSConsumer mc = jcontex.createConsumer(d);
+            try(JMSContext jcontext = cf.createContext("Is", "isisisis")){
+                jcontext.setClientID("summary");
+                JMSConsumer mc = jcontext.createDurableConsumer((Topic) d, "summary");
                 msg = mc.receiveBody(String.class);
-            } catch (JMSRuntimeException re) {
+            }catch(JMSRuntimeException re){
                 re.printStackTrace();
             }
 
