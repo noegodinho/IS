@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main{
+public class WebCrawler{
 	public static void main(String[] args){
 		String websiteToParse = "https://www.rio2016.com/en/medal-count-country";
 		Document doc;
