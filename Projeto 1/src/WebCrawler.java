@@ -3,7 +3,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import javax.jms.*;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
