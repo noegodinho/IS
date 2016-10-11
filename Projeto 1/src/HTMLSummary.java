@@ -13,16 +13,34 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 
 public class HTMLSummary{
     public static void main(String[] args){
-        while(true){
+        try{
+            HTMLSummaryCreator html = new HTMLSummaryCreator();
+            html.launchAndWait();
+        }catch(NamingException ne){
+            ne.printStackTrace();
+        }
+    }
+
+    public static class HTMLSummaryCreator implements MessageListener{
+        private ConnectionFactory cf;
+        private Destination d;
+
+        public HTMLSummaryCreator() throws NamingException{
+            this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
+            this.d = InitialContext.doLookup("jms/topic/XMLTopic");
+        }
+
+        @Override
+        public void onMessage(Message msg){
             try{
-                Receiver r = new Receiver();
-                String xml = r.receive();
-                //System.out.println("Message: " + xml);
+                TextMessage tmsg = (TextMessage) msg;
+                String xml = tmsg.getText();
 
                 TransformerFactory tFactory = TransformerFactory.newInstance();
 
@@ -40,45 +58,30 @@ public class HTMLSummary{
 
                 Source xslDoc = new StreamSource("xml/medals.xsl");
 
-                try{
-                    validator.validate(xmlDocToValidate);
+                validator.validate(xmlDocToValidate);
 
-                    Transformer transformer = tFactory.newTransformer(xslDoc);
-                    transformer.transform(xmlDoc, new StreamResult(htmlFile));
+                Transformer transformer = tFactory.newTransformer(xslDoc);
+                transformer.transform(xmlDoc, new StreamResult(htmlFile));
 
-                    System.out.println("HTML file created successfully");
-                }catch(SAXException saxe){
-                    saxe.printStackTrace();
-                    System.out.println("Message is NOT a valid XML message");
-                }
-
-            }catch(Exception e){
+                System.out.println("HTML file created successfully");
+            }catch(SAXException saxe){
+                saxe.printStackTrace();
+                System.out.println("Message is NOT a valid XML message");
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }
-    }
 
-    public static class Receiver{
-        private ConnectionFactory cf;
-        private Destination d;
-
-        public Receiver() throws NamingException{
-            this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
-            this.d = InitialContext.doLookup("jms/topic/XMLTopic");
-        }
-
-        private String receive(){
-            String msg = null;
-
+        public void launchAndWait(){
             try(JMSContext jcontext = cf.createContext("Is", "isisisis")){
                 jcontext.setClientID("summary");
                 JMSConsumer mc = jcontext.createDurableConsumer((Topic) d, "summary");
-                msg = mc.receiveBody(String.class);
-            }catch(JMSRuntimeException re){
+                mc.setMessageListener(this);
+
+                System.in.read();
+            }catch (JMSRuntimeException | IOException re){
                 re.printStackTrace();
             }
-
-            return msg;
         }
     }
 }
