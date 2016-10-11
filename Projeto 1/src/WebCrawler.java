@@ -187,7 +187,7 @@ public class WebCrawler{
 		private ConnectionFactory cf;
 		private Destination d;
 
-		public Sender() throws NamingException, FileNotFoundException{
+		public Sender() throws FileNotFoundException{
 			int seconds = 10;
 			boolean trying = true;
 
@@ -196,7 +196,7 @@ public class WebCrawler{
 					this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
 					this.d = InitialContext.doLookup("jms/topic/XMLTopic");
 					trying = false;
-				}catch (Exception e){
+				}catch(Exception e){
 					System.out.println("JMS Topic is down... Trying again in " + seconds + "s.");
 
 					try{

@@ -18,11 +18,11 @@ import java.io.StringReader;
 
 public class HTMLSummary{
     public static void main(String[] args){
-        try{
-            while(true){
+        while(true){
+            try{
                 Receiver r = new Receiver();
                 String xml = r.receive();
-                System.out.println("Message: " + xml);
+                //System.out.println("Message: " + xml);
 
                 TransformerFactory tFactory = TransformerFactory.newInstance();
 
@@ -40,20 +40,21 @@ public class HTMLSummary{
 
                 Source xslDoc = new StreamSource("xml/medals.xsl");
 
-                try {
+                try{
                     validator.validate(xmlDocToValidate);
 
                     Transformer transformer = tFactory.newTransformer(xslDoc);
                     transformer.transform(xmlDoc, new StreamResult(htmlFile));
 
                     System.out.println("HTML file created successfully");
-                } catch (SAXException e) {
+                }catch(SAXException saxe){
+                    saxe.printStackTrace();
                     System.out.println("Message is NOT a valid XML message");
                 }
 
+            }catch(Exception e){
+                e.printStackTrace();
             }
-        }catch(Exception e){
-            e.printStackTrace();
         }
     }
 
