@@ -189,19 +189,19 @@ public class Main{
 
 		public Sender() throws NamingException, FileNotFoundException{
 			int seconds = 10;
-			boolean connected = true;
+			boolean trying = true;
 
-			while(connected) {
-				try {
+			while(trying){
+				try{
 					this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
 					this.d = InitialContext.doLookup("jms/topic/XMLTopic");
-					connected = false;
-				} catch (Exception e) {
+					trying = false;
+				}catch (Exception e){
 					System.out.println("JMS Topic is down... Trying again in " + seconds + "s.");
 
-					try {
+					try{
 						Thread.sleep(1000 * seconds);
-					} catch (Exception ex) {
+					}catch (Exception ex){
 						ex.printStackTrace();
 					}
 
@@ -213,10 +213,10 @@ public class Main{
 		}
 
 		private void send(String text){
-			try (JMSContext jcontext = cf.createContext("Is", "isisisis")) {
+			try(JMSContext jcontext = cf.createContext("Is", "isisisis")){
 				JMSProducer mp = jcontext.createProducer();
 				mp.send(d, text);
-			} catch (JMSRuntimeException re) {
+			}catch (JMSRuntimeException re){
 				re.printStackTrace();
 			}
 		}
