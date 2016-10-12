@@ -8,16 +8,16 @@ public class MedalsRequester{
 
     public static void main(String[] args){
         try{
-            new MedalsRequester();
+            new MedalsRequester(args[0]);
         }catch(NamingException ne){
             ne.printStackTrace();
         }
     }
 
-    public MedalsRequester() throws NamingException{
+    public MedalsRequester(String arg) throws NamingException{
         this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
         this.d = InitialContext.doLookup("jms/queue/KeeperRequester");
-        send("usa");
+        send(arg);
     }
 
     private void send(String text){
