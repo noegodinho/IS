@@ -3,50 +3,71 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.io.IOException;
 
-public class MedalsKeeper{
+public class MedalsKeeper implements MessageListener{
+    public String xml;
+    private ConnectionFactory cf;
+    private Destination d;
+    private JMSContext jcontext;
+
     public static void main(String[] args){
         try{
-            ReceiveMessages rm = new ReceiveMessages();
-            rm.launchAndWait();
-            ReceiveMessagesQueue rmq = new ReceiveMessagesQueue();
-            rmq.launchAndWait();
+            new MedalsKeeper();
         }catch(NamingException ne){
             ne.printStackTrace();
         }
     }
 
-    public static class ReceiveMessagesQueue implements MessageListener{
-        private ConnectionFactory cf;
-        private Destination d;
+    public MedalsKeeper() throws NamingException{
+        new ReceiveMessages().start();
 
-        public ReceiveMessagesQueue() throws NamingException{
-            this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
-            this.d = InitialContext.doLookup("jms/queue/KeeperReceiver");
-        }
+        this.xml = null;
+        this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
+        this.d = InitialContext.doLookup("jms/queue/KeeperRequester");
+        this.launchAndWait();
+    }
 
-        @Override
-        public void onMessage(Message msg){
-            try{
-                TextMessage tmsg = (TextMessage)msg;
-                String message = tmsg.getText();
-            }catch(JMSException jmse){
-                jmse.printStackTrace();
+    @Override
+    public void onMessage(Message msg){
+        try{
+            TextMessage tmsg = (TextMessage)msg;
+            String message = tmsg.getText();
+            String send;
+
+            if(this.xml == null){
+                send = "Cannot find information";
             }
-        }
 
-        public void launchAndWait(){
-            try(JMSContext jcontext = cf.createContext("Is", "isisisis")){
-                JMSConsumer mc = jcontext.createConsumer(d);
-                mc.setMessageListener(this);
-
-                System.in.read();
-            }catch(JMSRuntimeException | IOException re){
-                re.printStackTrace();
+            else{
+                send = findQuery(message);
             }
+
+            TextMessage reply = jcontext.createTextMessage(send);
+            JMSProducer jms = jcontext.createProducer();
+            jms.send(tmsg.getJMSReplyTo(), reply);
+
+            System.out.println("Message sent!");
+        }catch(JMSException jmse){
+            jmse.printStackTrace();
         }
     }
 
-    public static class ReceiveMessages implements MessageListener{
+    private String findQuery(String query){
+        return "some text";
+    }
+
+    private void launchAndWait(){
+        try{
+            jcontext = cf.createContext("Is", "isisisis");
+            JMSConsumer mc = jcontext.createConsumer(d);
+            mc.setMessageListener(this);
+
+            System.in.read();
+        }catch(JMSRuntimeException | IOException re){
+            re.printStackTrace();
+        }
+    }
+
+    public class ReceiveMessages extends Thread implements MessageListener{
         private ConnectionFactory cf;
         private Destination d;
 
@@ -56,17 +77,22 @@ public class MedalsKeeper{
         }
 
         @Override
+        public void run(){
+            this.launchAndWait();
+        }
+
+        @Override
         public void onMessage(Message msg){
             try{
                 TextMessage tmsg = (TextMessage)msg;
-                String xml = tmsg.getText();
-                System.out.println(xml);
+                xml = tmsg.getText();
+                System.out.println("XML Received from topic");
             }catch(JMSException jmse){
                 jmse.printStackTrace();
             }
         }
 
-        public void launchAndWait(){
+        private void launchAndWait(){
             try(JMSContext jcontext = cf.createContext("Is", "isisisis")){
                 jcontext.setClientID("keeper");
                 JMSConsumer mc = jcontext.createDurableConsumer((Topic) d, "keeper");
