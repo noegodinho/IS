@@ -127,7 +127,7 @@ public class MedalsKeeper implements MessageListener{
         }
 
         @Override
-        public void run(){
+        public synchronized void run(){
             this.launchAndWait();
         }
 
