@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class MedalsKeeper implements MessageListener{
     public String xml;
+    private boolean validating;
+    private final Object available;
     private ConnectionFactory cf;
     private Destination d;
     private JMSContext jcontext;
@@ -34,6 +36,8 @@ public class MedalsKeeper implements MessageListener{
     public MedalsKeeper() throws NamingException{
         new ReceiveMessages().start();
 
+        this.validating = false;
+        this.available = new Object();
         this.xml = null;
         this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
         this.d = InitialContext.doLookup("jms/queue/KeeperRequester");
@@ -47,6 +51,16 @@ public class MedalsKeeper implements MessageListener{
             TextMessage tmsg = (TextMessage)msg;
             String message = tmsg.getText();
             String send;
+
+            while(this.validating){
+                try{
+                    synchronized(this.available){
+                        this.available.wait();
+                    }
+                }catch(InterruptedException ie){
+                    ie.printStackTrace();
+                }
+            }
 
             if(this.xml == null){
                 send = "Cannot find information";
@@ -134,6 +148,7 @@ public class MedalsKeeper implements MessageListener{
         public void onMessage(Message msg){
             try{
                 TextMessage tmsg = (TextMessage)msg;
+                validating = true;
                 xml = tmsg.getText();
 
                 Source xmlDocToValidate = new StreamSource(new StringReader(xml));
@@ -146,6 +161,11 @@ public class MedalsKeeper implements MessageListener{
                 validator.validate(xmlDocToValidate);
 
                 System.out.println("XML Received from topic");
+                validating = false;
+
+                synchronized(available){
+                    available.notify();
+                }
             }catch(JMSException jmse){
                 jmse.printStackTrace();
             }catch(SAXException e){
