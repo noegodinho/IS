@@ -157,6 +157,10 @@ public class Olympics{
             public void setName(String name){
                 this.name = name;
             }
+
+            public String toString(){
+                return this.medal + "\t" + this.name + "\t" + this.modality + "\n";
+            }
         }
     }
 }

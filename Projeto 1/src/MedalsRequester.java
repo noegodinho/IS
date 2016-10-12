@@ -17,7 +17,7 @@ public class MedalsRequester{
     public MedalsRequester() throws NamingException{
         this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
         this.d = InitialContext.doLookup("jms/queue/KeeperRequester");
-        send("USA");
+        send("usa");
     }
 
     private void send(String text){
@@ -32,7 +32,7 @@ public class MedalsRequester{
 
             JMSConsumer jms = jcontext.createConsumer(reply);
             TextMessage tm = (TextMessage)jms.receive();
-            System.out.println("Reply: " + tm.getText());
+            System.out.println("Reply: \n" + tm.getText());
         }catch (JMSRuntimeException | JMSException re){
             re.printStackTrace();
         }
