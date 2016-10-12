@@ -112,7 +112,7 @@ public class MedalsKeeper implements MessageListener{
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
             StringReader reader = new StringReader(this.xml);
-            this.olympicMedals= (Olympics) unmarshaller.unmarshal(reader);
+            this.olympicMedals = (Olympics) unmarshaller.unmarshal(reader);
         }catch(JAXBException e){
             e.printStackTrace();
         }
