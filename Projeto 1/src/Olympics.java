@@ -170,7 +170,7 @@ public class Olympics{
             }
 
             public String toString(){
-                return this.medal + "\t" + this.name + "\t" + this.modality + "\n";
+                return this.medal + "\t" + this.name + "\t" + this.modality + "\t" + this.speciality + "\n";
             }
         }
     }
