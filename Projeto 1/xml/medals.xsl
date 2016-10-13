@@ -16,23 +16,23 @@
 
                 <table border="1" align="center">
                     <tr bgcolor="#9acd32" class="athletes" style="display:table-row;">
-                        <th>Position</th>
-                        <th>Name</th>
-                        <th>Abbreviation</th>
-                        <th>Gold</th>
-                        <th>Silver</th>
-                        <th>Bronze</th>
-                        <th>Total</th>
+                        <th style = "width:59px">Position</th>
+                        <th style = "width:286px">Name</th>
+                        <th style = "width:117px">Abbreviation</th>
+                        <th style = "width:47px">Gold</th>
+                        <th style = "width:54px">Silver</th>
+                        <th style = "width:65px">Bronze</th>
+                        <th style = "width:48px">Total</th>
                     </tr>
                     <xsl:for-each select="olympics/country">
                         <tr bgcolor="#9acd32" class="athletes" style="display:none;">
-                            <th>Position</th>
-                            <th>Name</th>
-                            <th>Abbreviation</th>
-                            <th>Gold</th>
-                            <th>Silver</th>
-                            <th>Bronze</th>
-                            <th>Total</th>
+                            <th style = "width:59px">Position</th>
+                            <th style = "width:286px">Name</th>
+                            <th style = "width:117px">Abbreviation</th>
+                            <th style = "width:47px">Gold</th>
+                            <th style = "width:54px">Silver</th>
+                            <th style = "width:65px">Bronze</th>
+                            <th style = "width:48px">Total</th>
                         </tr>
                         <tr bgcolor="#BDBDBD">
                             <td><xsl:value-of select="position" /></td>
