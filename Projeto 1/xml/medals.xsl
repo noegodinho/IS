@@ -10,10 +10,11 @@
 
 
             <body>
-                <h2>Olympic Medals</h2>
+                <h2 align = "center">Olympic Medals</h2>
 
-                <span onClick="toggle();">Show Athletes</span><br /><br />
-                <table border="1">
+                <span onClick="toggle();"><button type="button">Show Athletes</button></span><br /><br />
+
+                <table border="1" align="center">
                     <tr bgcolor="#9acd32" class="athletes" style="display:table-row;">
                         <th>Position</th>
                         <th>Name</th>
@@ -41,18 +42,18 @@
                             <td><xsl:value-of select="silver" /></td>
                             <td><xsl:value-of select="bronze" /></td>
                             <td><xsl:value-of select="total" /></td>
-                                <tr bgcolor="#0F607B" class="athletes" style="display:none;">
-                                    <th>Medal</th>
-                                    <th>Name</th>
-                                    <th colspan = "5">Modality</th>
+                            <tr bgcolor="#0F607B" class="athletes" style="display:none;">
+                                <th>Medal</th>
+                                <th>Name</th>
+                                <th colspan = "5">Modality</th>
+                            </tr>
+                            <xsl:for-each select="athlete">
+                                <tr bgcolor="#E6E6E6" class="athletes" style="display:none;">
+                                    <td><xsl:value-of select="medal"/></td>
+                                    <td><xsl:value-of select="name"/></td>
+                                    <td colspan = "5"><xsl:value-of select="modality"/></td>
                                 </tr>
-                                <xsl:for-each select="athlete">
-                                    <tr bgcolor="#E6E6E6" class="athletes" style="display:none;">
-                                        <td><xsl:value-of select="medal"/></td>
-                                        <td><xsl:value-of select="name"/></td>
-                                        <td colspan = "5"><xsl:value-of select="modality"/></td>
-                                    </tr>
-                                </xsl:for-each>
+                            </xsl:for-each>
                         </tr>
                     </xsl:for-each>
                 </table>
