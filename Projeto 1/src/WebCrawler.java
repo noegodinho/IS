@@ -1,6 +1,5 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import javax.jms.*;
 import javax.naming.InitialContext;
@@ -50,31 +49,29 @@ public class WebCrawler{
 
 					++i;
 
-					country_pos = Integer.parseInt(el.get(0).getElementsByAttributeValueContaining("class", "\"col-1\"").text());
+					country_pos = Integer.parseInt(el.get(0).text());
+					actual_country_name = el.get(2).text();
+
 					country.setPosition(country_pos);
-
-					actual_country_name = el.get(2).getElementsByAttributeValueContaining("class", "\"col-3\"").text();
-
 					country.setName(actual_country_name);
-					country.setAbbreviation(el.get(1).getElementsByAttributeValueContaining("class", "\"col-2\"").text());
-					country.setGold(Integer.parseInt(el.get(3).getElementsByAttributeValueContaining("class", "\"col-4\"").text()));
-					country.setSilver(Integer.parseInt(el.get(4).getElementsByAttributeValueContaining("class", "\"col-5\"").text()));
-					country.setBronze(Integer.parseInt(el.get(5).getElementsByAttributeValueContaining("class", "\"col-6\"").text()));
+					country.setAbbreviation(el.get(1).text());
+					country.setGold(Integer.parseInt(el.get(3).text()));
+					country.setSilver(Integer.parseInt(el.get(4).text()));
+					country.setBronze(Integer.parseInt(el.get(5).text()));
 					country.setTotal();
 				}
 
 				else{
 					athlete = new Olympics.Country.Athlete();
 
-					String temp = el.get(0).getElementsByAttributeValueContaining("class", "\"col-1\"").text();
+					String temp = el.get(0).text();
 
 					if(!temp.isEmpty()){
 						actual_medal = temp;
 					}
 
-					athlete.setModality(el.get(1).getElementsByAttributeValueContaining("class", "\"col-2\"").text() +
-							el.get(2).getElementsByAttributeValueContaining("class", "\"col-3\"").text());
-					athlete.setName(el.get(3).getElementsByAttributeValueContaining("class", "\"col-4\"").text());
+					athlete.setModality(el.get(1).text() + el.get(2).text());
+					athlete.setName(el.get(3).text());
 					athlete.setMedal(actual_medal);
 
 					athletes.add(athlete);
