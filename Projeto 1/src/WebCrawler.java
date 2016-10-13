@@ -79,12 +79,22 @@ public class WebCrawler{
 					linkText = temp + temp2;
 
 					athlete = new Olympics.Country.Athlete();
-					temp = temp2.replaceAll("/", "");
-					splitted = temp.split("\\s+");
 
-					athlete.setName(createString(actual_country_name, splitted));
+					int start = 2;
+
+					if(temp2.contains("/")){
+						start = 3;
+					}
+
+					splitted = temp2.split("\\s+");
+
+					if(Character.isUpperCase(splitted[splitted.length - 3].charAt(splitted[splitted.length - 3].length() - 1))){
+						start = 3;
+					}
+
+					athlete.setName(createString(actual_country_name, splitted, start));
 					athlete.setMedal(actual_medal);
-					athlete.setModality(createString2(actual_country_name, splitted));
+					athlete.setModality(createString2(actual_country_name, splitted, start));
 
 					athletes.add(athlete);
 				}
@@ -96,24 +106,44 @@ public class WebCrawler{
 					linkText = "Gold\n" + temp2;
 
 					athlete = new Olympics.Country.Athlete();
-					temp2 = temp2.replaceAll("/", "");
+
+					int start = 2;
+
+					if(temp2.contains("/")){
+						start = 3;
+					}
+
 					splitted = temp2.split("\\s+");
 
-					athlete.setName(createString(actual_country_name, splitted));
+					if(Character.isUpperCase(splitted[splitted.length - 3].charAt(splitted[splitted.length - 3].length() - 1))){
+						start = 3;
+					}
+
+					athlete.setName(createString(actual_country_name, splitted, start));
 					athlete.setMedal(actual_medal);
-					athlete.setModality(createString2(actual_country_name, splitted));
+					athlete.setModality(createString2(actual_country_name, splitted, start));
 
 					athletes.add(athlete);
 				}
 
 				else{
 					athlete = new Olympics.Country.Athlete();
-					String temp = linkText.replaceAll("/", "");
-					splitted = temp.split("\\s+");
 
-					athlete.setName(createString(actual_country_name, splitted));
+					int start = 2;
+
+					if(linkText.contains("/")){
+						start = 3;
+					}
+
+					splitted = linkText.split("\\s+");
+
+					if(Character.isUpperCase(splitted[splitted.length - 3].charAt(splitted[splitted.length - 3].length() - 1))){
+						start = 3;
+					}
+
+					athlete.setName(createString(actual_country_name, splitted, start));
 					athlete.setMedal(actual_medal);
-					athlete.setModality(createString2(actual_country_name, splitted));
+					athlete.setModality(createString2(actual_country_name, splitted, start));
 
 					athletes.add(athlete);
 				}
@@ -133,7 +163,7 @@ public class WebCrawler{
 		}
 	}
 	
-	public static String createString(String[] actual_country_name, String[] splitted){
+	public static String createString(String[] actual_country_name, String[] splitted, int start){
 		String temp = "";
 
 		if(actual_country_name[actual_country_name.length - 1].equals(splitted[splitted.length - 1])){
@@ -143,7 +173,7 @@ public class WebCrawler{
 		}
 
 		else{
-			for(int k = splitted.length - 2; k < splitted.length; ++k){
+			for(int k = splitted.length - start; k < splitted.length; ++k){
 				temp +=	splitted[k] + " ";
 			}
 		}
@@ -151,7 +181,7 @@ public class WebCrawler{
 		return temp.substring(0, temp.length() - 1);
 	}
 
-	public static String createString2(String[] actual_country_name, String[] splitted){
+	public static String createString2(String[] actual_country_name, String[] splitted, int start){
 		String temp = "";
 
 		if(actual_country_name[actual_country_name.length - 1].equals(splitted[splitted.length - 1])){
@@ -161,7 +191,7 @@ public class WebCrawler{
 		}
 
 		else{
-			for(int k = 0; k < splitted.length - 2; ++k) {
+			for(int k = 0; k < splitted.length - start; ++k) {
 				temp += splitted[k] + " ";
 			}
 		}
