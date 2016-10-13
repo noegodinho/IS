@@ -1,6 +1,7 @@
 import javax.jms.*;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.util.Scanner;
 
 public class MedalsRequester{
     private ConnectionFactory cf;
@@ -8,15 +9,18 @@ public class MedalsRequester{
 
     public static void main(String[] args){
         try{
-            new MedalsRequester(args[0]);
+            new MedalsRequester();
         }catch(NamingException ne){
             ne.printStackTrace();
         }
     }
 
-    public MedalsRequester(String arg) throws NamingException{
+    public MedalsRequester() throws NamingException{
         this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
         this.d = InitialContext.doLookup("jms/queue/KeeperRequester");
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Query like ?,?,? (no spaces): ");
+        String arg = scan.nextLine();
         send(arg);
     }
 
