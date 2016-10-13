@@ -70,7 +70,8 @@ public class WebCrawler{
 						actual_medal = temp;
 					}
 
-					athlete.setModality(el.get(1).text() + el.get(2).text());
+					athlete.setSpeciality(el.get(2).text());
+					athlete.setModality(el.get(1).text());
 					athlete.setName(el.get(3).text());
 					athlete.setMedal(actual_medal);
 

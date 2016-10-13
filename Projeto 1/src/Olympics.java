@@ -133,6 +133,8 @@ public class Olympics{
             private String medal;
             @XmlElement(name = "modality", required = true)
             private String modality;
+            @XmlElement(name = "speciality", required = true)
+            private String speciality;
 
             public String getMedal(){
                 return this.medal;
@@ -146,6 +148,10 @@ public class Olympics{
                 return this.name;
             }
 
+            public String getSpeciality(){
+                return this.speciality;
+            }
+
             public void setMedal(String medal){
                 this.medal = medal;
             }
@@ -156,6 +162,10 @@ public class Olympics{
 
             public void setName(String name){
                 this.name = name;
+            }
+
+            public void setSpeciality(String speciality){
+                this.speciality = speciality;
             }
 
             public String toString(){
