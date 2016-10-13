@@ -1,5 +1,6 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import javax.jms.*;
 import javax.naming.InitialContext;
@@ -26,18 +27,19 @@ public class WebCrawler{
 			doc = Jsoup.connect(websiteToParse).get();
 			System.out.println(doc.title() + "\n");
 			links = doc.getElementsByTag("tr");
-			String linkText;
-			String[] splitted;
+
 			Olympics.Country country = new Olympics.Country();
 			Olympics.Country.Athlete athlete;
+
 			int country_pos = 0;
 			String actual_medal = "";
-			String[] actual_country_name = new String[2];
+			String actual_country_name;
+			Elements el;
 
 			for(int i = 3; i < links.size() - 9; ++i){
-				linkText = links.get(i).text();
+				el = links.get(i).getElementsByTag("td");
 
-				if(!Character.isLetter(linkText.charAt(0))){
+				if(el.size() > 4){
 					if(country_pos != 0){
 						country.setAthlete(athletes);
 						countries.add(country);
@@ -45,110 +47,38 @@ public class WebCrawler{
 
 					athletes = new ArrayList<>();
 					country = new Olympics.Country();
-					splitted = linkText.split("\\s+");
 
-					linkText = "\n" + linkText;
 					++i;
 
-					country_pos = Integer.parseInt(splitted[0]);
+					country_pos = Integer.parseInt(el.get(0).getElementsByAttributeValueContaining("class", "\"col-1\"").text());
 					country.setPosition(country_pos);
 
-					String temp = "";
-					actual_country_name = new String[splitted.length - 6];
+					actual_country_name = el.get(2).getElementsByAttributeValueContaining("class", "\"col-3\"").text();
 
-					for(int k = 2, j = 0; k < splitted.length - 4; ++k, ++j){
-						temp += splitted[k] + " ";
-						actual_country_name[j] = splitted[k];
-					}
-
-					temp = temp.substring(0, temp.length() - 1);
-
-					country.setName(temp);
-					country.setAbbreviation(splitted[1]);
-					country.setGold(Integer.parseInt(splitted[splitted.length - 4]));
-					country.setSilver(Integer.parseInt(splitted[splitted.length - 3]));
-					country.setBronze(Integer.parseInt(splitted[splitted.length - 2]));
+					country.setName(actual_country_name);
+					country.setAbbreviation(el.get(1).getElementsByAttributeValueContaining("class", "\"col-2\"").text());
+					country.setGold(Integer.parseInt(el.get(3).getElementsByAttributeValueContaining("class", "\"col-4\"").text()));
+					country.setSilver(Integer.parseInt(el.get(4).getElementsByAttributeValueContaining("class", "\"col-5\"").text()));
+					country.setBronze(Integer.parseInt(el.get(5).getElementsByAttributeValueContaining("class", "\"col-6\"").text()));
 					country.setTotal();
-				}
-
-				else if(linkText.substring(0, 6).equals("Bronze") || linkText.substring(0, 6).equals("Silver")){
-					actual_medal = linkText.substring(0, 6);
-
-					String temp = linkText.substring(0, 6) + "\n";
-					String temp2 = linkText.substring(7, linkText.length());
-					linkText = temp + temp2;
-
-					athlete = new Olympics.Country.Athlete();
-
-					int start = 2;
-
-					if(temp2.contains("/")){
-						start = 3;
-					}
-
-					splitted = temp2.split("\\s+");
-
-					if(Character.isUpperCase(splitted[splitted.length - 3].charAt(splitted[splitted.length - 3].length() - 1))){
-						start = 3;
-					}
-
-					athlete.setName(createString(actual_country_name, splitted, start));
-					athlete.setMedal(actual_medal);
-					athlete.setModality(createString2(actual_country_name, splitted, start));
-
-					athletes.add(athlete);
-				}
-
-				else if(linkText.substring(0, 4).equals("Gold")){
-					actual_medal = "Gold";
-
-					String temp2 = linkText.substring(5, linkText.length());
-					linkText = "Gold\n" + temp2;
-
-					athlete = new Olympics.Country.Athlete();
-
-					int start = 2;
-
-					if(temp2.contains("/")){
-						start = 3;
-					}
-
-					splitted = temp2.split("\\s+");
-
-					if(Character.isUpperCase(splitted[splitted.length - 3].charAt(splitted[splitted.length - 3].length() - 1))){
-						start = 3;
-					}
-
-					athlete.setName(createString(actual_country_name, splitted, start));
-					athlete.setMedal(actual_medal);
-					athlete.setModality(createString2(actual_country_name, splitted, start));
-
-					athletes.add(athlete);
 				}
 
 				else{
 					athlete = new Olympics.Country.Athlete();
 
-					int start = 2;
+					String temp = el.get(0).getElementsByAttributeValueContaining("class", "\"col-1\"").text();
 
-					if(linkText.contains("/")){
-						start = 3;
+					if(!temp.isEmpty()){
+						actual_medal = temp;
 					}
 
-					splitted = linkText.split("\\s+");
-
-					if(Character.isUpperCase(splitted[splitted.length - 3].charAt(splitted[splitted.length - 3].length() - 1))){
-						start = 3;
-					}
-
-					athlete.setName(createString(actual_country_name, splitted, start));
+					athlete.setModality(el.get(1).getElementsByAttributeValueContaining("class", "\"col-2\"").text() +
+							el.get(2).getElementsByAttributeValueContaining("class", "\"col-3\"").text());
+					athlete.setName(el.get(3).getElementsByAttributeValueContaining("class", "\"col-4\"").text());
 					athlete.setMedal(actual_medal);
-					athlete.setModality(createString2(actual_country_name, splitted, start));
 
 					athletes.add(athlete);
 				}
-
-				//System.out.println(linkText);
 			}
 
 			country.setAthlete(athletes);
@@ -158,45 +88,7 @@ public class WebCrawler{
 			new Sender();
 		}catch(IOException ioe){
 			ioe.printStackTrace();
-		}catch(Exception e){
-			e.printStackTrace();
 		}
-	}
-	
-	public static String createString(String[] actual_country_name, String[] splitted, int start){
-		String temp = "";
-
-		if(actual_country_name[actual_country_name.length - 1].equals(splitted[splitted.length - 1])){
-			for(int k = splitted.length - actual_country_name.length; k < splitted.length; ++k){
-				temp +=	splitted[k] + " ";
-			}
-		}
-
-		else{
-			for(int k = splitted.length - start; k < splitted.length; ++k){
-				temp +=	splitted[k] + " ";
-			}
-		}
-
-		return temp.substring(0, temp.length() - 1);
-	}
-
-	public static String createString2(String[] actual_country_name, String[] splitted, int start){
-		String temp = "";
-
-		if(actual_country_name[actual_country_name.length - 1].equals(splitted[splitted.length - 1])){
-			for(int k = 0; k < splitted.length - actual_country_name.length; ++k){
-				temp +=	splitted[k] + " ";
-			}
-		}
-
-		else{
-			for(int k = 0; k < splitted.length - start; ++k) {
-				temp += splitted[k] + " ";
-			}
-		}
-
-		return temp.substring(0, temp.length() - 1);
 	}
 
 	public static void createMarshal(Olympics olympics){
