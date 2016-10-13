@@ -45,13 +45,15 @@
                             <tr bgcolor="#0F607B" class="athletes" style="display:none;">
                                 <th>Medal</th>
                                 <th>Name</th>
-                                <th colspan = "5">Modality</th>
+                                <th>Modality</th>
+                                <th colspan="4">Speciality</th>
                             </tr>
                             <xsl:for-each select="athlete">
                                 <tr bgcolor="#E6E6E6" class="athletes" style="display:none;">
                                     <td><xsl:value-of select="medal"/></td>
                                     <td><xsl:value-of select="name"/></td>
-                                    <td colspan = "5"><xsl:value-of select="modality"/></td>
+                                    <td><xsl:value-of select="modality"/></td>
+                                    <td colspan="4"><xsl:value-of select="speciality"/></td>
                                 </tr>
                             </xsl:for-each>
                         </tr>
