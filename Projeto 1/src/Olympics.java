@@ -124,7 +124,8 @@ public class Olympics{
         @XmlType(name = "", propOrder = {
                 "medal",
                 "name",
-                "modality"
+                "modality",
+                "speciality"
         })
         public static class Athlete{
             @XmlElement(name = "name", required = true)

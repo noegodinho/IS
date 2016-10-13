@@ -63,7 +63,7 @@ public class HTMLSummary implements MessageListener{
 
             System.out.println("HTML file created successfully");
         }catch(SAXException saxe){
-            saxe.printStackTrace();
+            //saxe.printStackTrace();
             System.out.println("Message is NOT a valid XML message");
         }catch (Exception e){
             e.printStackTrace();
