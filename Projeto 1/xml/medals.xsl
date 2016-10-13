@@ -16,23 +16,23 @@
 
                 <table border="1" align="center">
                     <tr bgcolor="#9acd32" class="athletes" style="display:table-row;">
-                        <th style = "width:59px">Position</th>
-                        <th style = "width:286px">Name</th>
-                        <th style = "width:117px">Abbreviation</th>
-                        <th style = "width:47px">Gold</th>
-                        <th style = "width:54px">Silver</th>
-                        <th style = "width:65px">Bronze</th>
-                        <th style = "width:48px">Total</th>
+                        <th style = "width:68px">Position</th>
+                        <th style = "width:297px">Name</th>
+                        <th style = "width:196px">Abbreviation</th>
+                        <th style = "width:56px">Gold</th>
+                        <th style = "width:63px">Silver</th>
+                        <th style = "width:74px">Bronze</th>
+                        <th style = "width:57px">Total</th>
                     </tr>
                     <xsl:for-each select="olympics/country">
                         <tr bgcolor="#9acd32" class="athletes" style="display:none;">
-                            <th style = "width:59px">Position</th>
-                            <th style = "width:286px">Name</th>
-                            <th style = "width:117px">Abbreviation</th>
-                            <th style = "width:47px">Gold</th>
-                            <th style = "width:54px">Silver</th>
-                            <th style = "width:65px">Bronze</th>
-                            <th style = "width:48px">Total</th>
+                            <th style = "width:68px">Position</th>
+                            <th style = "width:297px">Name</th>
+                            <th style = "width:196px">Abbreviation</th>
+                            <th style = "width:56px">Gold</th>
+                            <th style = "width:63px">Silver</th>
+                            <th style = "width:74px">Bronze</th>
+                            <th style = "width:57px">Total</th>
                         </tr>
                         <tr bgcolor="#BDBDBD">
                             <td><xsl:value-of select="position" /></td>
