@@ -34,9 +34,9 @@ public class MedalsKeeper implements MessageListener{
     }
 
     public MedalsKeeper() throws NamingException{
+        this.validating = false;
         new ReceiveMessages().start();
 
-        this.validating = false;
         this.available = new Object();
         this.xml = null;
         this.cf = InitialContext.doLookup("jms/RemoteConnectionFactory");
@@ -83,25 +83,48 @@ public class MedalsKeeper implements MessageListener{
 
     private String findQuery(String query){
         query = query.toUpperCase();
+        String[] splitted = query.split(",");
+        String toReturn;
+        query = splitted[0];
 
         ArrayList<Olympics.Country.Athlete> results = new ArrayList<>();
 
         for(Olympics.Country country : this.olympicMedals.getCountry()){
-            if(country.getName().toUpperCase().contains(query) || country.getAbbreviation().toUpperCase().contains(query)){
-                return country.getAthlete().toString();
+            if(country.getName().toUpperCase().equals(query) || country.getAbbreviation().toUpperCase().equals(query)){
+                results = (ArrayList<Olympics.Country.Athlete>) country.getAthlete().clone();
+                break;
             }
 
             else{
                 for(Olympics.Country.Athlete athlete : country.getAthlete()){
-                    if(athlete.getMedal().toUpperCase().contains(query) || athlete.getName().toUpperCase().contains(query) || athlete.getModality().toUpperCase().contains(query)){
+                    if(athlete.getMedal().toUpperCase().equals(query) || athlete.getName().toUpperCase().equals(query)
+                            || athlete.getModality().toUpperCase().equals(query) || athlete.getSpeciality().toUpperCase().equals(query)){
                         results.add(athlete);
                     }
                 }
-
             }
         }
 
-        String toReturn = results.toString();
+        ArrayList<Olympics.Country.Athlete> temp = new ArrayList<>();
+
+        for(int i = 1; i < splitted.length; ++i){
+            for(Olympics.Country.Athlete athlete : results){
+                if(athlete.getMedal().toUpperCase().equals(splitted[i]) || athlete.getName().toUpperCase().equals(splitted[i])
+                        || athlete.getModality().toUpperCase().equals(splitted[i])
+                        || athlete.getSpeciality().toUpperCase().equals(splitted[i])){
+                }
+
+                else{
+                    temp.add(athlete);
+                }
+            }
+        }
+
+        for(Olympics.Country.Athlete t : temp){
+            results.remove(t);
+        }
+
+        toReturn = results.toString();
 
         return (toReturn.equals("[]")) ? "Cannot find information" : toReturn;
     }
@@ -169,7 +192,7 @@ public class MedalsKeeper implements MessageListener{
             }catch(JMSException jmse){
                 jmse.printStackTrace();
             }catch(SAXException e){
-                e.printStackTrace();
+                //e.printStackTrace();
                 System.out.println("Message is NOT a valid XML message.");
             }catch(IOException e){
                 e.printStackTrace();
