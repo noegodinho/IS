@@ -4,16 +4,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by Rocha on 06/11/2016.
- */
-@Entity
+@MappedSuperclass
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     protected int id;
     protected String name;
+
     @Temporal(TemporalType.DATE)
     protected Date birth;
     protected String instEmail;
@@ -21,7 +20,6 @@ public class User implements Serializable {
     protected String altEmail;
     protected String address;
     protected int telephone;
-
 
     public User() {
         super();
@@ -36,18 +34,6 @@ public class User implements Serializable {
         this.altEmail = altEmail;
         this.address = address;
         this.telephone = telephone;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

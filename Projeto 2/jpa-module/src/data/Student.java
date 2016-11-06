@@ -3,14 +3,20 @@ package data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+@Entity
 public class Student extends User implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int number;
     private int yearOfCourse;
 
     @ManyToMany
-    protected List<Course> courses;
+    private List<Course> courses;
 
+    public Student(){
+        super();
+    }
 
     public Student(String name, Date birth, String instEmail, String password, String altEmail , String address, int telephone,
                      int number, int yearOfCourse) {

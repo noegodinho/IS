@@ -3,17 +3,24 @@ package data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class Professor extends User implements Serializable {
+@Entity
+public class Professor extends User implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     private int internalNumber;
     private String category;
     private String office;
     private int internalTelephoneNumber;
     private float salary;
-    @OneToMany(mappedBy = "course")
-    protected List<Course> courses;
 
+    @OneToMany(mappedBy = "professor")
+    private List<Course> courses;
+
+    public Professor(){
+        super();
+    }
 
     public Professor(String name, Date birth, String instEmail, String password, String altEmail , String address, int telephone,
                      int internalNumber, String category, String office, int internalTelephoneNumber, float salary) {
