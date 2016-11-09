@@ -10,13 +10,13 @@ public class Professor extends User implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Column(unique=true, nullable=false)
-    private int internalNumber;
+    private Integer internalNumber;
     @Column(nullable=false)
     private String category;
     @Column(nullable=false)
     private String office;
     @Column(unique=true, nullable=false)
-    private int internalTelephoneNumber;
+    private Integer internalTelephoneNumber;
     @Column(nullable=false)
     private double salary;
 
@@ -28,8 +28,8 @@ public class Professor extends User implements Serializable{
     }
 
     public Professor(String hashedPassword, String name, Date birth, String instEmail,
-                     String altEmail , String address, int telephone, int userType,
-                     int internalNumber, String category, String office, int internalTelephoneNumber, float salary){
+                     String altEmail , String address, Integer telephone, Integer userType,
+                     Integer internalNumber, String category, String office, Integer internalTelephoneNumber, double salary){
         super(hashedPassword, name, birth, instEmail, altEmail, address, telephone, userType);
         this.internalNumber = internalNumber;
         this.category = category;
@@ -38,11 +38,11 @@ public class Professor extends User implements Serializable{
         this.salary = salary;
     }
 
-    public int getInternalNumber() {
+    public Integer getInternalNumber() {
         return internalNumber;
     }
 
-    public void setInternalNumber(int internalNumber) {
+    public void setInternalNumber(Integer internalNumber) {
         this.internalNumber = internalNumber;
     }
 
@@ -62,11 +62,11 @@ public class Professor extends User implements Serializable{
         this.office = office;
     }
 
-    public int getInternalTelephoneNumber() {
+    public Integer getInternalTelephoneNumber() {
         return internalTelephoneNumber;
     }
 
-    public void setInternalTelephoneNumber(int internalTelephoneNumber) {
+    public void setInternalTelephoneNumber(Integer internalTelephoneNumber) {
         this.internalTelephoneNumber = internalTelephoneNumber;
     }
 

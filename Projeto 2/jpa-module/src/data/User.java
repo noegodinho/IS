@@ -10,7 +10,7 @@ public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    protected int id;
+    protected Integer id;
     @Column(nullable=false)
     protected String hashedPassword;
     @Column(nullable=false)
@@ -25,16 +25,17 @@ public class User implements Serializable{
     @Column(nullable=false)
     protected String address;
     @Column(nullable=false)
-    protected int telephone;
+    protected Integer telephone;
     @Column(nullable=false)
-    protected int userType;
+    /* 0 - admin, 1 - prof, 2 - student */
+    protected Integer userType;
 
     public User(){
         super();
     }
 
     public User(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
-                String address, int telephone, int userType){
+                String address, Integer telephone, Integer userType){
         super();
         this.hashedPassword = hashedPassword;
         this.name = name;
@@ -94,19 +95,19 @@ public class User implements Serializable{
         this.address = address;
     }
 
-    public int getTelephone() {
+    public Integer getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(Integer telephone) {
         this.telephone = telephone;
     }
 
-    public int getUserType() {
+    public Integer getUserType() {
         return userType;
     }
 
-    public void setUserType(int userType) {
+    public void setUserType(Integer userType) {
         this.userType = userType;
     }
 }

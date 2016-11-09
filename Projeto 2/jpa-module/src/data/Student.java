@@ -10,9 +10,9 @@ public class Student extends User implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Column(unique=true, nullable=false)
-    private int number;
+    private Integer number;
     @Column(nullable=false)
-    private int yearOfCourse;
+    private Integer yearOfCourse;
 
     @ManyToMany
     private List<Course> courses;
@@ -22,25 +22,25 @@ public class Student extends User implements Serializable{
     }
 
     public Student(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
-                   String address, int telephone, int userType, int number, int yearOfCourse){
+                   String address, Integer telephone, Integer userType, Integer number, Integer yearOfCourse){
         super(hashedPassword, name, birth, instEmail, altEmail, address, telephone, userType);
         this.number = number;
         this.yearOfCourse = yearOfCourse;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
-    public int getYearOfCourse() {
+    public Integer getYearOfCourse() {
         return yearOfCourse;
     }
 
-    public void setYearOfCourse(int yearOfCourse) {
+    public void setYearOfCourse(Integer yearOfCourse) {
         this.yearOfCourse = yearOfCourse;
     }
 
