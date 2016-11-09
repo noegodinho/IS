@@ -18,7 +18,7 @@ public class Professor extends User implements Serializable{
     @Column(unique=true, nullable=false)
     private int internalTelephoneNumber;
     @Column(nullable=false)
-    private float salary;
+    private double salary;
 
     @OneToMany(mappedBy = "professor")
     private List<Course> courses;
@@ -70,11 +70,11 @@ public class Professor extends User implements Serializable{
         this.internalTelephoneNumber = internalTelephoneNumber;
     }
 
-    public float getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
