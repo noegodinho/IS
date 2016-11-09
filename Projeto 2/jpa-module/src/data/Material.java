@@ -10,20 +10,20 @@ public class Material implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(unique=true, nullable=false)
     private String filename;
+    @Column(nullable=false)
     @ManyToOne
     private Course course;
-    private String url;
 
     public Material(){
         super();
     }
 
-    public Material(String filename, Course course, String url){
+    public Material(String filename, Course course){
         super();
         this.filename = filename;
         this.course = course;
-        this.url = url;
     }
 
     public String getFilename() {
@@ -34,19 +34,11 @@ public class Material implements Serializable{
         return course;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
     public void setFilename(String filename) {
         this.filename = filename;
     }
 
     public void setCourse(Course course) {
         this.course = course;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

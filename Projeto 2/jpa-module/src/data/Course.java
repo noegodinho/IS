@@ -11,11 +11,14 @@ public class Course implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(unique=true, nullable=false)
     private String courseName;
 
+    @Column(nullable=false)
     @ManyToOne
     private Professor professor;
 
+    @Column(nullable=false)
     @ManyToMany
     private List<Student> students;
 

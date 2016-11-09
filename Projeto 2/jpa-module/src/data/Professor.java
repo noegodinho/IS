@@ -9,10 +9,15 @@ import java.util.List;
 public class Professor extends User implements Serializable{
     private static final long serialVersionUID = 1L;
 
+    @Column(unique=true, nullable=false)
     private int internalNumber;
+    @Column(nullable=false)
     private String category;
+    @Column(nullable=false)
     private String office;
+    @Column(unique=true, nullable=false)
     private int internalTelephoneNumber;
+    @Column(nullable=false)
     private float salary;
 
     @OneToMany(mappedBy = "professor")
@@ -22,9 +27,10 @@ public class Professor extends User implements Serializable{
         super();
     }
 
-    public Professor(String name, Date birth, String instEmail, String password, String altEmail , String address, int telephone,
-                     int internalNumber, String category, String office, int internalTelephoneNumber, float salary) {
-        super(name,birth,instEmail,password,altEmail,address,telephone);
+    public Professor(String hashedPassword, String name, Date birth, String instEmail,
+                     String altEmail , String address, int telephone, int userType,
+                     int internalNumber, String category, String office, int internalTelephoneNumber, float salary){
+        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone, userType);
         this.internalNumber = internalNumber;
         this.category = category;
         this.office = office;

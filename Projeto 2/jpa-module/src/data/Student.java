@@ -6,9 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Student extends User implements Serializable {
+public class Student extends User implements Serializable{
     private static final long serialVersionUID = 1L;
+
+    @Column(unique=true, nullable=false)
     private int number;
+    @Column(nullable=false)
     private int yearOfCourse;
 
     @ManyToMany
@@ -18,9 +21,9 @@ public class Student extends User implements Serializable {
         super();
     }
 
-    public Student(String name, Date birth, String instEmail, String password, String altEmail , String address, int telephone,
-                     int number, int yearOfCourse) {
-        super(name,birth,instEmail,password,altEmail,address,telephone);
+    public Student(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
+                   String address, int telephone, int userType, int number, int yearOfCourse){
+        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone, userType);
         this.number = number;
         this.yearOfCourse = yearOfCourse;
     }
