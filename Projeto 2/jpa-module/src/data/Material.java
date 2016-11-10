@@ -12,7 +12,7 @@ public class Material implements Serializable{
     private int id;
     @Column(unique=true, nullable=false)
     private String filename;
-    @Column(nullable=false)
+
     @ManyToOne
     private Course course;
 

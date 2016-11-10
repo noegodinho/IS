@@ -14,11 +14,9 @@ public class Course implements Serializable{
     @Column(unique=true, nullable=false)
     private String courseName;
 
-    @Column(nullable=false)
     @ManyToOne
     private Professor professor;
 
-    @Column(nullable=false)
     @ManyToMany
     private List<Student> students;
 
