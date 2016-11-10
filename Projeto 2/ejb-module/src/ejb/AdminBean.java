@@ -61,6 +61,21 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
+    public boolean createCourse(String courseName, Professor professor, List<Student> students){
+        try{
+            Course course = new Course(courseName, professor, students);
+
+            entityManager.persist(course);
+
+            logger.info("Course: " + courseName + " successfully registered");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean editStudent(String hashedPassword, String name, Date birth, String instEmail,
                                String altEmail, String address, Integer telephone, Integer number,
                                Integer yearOfCourse, List<Course> courses, String newInstEmail){
@@ -123,6 +138,26 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
+    public boolean editCourse(String courseName, Professor professor, List<Student> students, String newCourseName){
+        try{
+            Query query = entityManager.createQuery("Select c from Course c where c.courseName = " + courseName);
+            Course course = (Course)query.getSingleResult();
+
+            course.setCourseName(newCourseName);
+            course.setProfessor(professor);
+            course.setStudents(students);
+
+            entityManager.persist(course);
+
+            logger.info("Course: " + courseName + " successfully registered");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean deleteUser(String instEmail){
         try{
             Query query = entityManager.createQuery("(Select s from Student s where s.instEmail = " + instEmail + ") " +
@@ -166,5 +201,37 @@ public class AdminBean implements AdminBeanRemote{
         }
 
         return true;
+    }
+
+    public List<Student> getStudents(){
+        List<Student> students = null;
+
+        try{
+            Query query = entityManager.createQuery("Select s.instEmail, s.name from Student s");
+
+            students = query.getResultList();
+
+            logger.info("Students successfully retrieved");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+        }
+
+        return students;
+    }
+
+    public List<Professor> getProfessor(){
+        List<Professor> professors = null;
+
+        try{
+            Query query = entityManager.createQuery("Select p.instEmail, p.name from Professor p");
+
+            professors = query.getResultList();
+
+            logger.info("Professors successfully retrieved");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+        }
+
+        return professors;
     }
 }
