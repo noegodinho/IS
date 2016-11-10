@@ -22,4 +22,6 @@ public interface AdminBeanRemote{
                           String category, String office, Integer internalTelephoneNumber, double salary,
                           List<Course> courses, String newInstEmail);
     boolean deleteUser(String instEmail);
+    boolean deleteCourse(String courseName);
+    boolean deleteMaterial(String filename);
 }

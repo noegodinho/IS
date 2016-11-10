@@ -33,6 +33,7 @@ public class AdminBean implements AdminBeanRemote{
             User student = new Student(hashedPassword, name, birth, instEmail, altEmail, address, telephone, 2, number,
                                        yearOfCourse);
             entityManager.persist(student);
+
             logger.info("Student: " + name + " successfully registered");
         }catch(PersistenceException pe){
             logger.error("SQL error");
@@ -50,6 +51,7 @@ public class AdminBean implements AdminBeanRemote{
             User professor = new Professor(hashedPassword, name, birth, instEmail, altEmail, address, telephone, 1,
                                            internalNumber, category, office, internalTelephoneNumber, salary);
             entityManager.persist(professor);
+
             logger.info("Professor: " + name + " successfully registered");
         }catch(PersistenceException pe){
             logger.error("SQL error");
@@ -78,6 +80,7 @@ public class AdminBean implements AdminBeanRemote{
             student.setCourses(courses);
 
             entityManager.persist(student);
+
             logger.info("Student: " + name + " successfully edited");
         }catch(PersistenceException pe){
             logger.error("SQL error");
@@ -110,6 +113,7 @@ public class AdminBean implements AdminBeanRemote{
             professor.setCourses(courses);
 
             entityManager.persist(professor);
+
             logger.info("Professor: " + name + " successfully edited");
         }catch(PersistenceException pe){
             logger.error("SQL error");
@@ -126,6 +130,36 @@ public class AdminBean implements AdminBeanRemote{
                                                     "(Select p from Professor p where p.instEmail = " + instEmail + ")");
             User user = (User)query.getSingleResult();
             entityManager.remove(user); /* not sure if this works */
+
+            logger.info("User: " + instEmail + " successfully removed");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean deleteCourse(String courseName){
+        try{
+            Query query = entityManager.createQuery("Delete from Course c where c.courseName = " + courseName);
+            query.executeUpdate();
+
+            logger.info("Course: " + courseName + " successfully removed");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean deleteMaterial(String filename){
+        try{
+            Query query = entityManager.createQuery("Delete from Material m where m.filename = " + filename);
+            query.executeUpdate();
+
+            logger.info("Material: " + filename + " successfully removed");
         }catch(PersistenceException pe){
             logger.error("SQL error");
             return false;
