@@ -29,5 +29,5 @@ public interface AdminBeanRemote{
     boolean deleteCourse(String courseName);
     boolean deleteMaterial(String filename);
     List<Student> getStudents();
-    List<Professor> getProfessor();
+    List<Professor> getProfessors();
 }

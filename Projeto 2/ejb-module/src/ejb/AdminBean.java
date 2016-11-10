@@ -219,7 +219,7 @@ public class AdminBean implements AdminBeanRemote{
         return students;
     }
 
-    public List<Professor> getProfessor(){
+    public List<Professor> getProfessors(){
         List<Professor> professors = null;
 
         try{
