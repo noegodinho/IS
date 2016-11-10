@@ -47,6 +47,10 @@ public class User implements Serializable{
         this.userType = userType;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public String getHashedPassword() {
         return hashedPassword;
     }
