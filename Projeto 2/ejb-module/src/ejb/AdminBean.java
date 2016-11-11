@@ -167,7 +167,7 @@ public class AdminBean implements AdminBeanRemote{
             entityManager.remove(user); /* not sure if this works */
 
             logger.info("Professor: " + instEmail + " successfully removed");
-        }catch(PersistenceException pe){
+        }catch(NoResultException nre){
             try{
                 Query query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
                 query.setParameter(1, instEmail);

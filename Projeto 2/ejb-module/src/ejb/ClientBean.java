@@ -58,7 +58,7 @@ public class ClientBean implements ClientBeanRemote{
 
                     logger.info("Admin: " + instEmail + " successfully logged in");
                 }catch(NoResultException nre2){
-                    logger.error("SQL error");
+                    logger.error("User not found");
                 }
             }
         }
