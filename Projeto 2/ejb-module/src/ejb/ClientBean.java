@@ -1,9 +1,6 @@
 package ejb;
 
-import data.Course;
-import data.Material;
-import data.Student;
-import data.User;
+import data.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,20 +24,43 @@ public class ClientBean implements ClientBeanRemote{
         User user = null;
 
         try{
-            Query query = entityManager.createQuery("(Select s.id, s.name, s.userType from Student s where s.instEmail = " + instEmail +
-                                                    " and s.hashedPassword = " + hashedPassword + ") " +
-                                                    "UNION " +
-                                                    "(Select p.id, p.name, p.userType from Professor p where p.instEmail = " + instEmail +
-                                                    " and p.hashedPassword = " + hashedPassword + ") " +
-                                                    "UNION " +
-                                                    "(Select a.id, a.name, a.userType from Administrator a where a.instEmail = " + instEmail +
-                                                    " and a.hashedPassword = " + hashedPassword + ")");
+            Query query = entityManager.createQuery("Select s.id, s.name, s.userType from Student s " +
+                                                    "where s.instEmail like ?1 " +
+                                                    "and s.hashedPassword like ?2");
+            query.setParameter(1, instEmail);
+            query.setParameter(2, hashedPassword);
 
-            user = (User)query.getSingleResult();
+            user = (Student)query.getSingleResult();
 
-            logger.info("User: " + instEmail + " successfully logged in");
-        }catch(PersistenceException pe){
-            logger.error("SQL error");
+            logger.info("Student: " + instEmail + " successfully logged in");
+        }catch(NoResultException nre){
+            try{
+                Query query = entityManager.createQuery("Select p.id, p.name, p.userType from Professor p " +
+                                                        "where p.instEmail like ?1 " +
+                                                        "and p.hashedPassword like ?2");
+
+                query.setParameter(1, instEmail);
+                query.setParameter(2, hashedPassword);
+
+                user = (Professor)query.getSingleResult();
+
+                logger.info("Professor: " + instEmail + " successfully logged in");
+            }catch(NoResultException nre1){
+                try{
+                    Query query = entityManager.createQuery("Select a.id, a.name, a.userType from Administrator a " +
+                                                            "where a.instEmail like ?1 " +
+                                                            "and a.hashedPassword like ?2");
+
+                    query.setParameter(1, instEmail);
+                    query.setParameter(2, hashedPassword);
+
+                    user = (Administrator)query.getSingleResult();
+
+                    logger.info("Admin: " + instEmail + " successfully logged in");
+                }catch(NoResultException nre2){
+                    logger.error("SQL error");
+                }
+            }
         }
 
         return user;
@@ -53,7 +73,8 @@ public class ClientBean implements ClientBeanRemote{
             Query query;
 
             if(userType == 1){
-                query = entityManager.createQuery("Select c.courseName from Course c where c.professor.id = " + id);
+                query = entityManager.createQuery("Select c.courseName from Course c where c.professor.id = ?1");
+                query.setParameter(1, id);
                 courses = query.getResultList();
             }
 

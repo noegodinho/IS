@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -80,7 +77,8 @@ public class AdminBean implements AdminBeanRemote{
                                String altEmail, String address, Integer telephone, Integer number,
                                Integer yearOfCourse, List<Course> courses, String newInstEmail){
         try{
-            Query query = entityManager.createQuery("Select s from Student s where s.instEmail = " + instEmail);
+            Query query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
+            query.setParameter(1, instEmail);
             Student student = (Student)query.getSingleResult();
 
             student.setHashedPassword(hashedPassword);
@@ -110,7 +108,8 @@ public class AdminBean implements AdminBeanRemote{
                                  String category, String office, Integer internalTelephoneNumber, double salary,
                                  List<Course> courses, String newInstEmail){
         try{
-            Query query = entityManager.createQuery("Select p from Professor p where p.instEmail = " + instEmail);
+            Query query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
+            query.setParameter(1, instEmail);
             Professor professor = (Professor)query.getSingleResult();
 
             professor.setHashedPassword(hashedPassword);
@@ -140,7 +139,8 @@ public class AdminBean implements AdminBeanRemote{
 
     public boolean editCourse(String courseName, Professor professor, List<Student> students, String newCourseName){
         try{
-            Query query = entityManager.createQuery("Select c from Course c where c.courseName = " + courseName);
+            Query query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
+            query.setParameter(1, courseName);
             Course course = (Course)query.getSingleResult();
 
             course.setCourseName(newCourseName);
@@ -160,16 +160,26 @@ public class AdminBean implements AdminBeanRemote{
 
     public boolean deleteUser(String instEmail){
         try{
-            Query query = entityManager.createQuery("(Select s from Student s where s.instEmail = " + instEmail + ") " +
-                                                    "UNION " +
-                                                    "(Select p from Professor p where p.instEmail = " + instEmail + ")");
-            User user = (User)query.getSingleResult();
+            Query query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
+            query.setParameter(1, instEmail);
+            User user = (Student)query.getSingleResult();
+
             entityManager.remove(user); /* not sure if this works */
 
-            logger.info("User: " + instEmail + " successfully removed");
+            logger.info("Professor: " + instEmail + " successfully removed");
         }catch(PersistenceException pe){
-            logger.error("SQL error");
-            return false;
+            try{
+                Query query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
+                query.setParameter(1, instEmail);
+                User user = (Professor)query.getSingleResult();
+
+                entityManager.remove(user); /* not sure if this works */
+
+                logger.info("Professor: " + instEmail + " successfully removed");
+            }catch(NoResultException nre1){
+                logger.error("SQL error");
+                return false;
+            }
         }
 
         return true;
@@ -177,7 +187,8 @@ public class AdminBean implements AdminBeanRemote{
 
     public boolean deleteCourse(String courseName){
         try{
-            Query query = entityManager.createQuery("Delete from Course c where c.courseName = " + courseName);
+            Query query = entityManager.createQuery("Delete from Course c where c.courseName like ?1");
+            query.setParameter(1, courseName);
             query.executeUpdate();
 
             logger.info("Course: " + courseName + " successfully removed");
@@ -191,7 +202,8 @@ public class AdminBean implements AdminBeanRemote{
 
     public boolean deleteMaterial(String filename){
         try{
-            Query query = entityManager.createQuery("Delete from Material m where m.filename = " + filename);
+            Query query = entityManager.createQuery("Delete from Material m where m.filename like ?1");
+            query.setParameter(1, filename);
             query.executeUpdate();
 
             logger.info("Material: " + filename + " successfully removed");

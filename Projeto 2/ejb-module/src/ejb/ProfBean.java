@@ -12,8 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Stateless
 public class ProfBean implements ProfBeanRemote{
@@ -43,7 +42,8 @@ public class ProfBean implements ProfBeanRemote{
         List<Student> students = null;
 
         try{
-            Query query = entityManager.createQuery("Select c.students from Course c where c.courseName = " + courseName);
+            Query query = entityManager.createQuery("Select c.students from Course c where c.courseName like ?1");
+            query.setParameter(1, courseName);
 
             students = query.getResultList();
 
@@ -66,47 +66,61 @@ public class ProfBean implements ProfBeanRemote{
     public List<Student> searchStudents(String name, Date birth, String instEmail, String altEmail, String address,
                                         Integer telephone, Integer number, Integer yearOfCourse){
         List<Student> students = null;
+        Map<Integer, String> map = new HashMap<>();
+        Integer counter = 0;
 
         try{
             String toQuery = "Select s from Student s where ";
 
             if(!name.isEmpty()){
-                toQuery += "s.name = " + name + " and ";
+                toQuery += "s.name like ?" + counter + " and ";
+                map.put(++counter, name);
             }
 
             if(!birth.toString().isEmpty()){
-                toQuery += "s.birth = " + birth + " and ";
+                toQuery += "s.birth like ?" + counter + " and ";
+                map.put(++counter, birth.toString());
             }
 
             if(!instEmail.isEmpty()){
-                toQuery += "s.instEmail = " + instEmail + " and ";
+                toQuery += "s.instEmail like ?" + counter + " and ";
+                map.put(++counter, instEmail);
             }
 
             if(!altEmail.isEmpty()){
-                toQuery += "s.altEmail = " + altEmail + " and ";
+                toQuery += "s.altEmail like ?" + counter + " and ";
+                map.put(++counter, altEmail);
             }
 
             if(!address.isEmpty()){
-                toQuery += "s.address = " + address + " and ";
+                toQuery += "s.address like ?" + counter + " and ";
+                map.put(++counter, address);
             }
 
             if(!telephone.toString().isEmpty()){
-                toQuery += "s.telephone = " + address + " and ";
+                toQuery += "s.telephone = ?" + counter + " and ";
+                map.put(++counter, telephone.toString());
             }
 
             if(!number.toString().isEmpty()){
-                toQuery += "s.number = " + number + " and ";
+                toQuery += "s.number = ?" + counter + " and ";
+                map.put(++counter, number.toString());
             }
 
             if(!yearOfCourse.toString().isEmpty()){
-                toQuery += "s.yearOfCourse = " + yearOfCourse;
+                toQuery += "s.yearOfCourse = ?" + counter;
+                map.put(++counter, telephone.toString());
             }
 
-            if(toQuery.substring(toQuery.length() - 5, toQuery.length() - 1).equals("and ")){
-                toQuery = toQuery.substring(0, toQuery.length() - 6);
+            if(toQuery.substring(toQuery.length() - 5, toQuery.length()).equals("and ")){
+                toQuery = toQuery.substring(0, toQuery.length() - 5);
             }
 
             Query query = entityManager.createQuery(toQuery);
+
+            for(Map.Entry<Integer, String> entry : map.entrySet()){
+                query.setParameter(entry.getKey(), entry.getValue());
+            }
 
             students = query.getResultList();
 
