@@ -3,6 +3,7 @@ package servlet;
 import data.User;
 import ejb.ClientBean;
 import ejb.ClientBeanRemote;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +25,8 @@ public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
-    ClientBeanRemote ejbremote;
-    Logger logger;
+    private ClientBeanRemote ejbremote;
+    private Logger logger;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -44,8 +45,8 @@ public class LoginServlet extends HttpServlet {
 
         if(instEmail.isEmpty() || password.isEmpty()){
             out.println("<script type=\"text/javascript\">");
-            out.println("if (confirm(\"Need to fill all the fields!\")) {x=\"coisas\";}");
-            out.println("window.location.replace(\"http://localhost:8080/web/index.jsp\");");
+            out.println("if (confirm(\"Need to fill all the fields!\")) {return true;}");
+            out.println("window.location.replace(\"http://localhost:8080/Projeto_2_war_exploded/index.jsp\");");
             out.println("</script>");
             logger.error("User did not input email and/or password");
         }
@@ -62,19 +63,18 @@ public class LoginServlet extends HttpServlet {
                 }
                 else{
                     out.println("<script type=\"text/javascript\">");
-                    out.println("if (confirm(\"Wrong password!\")) {x=\"coisas\";}");
-                    out.println("window.location.replace(\"http://localhost:8080/web/index.jsp\");");
+                    out.println("if (confirm(\"Wrong password!\")) {return true;}");
+                    out.println("window.location.replace(\"http://localhost:8080/Projeto_2_war_exploded/index.jsp\");");
                     out.println("</script>");
                     logger.error("User input wrong password");
                 }
 
             }catch(EJBException ejbe){
                 out.println("<script type=\"text/javascript\">");
-                out.println("if (confirm(\"No account found related to this email!!\")) {x=\"coisas\";}");
-                out.println("window.location.replace(\"http://localhost:8080/web/index.jsp\");");
+                out.println("if (confirm(\"No account found related to this email!!\")) {return true;}");
+                out.println("window.location.replace(\"http://localhost:8080/Projeto_2_war_exploded/index.jsp\");");
                 out.println("</script>");
                 logger.error("User does not exist");
-
             }
         }
     }
