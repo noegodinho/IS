@@ -1,16 +1,10 @@
 package servlet;
 
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Utils {
-
-    public Utils(){
-        super();
-    }
-
+public class UtilsServlet{
     public String createHash(String password){
         byte[] bytePass = null;
         byte[] hashed;
@@ -18,7 +12,7 @@ public class Utils {
         try{
             bytePass = password.getBytes("UTF-8");
         }catch(UnsupportedEncodingException uee){
-
+            uee.printStackTrace();
         }
 
         try{

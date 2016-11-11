@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet{
 
         else{
             try{
-                String hashedPassword = new Utils().createHash(password);
+                String hashedPassword = new UtilsServlet().createHash(password);
 
                 User loggedUser = this.ejbremote.loginUser(instEmail, hashedPassword);
 

@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet{
         //Get sign up information
         String password = request.getParameter("password");
 
-        String hashedPassword = new Utils().createHash(password);
+        String hashedPassword = new UtilsServlet().createHash(password);
     }
 
     @Override
