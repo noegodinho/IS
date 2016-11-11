@@ -24,9 +24,9 @@ public class ProfBean implements ProfBeanRemote{
         this.logger = LoggerFactory.getLogger(ProfBean.class);
     }
 
-    public boolean updateMaterial(String filename, Course course){
+    public boolean uploadMaterial(String filename, String timestamp, Course course){
         try{
-            Material material = new Material(filename, course);
+            Material material = new Material(filename, timestamp, course);
             entityManager.persist(material);
 
             logger.info("Material: " + filename + " successfully uploaded");

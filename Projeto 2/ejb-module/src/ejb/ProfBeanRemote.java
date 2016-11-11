@@ -9,7 +9,7 @@ import java.util.List;
 
 @Remote
 public interface ProfBeanRemote{
-    boolean updateMaterial(String filename, Course course);
+    boolean uploadMaterial(String filename, String timestamp, Course course);
     List<Student> getStudentsByCourse(String courseName, boolean ascendingOrder);
     List<Student> searchStudents(String name, Date birth, String instEmail, String altEmail, String address,
                                  Integer telephone, Integer number, Integer yearOfCourse);
