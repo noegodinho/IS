@@ -28,9 +28,9 @@ public class Professor extends User implements Serializable{
     }
 
     public Professor(String hashedPassword, String name, Date birth, String instEmail,
-                     String altEmail , String address, Integer telephone, Integer userType,
+                     String altEmail , String address, Integer telephone,
                      Integer internalNumber, String category, String office, Integer internalTelephoneNumber, double salary){
-        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone, userType);
+        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone);
         this.internalNumber = internalNumber;
         this.category = category;
         this.office = office;

@@ -22,8 +22,8 @@ public class Student extends User implements Serializable{
     }
 
     public Student(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
-                   String address, Integer telephone, Integer userType, Integer number, Integer yearOfCourse){
-        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone, userType);
+                   String address, Integer telephone, Integer number, Integer yearOfCourse){
+        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone);
         this.number = number;
         this.yearOfCourse = yearOfCourse;
     }

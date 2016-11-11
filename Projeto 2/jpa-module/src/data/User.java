@@ -26,16 +26,13 @@ public class User implements Serializable{
     protected String address;
     @Column(nullable=false)
     protected Integer telephone;
-    @Column(nullable=false)
-    /* 0 - admin, 1 - prof, 2 - student */
-    protected Integer userType;
 
     public User(){
         super();
     }
 
     public User(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
-                String address, Integer telephone, Integer userType){
+                String address, Integer telephone){
         super();
         this.hashedPassword = hashedPassword;
         this.name = name;
@@ -44,7 +41,6 @@ public class User implements Serializable{
         this.altEmail = altEmail;
         this.address = address;
         this.telephone = telephone;
-        this.userType = userType;
     }
 
     public Integer getId() {
@@ -105,13 +101,5 @@ public class User implements Serializable{
 
     public void setTelephone(Integer telephone) {
         this.telephone = telephone;
-    }
-
-    public Integer getUserType() {
-        return userType;
-    }
-
-    public void setUserType(Integer userType) {
-        this.userType = userType;
     }
 }
