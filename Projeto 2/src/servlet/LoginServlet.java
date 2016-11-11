@@ -17,11 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 
 @WebServlet(name = "/LoginServlet")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet{
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -33,10 +36,10 @@ public class LoginServlet extends HttpServlet {
      */
     public LoginServlet(){
         super();
-        logger = LoggerFactory.getLogger(ClientBean.class);
+        this.logger = LoggerFactory.getLogger(ClientBean.class);
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
         String instEmail = request.getParameter("instEmail");
         String password = request.getParameter("password");
@@ -53,7 +56,9 @@ public class LoginServlet extends HttpServlet {
 
         else{
             try{
-                User loggedUser = ejbremote.loginUser(instEmail, password);
+                String hashedPassword = createHash(password);
+
+                User loggedUser = this.ejbremote.loginUser(instEmail, hashedPassword);
 
                 if(loggedUser != null){
                     request.setAttribute("user", loggedUser);
@@ -74,6 +79,27 @@ public class LoginServlet extends HttpServlet {
                 logger.error("Magic on login");
             }
         }
+    }
+
+    public String createHash(String password){
+        byte[] bytePass = null;
+        byte[] hashed;
+
+        try{
+            bytePass = password.getBytes("UTF-8");
+        }catch(UnsupportedEncodingException uee){
+            logger.error("Why you do this");
+        }
+
+        try{
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            hashed = md.digest(bytePass);
+        }catch(NoSuchAlgorithmException nsae){
+            logger.error("Aprende a programar");
+            return null;
+        }
+
+        return new String(hashed);
     }
 
     //If userType remains int
@@ -98,15 +124,18 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         response.getWriter().append("Served at: ").append(request.getContextPath());
     }
 
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getParameter("action").equals("login"))
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        if(request.getParameter("action").equals("login")){
             processRequest(request, response);
+        }
     }
 }
