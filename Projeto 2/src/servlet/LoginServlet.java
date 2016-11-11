@@ -2,7 +2,6 @@ package servlet;
 
 import data.Administrator;
 import data.Professor;
-import data.Student;
 import data.User;
 import ejb.ClientBean;
 import ejb.ClientBeanRemote;
@@ -20,9 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 
@@ -59,7 +55,7 @@ public class LoginServlet extends HttpServlet{
 
         else{
             try{
-                String hashedPassword = createHash(password);
+                String hashedPassword = new Utils().createHash(password);
 
                 User loggedUser = this.ejbremote.loginUser(instEmail, hashedPassword);
 
@@ -84,28 +80,6 @@ public class LoginServlet extends HttpServlet{
         }
     }
 
-    public String createHash(String password){
-        byte[] bytePass = null;
-        byte[] hashed;
-
-        try{
-            bytePass = password.getBytes("UTF-8");
-        }catch(UnsupportedEncodingException uee){
-            logger.error("Why you do this");
-        }
-
-        try{
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            hashed = md.digest(bytePass);
-        }catch(NoSuchAlgorithmException nsae){
-            logger.error("Aprende a programar");
-            return null;
-        }
-
-        return new String(hashed);
-    }
-
-    //If userType remains int
     private void setOptions(ArrayList<String> menuOptions, User user){
         if(user instanceof Administrator){ //admin
             menuOptions.add("Create New User");

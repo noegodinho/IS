@@ -25,4 +25,17 @@
         <servlet-name>Register Servlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Menu Servlet</servlet-name>
+        <servlet-class>servlet.MenuServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Menu Servlet</servlet-name>
+        <url-pattern>/MenuServlet</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>
