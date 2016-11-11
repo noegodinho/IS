@@ -5,13 +5,13 @@
          version="3.1">
 
     <servlet>
-        <servlet-name>File Upload Servlet</servlet-name>
+        <servlet-name>Login Servlet</servlet-name>
         <servlet-class>servlet.LoginServlet</servlet-class>
     </servlet>
 
     <!-- File Upload -->
     <servlet-mapping>
-        <servlet-name>File Upload Servlet</servlet-name>
+        <servlet-name>Login Servlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
 </web-app>
