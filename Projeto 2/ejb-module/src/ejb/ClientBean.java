@@ -24,7 +24,7 @@ public class ClientBean implements ClientBeanRemote{
         User user = null;
 
         try{
-            Query query = entityManager.createQuery("Select s.id, s.name, s.userType from Student s " +
+            Query query = entityManager.createQuery("Select s.id, s.name from Student s " +
                                                     "where s.instEmail like ?1 " +
                                                     "and s.hashedPassword like ?2");
             query.setParameter(1, instEmail);
@@ -35,7 +35,7 @@ public class ClientBean implements ClientBeanRemote{
             logger.info("Student: " + instEmail + " successfully logged in");
         }catch(NoResultException nre){
             try{
-                Query query = entityManager.createQuery("Select p.id, p.name, p.userType from Professor p " +
+                Query query = entityManager.createQuery("Select p.id, p.name from Professor p " +
                                                         "where p.instEmail like ?1 " +
                                                         "and p.hashedPassword like ?2");
 
@@ -47,7 +47,7 @@ public class ClientBean implements ClientBeanRemote{
                 logger.info("Professor: " + instEmail + " successfully logged in");
             }catch(NoResultException nre1){
                 try{
-                    Query query = entityManager.createQuery("Select a.id, a.name, a.userType from Administrator a " +
+                    Query query = entityManager.createQuery("Select a.id, a.name from Administrator a " +
                                                             "where a.instEmail like ?1 " +
                                                             "and a.hashedPassword like ?2");
 

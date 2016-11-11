@@ -27,7 +27,7 @@ public class AdminBean implements AdminBeanRemote{
                                         String altEmail, String address, Integer telephone, Integer number,
                                         Integer yearOfCourse){
         try{
-            User student = new Student(hashedPassword, name, birth, instEmail, altEmail, address, telephone, 2, number,
+            User student = new Student(hashedPassword, name, birth, instEmail, altEmail, address, telephone, number,
                                        yearOfCourse);
             entityManager.persist(student);
 
@@ -45,7 +45,7 @@ public class AdminBean implements AdminBeanRemote{
                                           String category, String office, Integer internalTelephoneNumber,
                                           double salary){
         try{
-            User professor = new Professor(hashedPassword, name, birth, instEmail, altEmail, address, telephone, 1,
+            User professor = new Professor(hashedPassword, name, birth, instEmail, altEmail, address, telephone,
                                            internalNumber, category, office, internalTelephoneNumber, salary);
             entityManager.persist(professor);
 
@@ -158,28 +158,31 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public boolean deleteUser(String instEmail){
+    public boolean deleteStudent(String instEmail){
         try{
-            Query query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
+            Query query = entityManager.createQuery("Delete from Student s where s.instEmail like ?1");
             query.setParameter(1, instEmail);
-            User user = (Student)query.getSingleResult();
+            query.executeUpdate();
 
-            entityManager.remove(user); /* not sure if this works */
+            logger.info("Student: " + instEmail + " successfully removed");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean deleteProfessor(String instEmail){
+        try{
+            Query query = entityManager.createQuery("Delete from Professor p where p.instEmail like ?1");
+            query.setParameter(1, instEmail);
+            query.executeUpdate();
 
             logger.info("Professor: " + instEmail + " successfully removed");
-        }catch(NoResultException nre){
-            try{
-                Query query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
-                query.setParameter(1, instEmail);
-                User user = (Professor)query.getSingleResult();
-
-                entityManager.remove(user); /* not sure if this works */
-
-                logger.info("Professor: " + instEmail + " successfully removed");
-            }catch(NoResultException nre1){
-                logger.error("SQL error");
-                return false;
-            }
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+            return false;
         }
 
         return true;
@@ -200,13 +203,13 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public boolean deleteMaterial(String filename){
+    public boolean deleteMaterial(String timestamp){
         try{
-            Query query = entityManager.createQuery("Delete from Material m where m.filename like ?1");
-            query.setParameter(1, filename);
+            Query query = entityManager.createQuery("Delete from Material m where m.timestamp like ?1");
+            query.setParameter(1, timestamp);
             query.executeUpdate();
 
-            logger.info("Material: " + filename + " successfully removed");
+            logger.info("Material: " + timestamp + " successfully removed");
         }catch(PersistenceException pe){
             logger.error("SQL error");
             return false;

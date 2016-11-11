@@ -13,7 +13,7 @@ public class Administrator extends User implements Serializable{
     }
 
     public Administrator(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
-                         String address, int telephone, int userType){
-        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone, userType);
+                         String address, int telephone){
+        super(hashedPassword, name, birth, instEmail, altEmail, address, telephone);
     }
 }
