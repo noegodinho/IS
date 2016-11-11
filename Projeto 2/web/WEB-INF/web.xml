@@ -14,4 +14,15 @@
         <servlet-name>Login Servlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Register Servlet</servlet-name>
+        <servlet-class>servlet.RegisterServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Register Servlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
