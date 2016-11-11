@@ -1,5 +1,8 @@
 package servlet;
 
+import data.Administrator;
+import data.Professor;
+import data.Student;
 import data.User;
 import ejb.ClientBean;
 import ejb.ClientBeanRemote;
@@ -63,7 +66,7 @@ public class LoginServlet extends HttpServlet{
                 if(loggedUser != null){
                     request.setAttribute("user", loggedUser);
                     session.setAttribute("user", loggedUser);
-                    setOptions(menuOptions,loggedUser.getUserType());
+                    setOptions(menuOptions, loggedUser);
                     session.setAttribute("options", menuOptions);
                     request.getRequestDispatcher("menu.jsp").forward(request, response);
                 }
@@ -103,25 +106,29 @@ public class LoginServlet extends HttpServlet{
     }
 
     //If userType remains int
-    private void setOptions(ArrayList<String> menuOptions, int userType ){
-        switch(userType){
-            case 0: //admin
-                menuOptions.add("Create New User");
-                menuOptions.add("Edit User Information");
-                menuOptions.add("Create New Course");
-                menuOptions.add("Edit Course Information");
-                menuOptions.add("Delete User");
-                menuOptions.add("Delete Course");
-            case 1: //prof
-                menuOptions.add("Upload Course Material");
-                menuOptions.add("Delete Material");
-                menuOptions.add("List Students");
-                menuOptions.add("Search Student");
-            case 2: //student
-                menuOptions.add("List Course");
-                menuOptions.add("List Materials");
-                break;
+    private void setOptions(ArrayList<String> menuOptions, User user){
+        if(user instanceof Administrator){ //admin
+            menuOptions.add("Create New User");
+            menuOptions.add("Edit User Information");
+            menuOptions.add("Create New Course");
+            menuOptions.add("Edit Course Information");
+            menuOptions.add("Delete User");
+            menuOptions.add("Delete Course");
+            menuOptions.add("Upload Course Material");
+            menuOptions.add("Delete Material");
+            menuOptions.add("List Students");
+            menuOptions.add("Search Student");
         }
+
+        if(user instanceof Professor){ //prof
+            menuOptions.add("Upload Course Material");
+            menuOptions.add("Delete Material");
+            menuOptions.add("List Students");
+            menuOptions.add("Search Student");
+        }
+
+        menuOptions.add("List Course");
+        menuOptions.add("List Materials");
     }
 
     @Override
