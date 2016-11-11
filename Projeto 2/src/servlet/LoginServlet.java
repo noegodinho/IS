@@ -54,6 +54,7 @@ public class LoginServlet extends HttpServlet {
         else{
             try{
                 User loggedUser = ejbremote.loginUser(instEmail, password);
+
                 if(loggedUser != null){
                     request.setAttribute("user", loggedUser);
                     session.setAttribute("user", loggedUser);
@@ -61,20 +62,16 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("options", menuOptions);
                     request.getRequestDispatcher("menu.jsp").forward(request, response);
                 }
+
                 else{
                     out.println("<script type=\"text/javascript\">");
-                    out.println("if (confirm(\"Wrong password!\")) {}");
+                    out.println("if (confirm(\"Wrong email and/or password!\")) {}");
                     out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
                     out.println("</script>");
-                    logger.error("User input wrong password");
+                    logger.error("Wrong email and/or password");
                 }
-
             }catch(EJBException ejbe){
-                out.println("<script type=\"text/javascript\">");
-                out.println("if (confirm(\"No account found related to this email!!\")) {}");
-                out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
-                out.println("</script>");
-                logger.error("User does not exist");
+                logger.error("Magic on login");
             }
         }
     }
@@ -109,7 +106,6 @@ public class LoginServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.error("NAO ENCONTRA POST");
         if(request.getParameter("action").equals("login"))
             processRequest(request, response);
     }
