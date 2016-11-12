@@ -1,6 +1,6 @@
 package dto;
 
-import data.User;
+import data.Administrator;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ public class AdministratorDTO extends UserDTO implements Serializable{
     public AdministratorDTO(){
     }
 
-    public AdministratorDTO(User administrator){
+    public AdministratorDTO(Administrator administrator){
         super(administrator.getId(), administrator.getHashedPassword(), administrator.getName(), administrator.getBirth(),
               administrator.getInstEmail(), administrator.getAltEmail(), administrator.getAddress(),
                 administrator.getTelephone());

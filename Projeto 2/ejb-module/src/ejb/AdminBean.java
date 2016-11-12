@@ -255,7 +255,7 @@ public class AdminBean implements AdminBeanRemote{
         List<StudentDTO> studentsDTO = new ArrayList<>();
 
         try{
-            Query query = entityManager.createQuery("Select s.instEmail, s.name from Student s");
+            Query query = entityManager.createQuery("Select s from Student s");
 
             students = query.getResultList();
 
@@ -276,7 +276,7 @@ public class AdminBean implements AdminBeanRemote{
         List<ProfessorDTO> professorsDTO = new ArrayList<>();
 
         try{
-            Query query = entityManager.createQuery("Select p.instEmail, p.name from Professor p");
+            Query query = entityManager.createQuery("Select p from Professor p");
 
             professors = query.getResultList();
 

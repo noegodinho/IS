@@ -25,46 +25,59 @@ public class ClientBean implements ClientBeanRemote{
         UserDTO userDTO = null;
 
         try{
-            Query query = entityManager.createQuery("Select s.id, s.name from Student s " +
+            Query query = entityManager.createQuery("Select s from Student s " +
                                                     "where s.instEmail like ?1 " +
                                                     "and s.hashedPassword like ?2");
             query.setParameter(1, instEmail);
             query.setParameter(2, hashedPassword);
 
-            Student student = (Student)query.getSingleResult();
-            userDTO = new StudentDTO(student);
+            List<Student> student = query.getResultList();
 
-            logger.info("Student: " + instEmail + " successfully logged in");
-        }catch(NoResultException nre){
-            try{
-                Query query = entityManager.createQuery("Select p.id, p.name from Professor p " +
-                                                        "where p.instEmail like ?1 " +
-                                                        "and p.hashedPassword like ?2");
+            if(student.size() == 0){
+                query = entityManager.createQuery("Select p from Professor p " +
+                        "where p.instEmail like ?1 " +
+                        "and p.hashedPassword like ?2");
 
                 query.setParameter(1, instEmail);
                 query.setParameter(2, hashedPassword);
 
-                Professor professor = (Professor)query.getSingleResult();
-                userDTO = new ProfessorDTO(professor);
+                List<Professor> professor = query.getResultList();
 
-                logger.info("Professor: " + instEmail + " successfully logged in");
-            }catch(NoResultException nre1){
-                try{
-                    Query query = entityManager.createQuery("Select a.id, a.name from Administrator a " +
-                                                            "where a.instEmail like ?1 " +
-                                                            "and a.hashedPassword like ?2");
+                if(professor.size() == 0){
+                    query = entityManager.createQuery("Select a from Administrator a " +
+                                                        "where a.instEmail like ?1 " +
+                                                        "and a.hashedPassword like ?2");
 
                     query.setParameter(1, instEmail);
                     query.setParameter(2, hashedPassword);
 
-                    User administrator = (Administrator)query.getSingleResult();
-                    userDTO = new AdministratorDTO(administrator);
+                    List<Administrator> administrator = query.getResultList();
 
-                    logger.info("Admin: " + instEmail + " successfully logged in");
-                }catch(NoResultException nre2){
-                    logger.error("User not found");
+                    if(administrator.size() == 0){
+                        logger.error("User not found");
+                    }
+
+                    else{
+                        userDTO = new AdministratorDTO(administrator.get(0));
+
+                        logger.info("Admin: " + instEmail + " successfully logged in");
+                    }
+                }
+
+                else{
+                    userDTO = new ProfessorDTO(professor.get(0));
+
+                    logger.info("Professor: " + instEmail + " successfully logged in");
                 }
             }
+
+            else{
+                userDTO = new StudentDTO(student.get(0));
+
+                logger.info("Student: " + instEmail + " successfully logged in");
+            }
+        }catch(PersistenceException nre){
+            logger.info("SQL error");
         }
 
         return userDTO;
@@ -78,7 +91,7 @@ public class ClientBean implements ClientBeanRemote{
             Query query;
 
             if(userType == 1){
-                query = entityManager.createQuery("Select c.courseName from Course c where c.professor.id = ?1");
+                query = entityManager.createQuery("Select c from Course c where c.professor.id = ?1");
                 query.setParameter(1, id);
                 courses = query.getResultList();
 
@@ -88,7 +101,7 @@ public class ClientBean implements ClientBeanRemote{
             }
 
             else{
-                query = entityManager.createQuery("Select c.courseName, c.students from Course c");
+                query = entityManager.createQuery("Select c from Course c");
                 courses = query.getResultList();
                 List<Student> students;
 
@@ -117,7 +130,7 @@ public class ClientBean implements ClientBeanRemote{
         List<MaterialDTO> materialsDTO = new ArrayList<>();
 
         try{
-            Query query = entityManager.createQuery("Select c.materials from Course c");
+            Query query = entityManager.createQuery("Select c from Course c");
 
             materials = query.getResultList();
 
