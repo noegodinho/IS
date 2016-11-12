@@ -3,6 +3,7 @@ package dto;
 import data.Course;
 import data.Student;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class StudentDTO{
     private Integer telephone;
     private Integer number;
     private Integer yearOfCourse;
-    private List<Course> courses;
+    private List<CourseDTO> courses;
 
     public StudentDTO(){
 
@@ -117,10 +118,20 @@ public class StudentDTO{
     }
 
     public List<Course> getCourses() {
-        return courses;
+        List<Course> courseList = new ArrayList<>();
+
+        for(CourseDTO courseDTO : this.courses){
+            courseList.add(new Course(courseDTO));
+        }
+
+        return courseList;
     }
 
     public void setCourses(List<Course> courses) {
-        this.courses = courses;
+        this.courses = new ArrayList<>();
+
+        for(Course course : courses){
+            this.courses.add(new CourseDTO(course));
+        }
     }
 }

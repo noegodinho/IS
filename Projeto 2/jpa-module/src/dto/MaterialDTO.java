@@ -7,7 +7,7 @@ public class MaterialDTO{
     private Integer id;
     private String filename;
     private String timestamp;
-    private Course course;
+    private CourseDTO course;
 
     public MaterialDTO(){
 
@@ -17,7 +17,8 @@ public class MaterialDTO{
         this.id = material.getId();
         this.filename = material.getFilename();
         this.timestamp = material.getTimestamp();
-        this.course = material.getCourse();
+        this.setCourse(material.getCourse());
+
     }
 
     public Integer getId() {
@@ -33,7 +34,7 @@ public class MaterialDTO{
     }
 
     public Course getCourse() {
-        return course;
+        return new Course(this.course);
     }
 
     public String getTimestamp() {
@@ -45,7 +46,7 @@ public class MaterialDTO{
     }
 
     public void setCourse(Course course) {
-        this.course = course;
+        this.course = new CourseDTO(course);
     }
 
     public void setTimestamp(String timestamp) {

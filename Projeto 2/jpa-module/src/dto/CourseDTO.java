@@ -5,14 +5,15 @@ import data.Material;
 import data.Professor;
 import data.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDTO{
     private Integer id;
     private String courseName;
-    private Professor professor;
-    private List<Student> students;
-    private List<Material> materials;
+    private ProfessorDTO professor;
+    private List<StudentDTO> students;
+    private List<MaterialDTO> materials;
 
     public CourseDTO(){
 
@@ -21,9 +22,9 @@ public class CourseDTO{
     public CourseDTO(Course course){
         this.id = course.getId();
         this.courseName = course.getCourseName();
-        this.professor = course.getProfessor();
-        this.students = course.getStudents();
-        this.materials = course.getMaterials();
+        this.setProfessor(course.getProfessor());
+        this.setStudents(course.getStudents());
+        this.setMaterials(course.getMaterials());
     }
 
     public Integer getId() {
@@ -35,15 +36,27 @@ public class CourseDTO{
     }
 
     public Professor getProfessor() {
-        return professor;
+        return new Professor(this.professor);
     }
 
     public List<Student> getStudents() {
-        return students;
+        List<Student> studentList = new ArrayList<>();
+
+        for(StudentDTO studentDTO : this.students){
+            studentList.add(new Student(studentDTO));
+        }
+
+        return studentList;
     }
 
     public List<Material> getMaterials() {
-        return materials;
+        List<Material> materialList = new ArrayList<>();
+
+        for(MaterialDTO materialDTO : this.materials){
+            materialList.add(new Material(materialDTO));
+        }
+
+        return materialList;
     }
 
     public void setId(Integer id) {
@@ -55,14 +68,22 @@ public class CourseDTO{
     }
 
     public void setProfessor(Professor professor) {
-        this.professor = professor;
+        this.professor = new ProfessorDTO(professor);
     }
 
     public void setStudents(List<Student> students) {
-        this.students = students;
+        this.students = new ArrayList<>();
+
+        for(Student student : students){
+            this.students.add(new StudentDTO(student));
+        }
     }
 
     public void setMaterials(List<Material> materials) {
-        this.materials = materials;
+        this.materials = new ArrayList<>();
+
+        for(Material material : materials){
+            this.materials.add(new MaterialDTO(material));
+        }
     }
 }

@@ -3,6 +3,7 @@ package dto;
 import data.Course;
 import data.Professor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ProfessorDTO{
     private String office;
     private Integer internalTelephoneNumber;
     private double salary;
-    private List<Course> courses;
+    private List<CourseDTO> courses;
 
     public ProfessorDTO(){
     }
@@ -39,6 +40,7 @@ public class ProfessorDTO{
         this.office = professor.getOffice();
         this.internalTelephoneNumber = professor.getInternalTelephoneNumber();
         this.salary = professor.getSalary();
+        this.setCourses(professor.getCourses());
     }
 
     public void setId(Integer id) {
@@ -146,10 +148,20 @@ public class ProfessorDTO{
     }
 
     public List<Course> getCourses() {
-        return courses;
+        List<Course> courseList = new ArrayList<>();
+
+        for(CourseDTO courseDTO : this.courses){
+            courseList.add(new Course(courseDTO));
+        }
+
+        return courseList;
     }
 
     public void setCourses(List<Course> courses) {
-        this.courses = courses;
+        this.courses = new ArrayList<>();
+
+        for(Course course : courses){
+            this.courses.add(new CourseDTO(course));
+        }
     }
 }

@@ -28,12 +28,22 @@ public class User implements Serializable{
     protected Integer telephone;
 
     public User(){
-        super();
     }
 
     public User(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
                 String address, Integer telephone){
-        super();
+        this.hashedPassword = hashedPassword;
+        this.name = name;
+        this.birth = birth;
+        this.instEmail = instEmail;
+        this.altEmail = altEmail;
+        this.address = address;
+        this.telephone = telephone;
+    }
+
+    public User(Integer id, String hashedPassword, String name, Date birth, String instEmail, String altEmail,
+                String address, Integer telephone){
+        this.id = id;
         this.hashedPassword = hashedPassword;
         this.name = name;
         this.birth = birth;

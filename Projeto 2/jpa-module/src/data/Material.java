@@ -1,5 +1,7 @@
 package data;
 
+import dto.MaterialDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -25,6 +27,13 @@ public class Material implements Serializable{
         this.filename = filename;
         this.timestamp = timestamp;
         this.course = course;
+    }
+
+    public Material(MaterialDTO materialDTO){
+        this.id = materialDTO.getId();
+        this.filename = materialDTO.getFilename();
+        this.timestamp = materialDTO.getTimestamp();
+        this.course = materialDTO.getCourse();
     }
 
     public Integer getId() {
