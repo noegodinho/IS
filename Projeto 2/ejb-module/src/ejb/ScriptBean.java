@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import java.util.Date;
+import java.util.List;
 
 @Stateless
 public class ScriptBean implements ScriptBeanRemote{
@@ -55,6 +56,21 @@ public class ScriptBean implements ScriptBeanRemote{
         }
 
         return false;
+    }
+
+    public List<String> getAdmins(){
+        List<String> admins = null;
+
+        try{
+            Query query = entityManager.createQuery("Select a from Administrator a");
+            admins = query.getResultList();
+
+            logger.info("Admin list successfully retrieved");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+        }
+
+        return admins;
     }
 
     public boolean deleteAdmin(String instEmail){
