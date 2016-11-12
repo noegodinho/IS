@@ -5,11 +5,16 @@ import data.Professor;
 import data.Student;
 import data.User;
 
+import dto.CourseDTO;
+import dto.ProfessorDTO;
+import dto.StudentDTO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,8 +63,14 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public boolean createCourse(String courseName, Professor professor, List<Student> students){
+    public boolean createCourse(String courseName, Professor professor, List<StudentDTO> studentsDTO){
         try{
+            List<Student> students = new ArrayList<>();
+
+            for(StudentDTO studentDTO : studentsDTO){
+                students.add(new Student(studentDTO));
+            }
+
             Course course = new Course(courseName, professor, students);
 
             entityManager.persist(course);
@@ -75,7 +86,7 @@ public class AdminBean implements AdminBeanRemote{
 
     public boolean editStudent(String hashedPassword, String name, Date birth, String instEmail,
                                String altEmail, String address, Integer telephone, Integer number,
-                               Integer yearOfCourse, List<Course> courses, String newInstEmail){
+                               Integer yearOfCourse, List<CourseDTO> courses, String newInstEmail){
         try{
             Query query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
             query.setParameter(1, instEmail);
@@ -90,7 +101,14 @@ public class AdminBean implements AdminBeanRemote{
             student.setTelephone(telephone);
             student.setNumber(number);
             student.setYearOfCourse(yearOfCourse);
-            student.setCourses(courses);
+
+            List<Course> courseList = new ArrayList<>();
+
+            for(CourseDTO courseDTO : courses){
+                courseList.add(new Course(courseDTO));
+            }
+
+            student.setCourses(courseList);
 
             entityManager.persist(student);
 
@@ -106,7 +124,7 @@ public class AdminBean implements AdminBeanRemote{
     public boolean editProfessor(String hashedPassword, String name, Date birth, String instEmail,
                                  String altEmail, String address, Integer telephone, Integer internalNumber,
                                  String category, String office, Integer internalTelephoneNumber, double salary,
-                                 List<Course> courses, String newInstEmail){
+                                 List<CourseDTO> courses, String newInstEmail){
         try{
             Query query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
             query.setParameter(1, instEmail);
@@ -124,7 +142,14 @@ public class AdminBean implements AdminBeanRemote{
             professor.setOffice(office);
             professor.setInternalTelephoneNumber(internalTelephoneNumber);
             professor.setSalary(salary);
-            professor.setCourses(courses);
+
+            List<Course> courseList = new ArrayList<>();
+
+            for(CourseDTO courseDTO : courses){
+                courseList.add(new Course(courseDTO));
+            }
+
+            professor.setCourses(courseList);
 
             entityManager.persist(professor);
 
@@ -137,15 +162,22 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public boolean editCourse(String courseName, Professor professor, List<Student> students, String newCourseName){
+    public boolean editCourse(String courseName, ProfessorDTO professor, List<StudentDTO> students, String newCourseName){
         try{
             Query query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
             query.setParameter(1, courseName);
             Course course = (Course)query.getSingleResult();
 
             course.setCourseName(newCourseName);
-            course.setProfessor(professor);
-            course.setStudents(students);
+            course.setProfessor(new Professor(professor));
+
+            List<Student> studentList = new ArrayList<>();
+
+            for(StudentDTO studentDTO : students){
+                studentList.add(new Student(studentDTO));
+            }
+            
+            course.setStudents(studentList);
 
             entityManager.persist(course);
 
@@ -218,35 +250,45 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public List<Student> getStudents(){
-        List<Student> students = null;
+    public List<StudentDTO> getStudents(){
+        List<Student> students;
+        List<StudentDTO> studentsDTO = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select s.instEmail, s.name from Student s");
 
             students = query.getResultList();
 
+            for(Student student : students){
+                studentsDTO.add(new StudentDTO(student));
+            }
+
             logger.info("Students successfully retrieved");
         }catch(PersistenceException pe){
             logger.error("SQL error");
         }
 
-        return students;
+        return studentsDTO;
     }
 
-    public List<Professor> getProfessors(){
-        List<Professor> professors = null;
+    public List<ProfessorDTO> getProfessors(){
+        List<Professor> professors;
+        List<ProfessorDTO> professorsDTO = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select p.instEmail, p.name from Professor p");
 
             professors = query.getResultList();
 
+            for(Professor professor : professors){
+                professorsDTO.add(new ProfessorDTO(professor));
+            }
+
             logger.info("Professors successfully retrieved");
         }catch(PersistenceException pe){
             logger.error("SQL error");
         }
 
-        return professors;
+        return professorsDTO;
     }
 }
