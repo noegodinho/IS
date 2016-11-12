@@ -1,27 +1,17 @@
-package data;
+package dto;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
-@Entity
-public class Material implements Serializable{
-    private static final long serialVersionUID = 3L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class MaterialDTO{
     private Integer id;
-    @Column(nullable=false)
     private String filename;
-    @Column(unique=true, nullable=false)
     private String timestamp;
+    private CourseDTO course;
 
-    @ManyToOne
-    private Course course;
+    public MaterialDTO(){
 
-    public Material(){
     }
 
-    public Material(String filename, String timestamp, Course course){
+    public MaterialDTO(Integer id, String filename, String timestamp, CourseDTO course){
+        this.id = id;
         this.filename = filename;
         this.timestamp = timestamp;
         this.course = course;
@@ -31,11 +21,15 @@ public class Material implements Serializable{
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getFilename() {
         return filename;
     }
 
-    public Course getCourse() {
+    public CourseDTO getCourse() {
         return course;
     }
 
@@ -47,7 +41,7 @@ public class Material implements Serializable{
         this.filename = filename;
     }
 
-    public void setCourse(Course course) {
+    public void setCourse(CourseDTO course) {
         this.course = course;
     }
 
