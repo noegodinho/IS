@@ -6,22 +6,16 @@ import java.security.NoSuchAlgorithmException;
 
 public class UtilsServlet{
     public String createHash(String password){
-        byte[] bytePass = null;
-        byte[] hashed;
-
-        try{
-            bytePass = password.getBytes("UTF-8");
-        }catch(UnsupportedEncodingException uee){
-            uee.printStackTrace();
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(password.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
         }
-
-        try{
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            hashed = md.digest(bytePass);
-        }catch(NoSuchAlgorithmException nsae){
-            return null;
-        }
-
-        return new String(hashed);
+        return null;
     }
 }
