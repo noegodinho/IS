@@ -10,7 +10,7 @@ public class Course implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     @Column(unique=true, nullable=false)
     private String courseName;
 
@@ -24,14 +24,16 @@ public class Course implements Serializable{
     private List<Material> materials;
 
     public Course(){
-        super();
     }
 
     public Course(String courseName, Professor professor, List<Student> students){
-        super();
         this.courseName = courseName;
         this.professor = professor;
         this.students = students;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getCourseName() {
