@@ -1,5 +1,8 @@
 package dto;
 
+import data.Course;
+import data.Student;
+
 import java.util.Date;
 import java.util.List;
 
@@ -14,24 +17,23 @@ public class StudentDTO{
     private Integer telephone;
     private Integer number;
     private Integer yearOfCourse;
-    private List<CourseDTO> courses;
+    private List<Course> courses;
 
     public StudentDTO(){
 
     }
 
-    public StudentDTO(Integer id, String hashedPassword, String name, Date birth, String instEmail, String altEmail,
-                      String address, Integer telephone, Integer number, Integer yearOfCourse){
-        this.id = id;
-        this.hashedPassword = hashedPassword;
-        this.name = name;
-        this.birth = birth;
-        this.instEmail = instEmail;
-        this.altEmail = altEmail;
-        this.address = address;
-        this.telephone = telephone;
-        this.number = number;
-        this.yearOfCourse = yearOfCourse;
+    public StudentDTO(Student student){
+        this.id = student.getId();
+        this.hashedPassword = student.getHashedPassword();
+        this.name = student.getName();
+        this.birth = student.getBirth();
+        this.instEmail = student.getInstEmail();
+        this.altEmail = student.getAltEmail();
+        this.address = student.getAddress();
+        this.telephone = student.getTelephone();
+        this.number = student.getNumber();
+        this.yearOfCourse = student.getYearOfCourse();
     }
 
     public void setId(Integer id) {
@@ -114,11 +116,11 @@ public class StudentDTO{
         this.yearOfCourse = yearOfCourse;
     }
 
-    public List<CourseDTO> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<CourseDTO> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 }

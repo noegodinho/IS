@@ -1,23 +1,29 @@
 package dto;
 
+import data.Course;
+import data.Material;
+import data.Professor;
+import data.Student;
+
 import java.util.List;
 
 public class CourseDTO{
     private Integer id;
     private String courseName;
-    private ProfessorDTO professor;
-    private List<StudentDTO> students;
-    private List<MaterialDTO> materials;
+    private Professor professor;
+    private List<Student> students;
+    private List<Material> materials;
 
     public CourseDTO(){
 
     }
 
-    public CourseDTO(Integer id, String courseName, ProfessorDTO professor, List<StudentDTO> students){
-        this.id = id;
-        this.courseName = courseName;
-        this.professor = professor;
-        this.students = students;
+    public CourseDTO(Course course){
+        this.id = course.getId();
+        this.courseName = course.getCourseName();
+        this.professor = course.getProfessor();
+        this.students = course.getStudents();
+        this.materials = course.getMaterials();
     }
 
     public Integer getId() {
@@ -28,15 +34,15 @@ public class CourseDTO{
         return courseName;
     }
 
-    public ProfessorDTO getProfessor() {
+    public Professor getProfessor() {
         return professor;
     }
 
-    public List<StudentDTO> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public List<MaterialDTO> getMaterials() {
+    public List<Material> getMaterials() {
         return materials;
     }
 
@@ -48,15 +54,15 @@ public class CourseDTO{
         this.courseName = courseName;
     }
 
-    public void setProfessor(ProfessorDTO professor) {
+    public void setProfessor(Professor professor) {
         this.professor = professor;
     }
 
-    public void setStudents(List<StudentDTO> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 
-    public void setMaterials(List<MaterialDTO> materials) {
+    public void setMaterials(List<Material> materials) {
         this.materials = materials;
     }
 }

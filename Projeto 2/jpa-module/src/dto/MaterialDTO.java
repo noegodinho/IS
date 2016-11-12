@@ -1,20 +1,23 @@
 package dto;
 
+import data.Course;
+import data.Material;
+
 public class MaterialDTO{
     private Integer id;
     private String filename;
     private String timestamp;
-    private CourseDTO course;
+    private Course course;
 
     public MaterialDTO(){
 
     }
 
-    public MaterialDTO(Integer id, String filename, String timestamp, CourseDTO course){
-        this.id = id;
-        this.filename = filename;
-        this.timestamp = timestamp;
-        this.course = course;
+    public MaterialDTO(Material material){
+        this.id = material.getId();
+        this.filename = material.getFilename();
+        this.timestamp = material.getTimestamp();
+        this.course = material.getCourse();
     }
 
     public Integer getId() {
@@ -29,7 +32,7 @@ public class MaterialDTO{
         return filename;
     }
 
-    public CourseDTO getCourse() {
+    public Course getCourse() {
         return course;
     }
 
@@ -41,7 +44,7 @@ public class MaterialDTO{
         this.filename = filename;
     }
 
-    public void setCourse(CourseDTO course) {
+    public void setCourse(Course course) {
         this.course = course;
     }
 

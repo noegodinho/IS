@@ -1,5 +1,8 @@
 package dto;
 
+import data.Course;
+import data.Professor;
+
 import java.util.Date;
 import java.util.List;
 
@@ -17,27 +20,25 @@ public class ProfessorDTO{
     private String office;
     private Integer internalTelephoneNumber;
     private double salary;
-    private List<CourseDTO> courses;
+    private List<Course> courses;
 
     public ProfessorDTO(){
     }
 
-    public ProfessorDTO(Integer id, String hashedPassword, String name, Date birth, String instEmail,
-                        String altEmail , String address, Integer telephone,
-                        Integer internalNumber, String category, String office, Integer internalTelephoneNumber, double salary){
-        this.id = id;
-        this.hashedPassword = hashedPassword;
-        this.name = name;
-        this.birth = birth;
-        this.instEmail = instEmail;
-        this.altEmail = altEmail;
-        this.address = address;
-        this.telephone = telephone;
-        this.internalNumber = internalNumber;
-        this.category = category;
-        this.office = office;
-        this.internalTelephoneNumber = internalTelephoneNumber;
-        this.salary = salary;
+    public ProfessorDTO(Professor professor){
+        this.id = professor.getId();
+        this.hashedPassword = professor.getHashedPassword();
+        this.name = professor.getName();
+        this.birth = professor.getBirth();
+        this.instEmail = professor.getInstEmail();
+        this.altEmail = professor.getAltEmail();
+        this.address = professor.getAddress();
+        this.telephone = professor.getTelephone();
+        this.internalNumber = professor.getInternalNumber();
+        this.category = professor.getCategory();
+        this.office = professor.getOffice();
+        this.internalTelephoneNumber = professor.getInternalTelephoneNumber();
+        this.salary = professor.getSalary();
     }
 
     public void setId(Integer id) {
@@ -144,11 +145,11 @@ public class ProfessorDTO{
         this.salary = salary;
     }
 
-    public List<CourseDTO> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<CourseDTO> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 }

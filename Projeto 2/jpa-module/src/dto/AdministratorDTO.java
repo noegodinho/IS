@@ -1,5 +1,7 @@
 package dto;
 
+import data.Administrator;
+
 import java.util.Date;
 
 public class AdministratorDTO{
@@ -15,16 +17,15 @@ public class AdministratorDTO{
     public AdministratorDTO(){
     }
 
-    public AdministratorDTO(Integer id, String hashedPassword, String name, Date birth, String instEmail, String altEmail,
-                String address, Integer telephone){
-        this.id = id;
-        this.hashedPassword = hashedPassword;
-        this.name = name;
-        this.birth = birth;
-        this.instEmail = instEmail;
-        this.altEmail = altEmail;
-        this.address = address;
-        this.telephone = telephone;
+    public AdministratorDTO(Administrator administrator){
+        this.id = administrator.getId();
+        this.hashedPassword = administrator.getHashedPassword();
+        this.name = administrator.getName();
+        this.birth = administrator.getBirth();
+        this.instEmail = administrator.getInstEmail();
+        this.altEmail = administrator.getAltEmail();
+        this.address = administrator.getAddress();
+        this.telephone = administrator.getTelephone();
     }
 
     public void setId(Integer id) {
