@@ -57,7 +57,7 @@ public class ClientBean implements ClientBeanRemote{
                     query.setParameter(1, instEmail);
                     query.setParameter(2, hashedPassword);
 
-                    Administrator administrator = (Administrator)query.getSingleResult();
+                    User administrator = (Administrator)query.getSingleResult();
                     userDTO = new AdministratorDTO(administrator);
 
                     logger.info("Admin: " + instEmail + " successfully logged in");

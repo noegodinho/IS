@@ -1,9 +1,8 @@
 package dto;
 
-import data.Administrator;
+import data.User;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class AdministratorDTO extends UserDTO implements Serializable{
     private static final long serialVersionUID = 2L;
@@ -11,7 +10,7 @@ public class AdministratorDTO extends UserDTO implements Serializable{
     public AdministratorDTO(){
     }
 
-    public AdministratorDTO(Administrator administrator){
+    public AdministratorDTO(User administrator){
         super(administrator.getId(), administrator.getHashedPassword(), administrator.getName(), administrator.getBirth(),
               administrator.getInstEmail(), administrator.getAltEmail(), administrator.getAddress(),
                 administrator.getTelephone());
