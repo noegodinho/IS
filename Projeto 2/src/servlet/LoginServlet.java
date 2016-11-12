@@ -1,8 +1,9 @@
 package servlet;
 
-import data.Administrator;
-import data.Professor;
-import data.User;
+import dto.AdministratorDTO;
+import dto.ProfessorDTO;
+import dto.UserDTO;
+
 import ejb.ClientBean;
 import ejb.ClientBeanRemote;
 
@@ -57,7 +58,7 @@ public class LoginServlet extends HttpServlet{
             try{
                 String hashedPassword = new UtilsServlet().createHash(password);
 
-                User loggedUser = this.ejbremote.loginUser(instEmail, hashedPassword);
+                UserDTO loggedUser = this.ejbremote.loginUser(instEmail, hashedPassword);
 
                 if(loggedUser != null){
                     request.setAttribute("user", loggedUser);
@@ -80,8 +81,8 @@ public class LoginServlet extends HttpServlet{
         }
     }
 
-    private void setOptions(ArrayList<String> menuOptions, User user){
-        if(user instanceof Administrator){ //admin
+    private void setOptions(ArrayList<String> menuOptions, UserDTO user){
+        if(user instanceof AdministratorDTO){ //admin
             menuOptions.add("Create New User");
             menuOptions.add("Edit User Information");
             menuOptions.add("Create New Course");
@@ -94,7 +95,7 @@ public class LoginServlet extends HttpServlet{
             menuOptions.add("Search Student");
         }
 
-        if(user instanceof Professor){ //prof
+        if(user instanceof ProfessorDTO){ //prof
             menuOptions.add("Upload Course Material");
             menuOptions.add("Delete Material");
             menuOptions.add("List Students");

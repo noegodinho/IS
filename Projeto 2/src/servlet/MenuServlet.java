@@ -1,6 +1,6 @@
 package servlet;
 
-import data.User;
+import dto.UserDTO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +16,7 @@ public class MenuServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        User loggedUser = (User) session.getAttribute("user");
+        UserDTO loggedUser = (UserDTO)session.getAttribute("user");
         String optionSelected = request.getParameter("options");
 
         if(request.getParameter("action").equals("register"))
