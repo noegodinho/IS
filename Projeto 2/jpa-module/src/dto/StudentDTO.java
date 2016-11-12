@@ -5,20 +5,11 @@ import data.Student;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class StudentDTO implements Serializable{
+public class StudentDTO extends UserDTO implements Serializable{
     private static final long serialVersionUID = 2L;
 
-    private Integer id;
-    private String hashedPassword;
-    private String name;
-    private Date birth;
-    private String instEmail;
-    private String altEmail;
-    private String address;
-    private Integer telephone;
     private Integer number;
     private Integer yearOfCourse;
     private List<CourseDTO> courses;
@@ -28,80 +19,11 @@ public class StudentDTO implements Serializable{
     }
 
     public StudentDTO(Student student){
-        this.id = student.getId();
-        this.hashedPassword = student.getHashedPassword();
-        this.name = student.getName();
-        this.birth = student.getBirth();
-        this.instEmail = student.getInstEmail();
-        this.altEmail = student.getAltEmail();
-        this.address = student.getAddress();
-        this.telephone = student.getTelephone();
+        super(student.getId(), student.getHashedPassword(), student.getName(), student.getBirth(),
+                student.getInstEmail(), student.getAltEmail(), student.getAddress(), student.getTelephone());
         this.number = student.getNumber();
         this.yearOfCourse = student.getYearOfCourse();
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    public String getInstEmail() {
-        return instEmail;
-    }
-
-    public void setInstEmail(String instEmail) {
-        this.instEmail = instEmail;
-    }
-
-    public String getAltEmail() {
-        return altEmail;
-    }
-
-    public void setAltEmail(String altEmail) {
-        this.altEmail = altEmail;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(Integer telephone) {
-        this.telephone = telephone;
+        this.setCourses(student.getCourses());
     }
 
     public Integer getNumber() {

@@ -5,20 +5,10 @@ import data.Professor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class ProfessorDTO implements Serializable{
+public class ProfessorDTO extends UserDTO implements Serializable{
     private static final long serialVersionUID = 2L;
-
-    private Integer id;
-    private String hashedPassword;
-    private String name;
-    private Date birth;
-    private String instEmail;
-    private String altEmail;
-    private String address;
-    private Integer telephone;
     private Integer internalNumber;
     private String category;
     private String office;
@@ -30,84 +20,15 @@ public class ProfessorDTO implements Serializable{
     }
 
     public ProfessorDTO(Professor professor){
-        this.id = professor.getId();
-        this.hashedPassword = professor.getHashedPassword();
-        this.name = professor.getName();
-        this.birth = professor.getBirth();
-        this.instEmail = professor.getInstEmail();
-        this.altEmail = professor.getAltEmail();
-        this.address = professor.getAddress();
-        this.telephone = professor.getTelephone();
+        super(professor.getId(), professor.getHashedPassword(), professor.getName(), professor.getBirth(),
+                professor.getInstEmail(), professor.getAltEmail(), professor.getAddress(),
+                professor.getTelephone());
         this.internalNumber = professor.getInternalNumber();
         this.category = professor.getCategory();
         this.office = professor.getOffice();
         this.internalTelephoneNumber = professor.getInternalTelephoneNumber();
         this.salary = professor.getSalary();
         this.setCourses(professor.getCourses());
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    public String getInstEmail() {
-        return instEmail;
-    }
-
-    public void setInstEmail(String instEmail) {
-        this.instEmail = instEmail;
-    }
-
-    public String getAltEmail() {
-        return altEmail;
-    }
-
-    public void setAltEmail(String altEmail) {
-        this.altEmail = altEmail;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(Integer telephone) {
-        this.telephone = telephone;
     }
 
     public Integer getInternalNumber() {
