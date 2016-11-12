@@ -2,9 +2,7 @@ package ejb;
 
 import data.*;
 
-import dto.CourseDTO;
-import dto.MaterialDTO;
-import dto.StudentDTO;
+import dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +21,8 @@ public class ClientBean implements ClientBeanRemote{
         this.logger = LoggerFactory.getLogger(ClientBean.class);
     }
 
-    public Object loginUser(String instEmail, String hashedPassword){
-        Object user = null;
+    public UserDTO loginUser(String instEmail, String hashedPassword){
+        UserDTO userDTO = null;
 
         try{
             Query query = entityManager.createQuery("Select s.id, s.name from Student s " +
@@ -33,7 +31,8 @@ public class ClientBean implements ClientBeanRemote{
             query.setParameter(1, instEmail);
             query.setParameter(2, hashedPassword);
 
-            user = (StudentDTO)query.getSingleResult();
+            Student student = (Student)query.getSingleResult();
+            userDTO = new StudentDTO(student);
 
             logger.info("Student: " + instEmail + " successfully logged in");
         }catch(NoResultException nre){
@@ -45,7 +44,8 @@ public class ClientBean implements ClientBeanRemote{
                 query.setParameter(1, instEmail);
                 query.setParameter(2, hashedPassword);
 
-                user = (Professor)query.getSingleResult();
+                Professor professor = (Professor)query.getSingleResult();
+                userDTO = new ProfessorDTO(professor);
 
                 logger.info("Professor: " + instEmail + " successfully logged in");
             }catch(NoResultException nre1){
@@ -57,7 +57,8 @@ public class ClientBean implements ClientBeanRemote{
                     query.setParameter(1, instEmail);
                     query.setParameter(2, hashedPassword);
 
-                    user = (Administrator)query.getSingleResult();
+                    Administrator administrator = (Administrator)query.getSingleResult();
+                    userDTO = new AdministratorDTO(administrator);
 
                     logger.info("Admin: " + instEmail + " successfully logged in");
                 }catch(NoResultException nre2){
@@ -66,7 +67,7 @@ public class ClientBean implements ClientBeanRemote{
             }
         }
 
-        return user;
+        return userDTO;
     }
 
     public List<CourseDTO> getCourses(Integer id, Integer userType){
