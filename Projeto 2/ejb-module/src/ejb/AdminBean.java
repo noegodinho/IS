@@ -63,7 +63,7 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public boolean createCourse(String courseName, Professor professor, List<StudentDTO> studentsDTO){
+    public boolean createCourse(String courseName, ProfessorDTO professor, List<StudentDTO> studentsDTO){
         try{
             List<Student> students = new ArrayList<>();
 
@@ -71,7 +71,7 @@ public class AdminBean implements AdminBeanRemote{
                 students.add(new Student(studentDTO));
             }
 
-            Course course = new Course(courseName, professor, students);
+            Course course = new Course(courseName, new Professor(professor), students);
 
             entityManager.persist(course);
 
@@ -176,7 +176,7 @@ public class AdminBean implements AdminBeanRemote{
             for(StudentDTO studentDTO : students){
                 studentList.add(new Student(studentDTO));
             }
-            
+
             course.setStudents(studentList);
 
             entityManager.persist(course);

@@ -2,6 +2,9 @@ package ejb;
 
 import data.*;
 
+import dto.CourseDTO;
+import dto.MaterialDTO;
+import dto.StudentDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +23,8 @@ public class ClientBean implements ClientBeanRemote{
         this.logger = LoggerFactory.getLogger(ClientBean.class);
     }
 
-    public User loginUser(String instEmail, String hashedPassword){
-        User user = null;
+    public Object loginUser(String instEmail, String hashedPassword){
+        Object user = null;
 
         try{
             Query query = entityManager.createQuery("Select s.id, s.name from Student s " +
@@ -30,7 +33,7 @@ public class ClientBean implements ClientBeanRemote{
             query.setParameter(1, instEmail);
             query.setParameter(2, hashedPassword);
 
-            user = (Student)query.getSingleResult();
+            user = (StudentDTO)query.getSingleResult();
 
             logger.info("Student: " + instEmail + " successfully logged in");
         }catch(NoResultException nre){
@@ -66,8 +69,9 @@ public class ClientBean implements ClientBeanRemote{
         return user;
     }
 
-    public List<Course> getCourses(Integer id, Integer userType){
-        List<Course> courses = new ArrayList<>();
+    public List<CourseDTO> getCourses(Integer id, Integer userType){
+        List<Course> courses;
+        List<CourseDTO> coursesDTO = new ArrayList<>();
 
         try{
             Query query;
@@ -76,19 +80,23 @@ public class ClientBean implements ClientBeanRemote{
                 query = entityManager.createQuery("Select c.courseName from Course c where c.professor.id = ?1");
                 query.setParameter(1, id);
                 courses = query.getResultList();
+
+                for(Course course : courses){
+                    coursesDTO.add(new CourseDTO(course));
+                }
             }
 
             else{
                 query = entityManager.createQuery("Select c.courseName, c.students from Course c");
-                List<Course> allCourses = query.getResultList();
+                courses = query.getResultList();
                 List<Student> students;
 
-                for(Course course : allCourses){
+                for(Course course : courses){
                     students = course.getStudents();
 
                     for(Student student : students){
                         if(student.getId().compareTo(id) == 0){
-                            courses.add(course);
+                            coursesDTO.add(new CourseDTO(course));
                             break;
                         }
                     }
@@ -100,22 +108,27 @@ public class ClientBean implements ClientBeanRemote{
             logger.error("SQL error");
         }
 
-        return courses;
+        return coursesDTO;
     }
 
-    public List<Material> getMaterials(String courseName){
-        List<Material> materials = null;
+    public List<MaterialDTO> getMaterials(String courseName){
+        List<Material> materials;
+        List<MaterialDTO> materialsDTO = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select c.materials from Course c");
 
             materials = query.getResultList();
 
+            for(Material material : materials){
+                materialsDTO.add(new MaterialDTO(material));
+            }
+
             logger.info("Materials successfully obtained");
         }catch(PersistenceException pe){
             logger.error("SQL error");
         }
 
-        return materials;
+        return materialsDTO;
     }
 }

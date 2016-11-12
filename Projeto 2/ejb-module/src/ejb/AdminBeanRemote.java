@@ -1,8 +1,5 @@
 package ejb;
 
-import data.Course;
-import data.Professor;
-import data.Student;
 import dto.CourseDTO;
 import dto.ProfessorDTO;
 import dto.StudentDTO;
@@ -19,7 +16,7 @@ public interface AdminBeanRemote{
     boolean createProfessorAccount(String hashedPassword, String name, Date birth, String instEmail,
                                    String altEmail, String address, Integer telephone, Integer internalNumber,
                                    String category, String office, Integer internalTelephoneNumber, double salary);
-    boolean createCourse(String courseName, Professor professor, List<StudentDTO> studentsDTO);
+    boolean createCourse(String courseName, ProfessorDTO professor, List<StudentDTO> studentsDTO);
     boolean editStudent(String hashedPassword, String name, Date birth, String instEmail, String altEmail,
                         String address, Integer telephone, Integer number, Integer yearOfCourse, List<CourseDTO> courses,
                         String newInstEmail);

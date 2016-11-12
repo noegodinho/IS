@@ -3,11 +3,14 @@ package dto;
 import data.Course;
 import data.Student;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class StudentDTO{
+public class StudentDTO implements Serializable{
+    private static final long serialVersionUID = 2L;
+
     private Integer id;
     private String hashedPassword;
     private String name;

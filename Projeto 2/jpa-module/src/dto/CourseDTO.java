@@ -5,10 +5,13 @@ import data.Material;
 import data.Professor;
 import data.Student;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDTO{
+public class CourseDTO implements Serializable{
+    private static final long serialVersionUID = 2L;
+
     private Integer id;
     private String courseName;
     private ProfessorDTO professor;

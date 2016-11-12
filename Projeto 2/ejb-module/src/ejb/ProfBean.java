@@ -4,6 +4,8 @@ import data.Course;
 import data.Material;
 import data.Student;
 
+import dto.CourseDTO;
+import dto.StudentDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +26,9 @@ public class ProfBean implements ProfBeanRemote{
         this.logger = LoggerFactory.getLogger(ProfBean.class);
     }
 
-    public boolean uploadMaterial(String filename, String timestamp, Course course){
+    public boolean uploadMaterial(String filename, String timestamp, CourseDTO course){
         try{
-            Material material = new Material(filename, timestamp, course);
+            Material material = new Material(filename, timestamp, new Course(course));
             entityManager.persist(material);
 
             logger.info("Material: " + filename + " successfully uploaded");
@@ -38,8 +40,9 @@ public class ProfBean implements ProfBeanRemote{
         return true;
     }
 
-    public List<Student> getStudentsByCourse(String courseName, boolean ascendingOrder){
-        List<Student> students = null;
+    public List<StudentDTO> getStudentsByCourse(String courseName, boolean ascendingOrder){
+        List<Student> students;
+        List<StudentDTO> studentsDTO = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select c.students from Course c where c.courseName like ?1");
@@ -55,17 +58,22 @@ public class ProfBean implements ProfBeanRemote{
                 students.sort((Student s1, Student s2) -> s2.getName().compareTo(s1.getName()));
             }
 
+            for(Student student : students){
+                studentsDTO.add(new StudentDTO(student));
+            }
+
             logger.info("Students from Course: " + courseName + " successfully returned");
         }catch(PersistenceException pe){
             logger.error("SQL error");
         }
 
-        return students;
+        return studentsDTO;
     }
 
-    public List<Student> searchStudents(String name, Date birth, String instEmail, String altEmail, String address,
+    public List<StudentDTO> searchStudents(String name, Date birth, String instEmail, String altEmail, String address,
                                         Integer telephone, Integer number, Integer yearOfCourse){
-        List<Student> students = null;
+        List<Student> students;
+        List<StudentDTO> studentsDTO = new ArrayList<>();
         Map<Integer, String> map = new HashMap<>();
         Integer counter = 0;
 
@@ -124,11 +132,15 @@ public class ProfBean implements ProfBeanRemote{
 
             students = query.getResultList();
 
+            for(Student student : students){
+                studentsDTO.add(new StudentDTO(student));
+            }
+
             logger.info("Student successfully retrieved");
         }catch(PersistenceException pe){
             logger.error("SQL error");
         }
 
-        return students;
+        return studentsDTO;
     }
 }

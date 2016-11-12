@@ -2,9 +2,12 @@ package dto;
 
 import data.Administrator;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class AdministratorDTO{
+public class AdministratorDTO implements Serializable{
+    private static final long serialVersionUID = 2L;
+
     private Integer id;
     private String hashedPassword;
     private String name;

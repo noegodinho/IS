@@ -3,7 +3,11 @@ package dto;
 import data.Course;
 import data.Material;
 
-public class MaterialDTO{
+import java.io.Serializable;
+
+public class MaterialDTO implements Serializable{
+    private static final long serialVersionUID = 2L;
+
     private Integer id;
     private String filename;
     private String timestamp;
