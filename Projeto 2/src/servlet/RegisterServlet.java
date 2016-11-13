@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet{
@@ -35,9 +36,40 @@ public class RegisterServlet extends HttpServlet{
         HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
         //Get sign up information
+        String userType = request.getParameter("userType");
+
+        String name = request.getParameter("name");
         String password = request.getParameter("password");
+        Integer day = Integer.parseInt(request.getParameter("day"));
+        Integer month = Integer.parseInt(request.getParameter("month"));
+        Integer year = Integer.parseInt(request.getParameter("year"));
+        Date birth = new UtilsServlet().getDate(day, month, year);
+        String instEmail = request.getParameter("instEmail");
+        String altEmail = request.getParameter("altEmail");
+        String address = request.getParameter("address");
+        Integer telephone = Integer.parseInt(request.getParameter("telephone"));
 
         String hashedPassword = new UtilsServlet().createHash(password);
+
+        if (userType.compareTo("student") == 0){
+            Integer number = Integer.parseInt(request.getParameter("number"));
+            Integer yearOfCourse = Integer.parseInt(request.getParameter("yearOfCourse"));
+            
+            this.ejbremote.createStudentAccount(hashedPassword, name, birth, instEmail, altEmail, address,
+                                                telephone, number, yearOfCourse);
+
+        }
+
+        else if (userType.compareTo("professor") == 0){
+            Integer internalNumber = Integer.parseInt(request.getParameter("internalNumber"));
+            String category = request.getParameter("category");
+            String office = request.getParameter("office");
+            Integer number = Integer.parseInt(request.getParameter("number"));
+            Double salary = Double.parseDouble(request.getParameter("salary"));
+
+            this.ejbremote.createProfessorAccount(hashedPassword, name, birth, instEmail, altEmail, address,
+                    telephone, internalNumber, category, office, number, salary);
+        }
     }
 
     @Override

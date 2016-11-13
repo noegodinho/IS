@@ -4,8 +4,7 @@ import dto.AdministratorDTO;
 import dto.ProfessorDTO;
 import dto.UserDTO;
 
-import ejb.ClientBean;
-import ejb.ClientBeanRemote;
+import ejb.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +20,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 @WebServlet(name = "/LoginServlet")
@@ -29,6 +30,7 @@ public class LoginServlet extends HttpServlet{
 
     @EJB
     private ClientBeanRemote ejbremote;
+    private ScriptBeanRemote scriptRemote;
     private Logger logger;
 
     /**
@@ -49,7 +51,7 @@ public class LoginServlet extends HttpServlet{
         if(instEmail.isEmpty() || password.isEmpty()){
             out.println("<script type=\"text/javascript\">");
             out.println("if (confirm(\"Need to fill all the fields!\")) {}");
-            out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
+            out.println("window.location.replace(\"http://localhost:8080/Projeto_2_war_exploded/index.jsp\");");
             out.println("</script>");
             logger.error("User did not input email and/or password");
         }
@@ -58,7 +60,7 @@ public class LoginServlet extends HttpServlet{
             try{
                 String hashedPassword = new UtilsServlet().createHash(password);
 
-                UserDTO loggedUser = this.ejbremote.loginUser(instEmail, "63a9f0ea7bb98050796b649e85481845");
+                UserDTO loggedUser = this.ejbremote.loginUser(instEmail, hashedPassword);
 
                 if(loggedUser != null){
                     request.setAttribute("user", loggedUser);
@@ -71,7 +73,7 @@ public class LoginServlet extends HttpServlet{
                 else{
                     out.println("<script type=\"text/javascript\">");
                     out.println("if (confirm(\"Wrong email and/or password!\")) {}");
-                    out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
+                    out.println("window.location.replace(\"http://localhost:8080/Projeto_2_war_exploded/index.jsp\");");
                     out.println("</script>");
                     logger.error("Wrong email and/or password");
                 }

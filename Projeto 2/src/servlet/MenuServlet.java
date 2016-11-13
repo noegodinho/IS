@@ -11,15 +11,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-@WebServlet(name = "MenuServlet")
+@WebServlet(name = "/MenuServlet")
 public class MenuServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserDTO loggedUser = (UserDTO)session.getAttribute("user");
-        String optionSelected = request.getParameter("options");
 
-        if(request.getParameter("action").equals("register"))
+        if(request.getParameter("action").equals("Create New User"))
             request.getRequestDispatcher("register.jsp").forward(request, response);
 
     }
