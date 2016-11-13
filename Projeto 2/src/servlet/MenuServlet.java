@@ -16,10 +16,15 @@ public class MenuServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UserDTO loggedUser = (UserDTO)session.getAttribute("user");
 
-        if(request.getParameter("action").equals("Create New User"))
+        if(request.getParameter("action").equals("logout")){
+            session.removeAttribute("user");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+
+        else if(request.getParameter("action").equals("Create New User"))
             request.getRequestDispatcher("register.jsp").forward(request, response);
+
 
     }
 

@@ -33,7 +33,7 @@ public class RegisterServlet extends HttpServlet{
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        HttpSession session = request.getSession();
+
         PrintWriter out = response.getWriter();
         //Get sign up information
         String userType = request.getParameter("userType");
@@ -54,7 +54,7 @@ public class RegisterServlet extends HttpServlet{
         if (userType.compareTo("student") == 0){
             Integer number = Integer.parseInt(request.getParameter("number"));
             Integer yearOfCourse = Integer.parseInt(request.getParameter("yearOfCourse"));
-            
+
             this.ejbremote.createStudentAccount(hashedPassword, name, birth, instEmail, altEmail, address,
                                                 telephone, number, yearOfCourse);
 
@@ -82,8 +82,15 @@ public class RegisterServlet extends HttpServlet{
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        HttpSession session = request.getSession();
+
         if(request.getParameter("action").equals("register")){
             processRequest(request, response);
+        }
+
+        else if(request.getParameter("action").equals("logout")){
+            session.removeAttribute("user");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
 }
