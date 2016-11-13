@@ -62,7 +62,7 @@ public class ScriptBean implements ScriptBeanRemote{
         List<String> admins = null;
 
         try{
-            Query query = entityManager.createQuery("Select a from Administrator a");
+            Query query = entityManager.createQuery("Select a.instEmail from Administrator a");
             admins = query.getResultList();
 
             logger.info("Admin list successfully retrieved");
