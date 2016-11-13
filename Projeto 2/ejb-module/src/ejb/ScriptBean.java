@@ -45,8 +45,18 @@ public class ScriptBean implements ScriptBeanRemote{
             query.setParameter(1, instEmail);
 
             if(query.getResultList() != null){
-                logger.info("Admin exists");
-                return true;
+                query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
+                query.setParameter(1, instEmail);
+
+                if(query.getResultList() != null){
+                    query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
+                    query.setParameter(1, instEmail);
+
+                    if(query.getResultList() != null){
+                        logger.info("Admin exists");
+                        return true;
+                    }
+                }
             }
 
             logger.info("Admin does not exist");
