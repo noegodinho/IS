@@ -4,12 +4,15 @@ import ejb.ScriptBeanRemote;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class AdminScript{
     public static void main(String[] args) throws NamingException{
-        ScriptBeanRemote scriptBeanRemote = (ScriptBeanRemote)InitialContext.doLookup("ejb-module/ScriptBean!ejb.ScriptBeanRemote");
+        ScriptBeanRemote scriptBeanRemote = (ScriptBeanRemote)InitialContext.doLookup("Web/ScriptBean!ejb.ScriptBeanRemote");
 
         menu(scriptBeanRemote);
         System.out.println(scriptBeanRemote.adminExists("test"));
@@ -43,7 +46,101 @@ public class AdminScript{
     }
 
     private static void addAdmin(ScriptBeanRemote scriptBeanRemote, Scanner sc){
+        String instEmail = null;
+        boolean adminExists = true;
 
+        System.out.println("Fill the following fields to create an admin: ");
+
+        while(adminExists){
+            System.out.println("Institutional Email: ");
+            instEmail = sc.nextLine();
+
+            adminExists = scriptBeanRemote.adminExists(instEmail);
+
+            if(adminExists){
+                System.out.println("Admin already exists!\n");
+            }
+        }
+
+        String hashedPassword = passwordHashing(fillInfo("Password: ", sc));
+        String name = fillInfo("Name: ", sc);
+
+        Date birth = null;
+        while(birth == null){
+            birth = joinDate(sc);
+        }
+
+        String altEmail = fillInfo("Alternative Email: ", sc);
+        String address = fillInfo("Address: ", sc);
+
+        Integer telephone = 0;
+        while(telephone == 0){
+            try{
+                telephone = Integer.parseInt(fillInfo("Telephone: ", sc));
+            }catch(Exception e){
+                telephone = 0;
+            }
+        }
+
+        scriptBeanRemote.createAdminAccount(hashedPassword, name, birth, instEmail, altEmail, address, telephone);
+    }
+
+    private static Date joinDate(Scanner sc){
+        Integer day = Integer.parseInt(fillInfo("Day of birth: ", sc));
+        Integer month = Integer.parseInt(fillInfo("Month of birth: ", sc));
+        Integer year = Integer.parseInt(fillInfo("Year of birth: ", sc));
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month - 1);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+
+        try{
+            return cal.getTime();
+        }catch(Exception e){
+            System.out.println("Invalid date!\n");
+        }
+
+        return null;
+    }
+
+    private static String passwordHashing(String password){
+        String hashedPassword = null;
+
+        try{
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(password.getBytes());
+            StringBuffer sb = new StringBuffer();
+
+            for(int i = 0; i < array.length; ++i){
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+
+            hashedPassword = sb.toString();
+        }catch(NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+
+        return hashedPassword;
+    }
+
+    private static String fillInfo(String message, Scanner sc){
+        String inputString;
+
+        while(true){
+            System.out.println(message);
+            inputString = sc.nextLine();
+
+            if(inputString.isEmpty()){
+                System.out.println("Cannot be empty!\n");
+            }
+
+            else{
+                break;
+            }
+        }
+
+        return inputString;
     }
 
     private static void deleteAdmin(ScriptBeanRemote scriptBeanRemote, Scanner sc){
@@ -66,6 +163,14 @@ public class AdminScript{
             if(option < 1 || option > admins.size()){
                 System.out.println("Invalid option!\n");
             }
+        }
+
+        if(scriptBeanRemote.deleteAdmin(admins.get(option - 1))){
+            System.out.println("Admin: " + admins.get(option - 1) + " successfully deleted!\n");
+        }
+
+        else{
+            System.out.println("It was not possible to delete the admin!\n");
         }
     }
 }
