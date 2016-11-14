@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet{
         if(instEmail.isEmpty() || password.isEmpty()){
             out.println("<script type=\"text/javascript\">");
             out.println("if (confirm(\"Need to fill all the fields!\")) {}");
-            out.println("window.location.replace(\"http://localhost:8080/Projeto_2_war_exploded/index.jsp\");");
+            out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
             out.println("</script>");
             logger.error("User did not input email and/or password");
         }
@@ -71,7 +71,7 @@ public class LoginServlet extends HttpServlet{
                 else{
                     out.println("<script type=\"text/javascript\">");
                     out.println("if (confirm(\"Wrong email and/or password!\")) {}");
-                    out.println("window.location.replace(\"http://localhost:8080/Projeto_2_war_exploded/index.jsp\");");
+                    out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
                     out.println("</script>");
                     logger.error("Wrong email and/or password");
                 }
