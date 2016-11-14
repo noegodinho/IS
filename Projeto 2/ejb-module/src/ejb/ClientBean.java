@@ -103,12 +103,12 @@ public class ClientBean implements ClientBeanRemote{
             else{
                 query = entityManager.createQuery("Select c from Course c");
                 courses = query.getResultList();
-                List<StudentDTO> students;
+                List<Student> students;
 
                 for(Course course : courses){
                     students = course.getStudents();
 
-                    for(StudentDTO student : students){
+                    for(Student student : students){
                         if(student.getId().compareTo(id) == 0){
                             coursesDTO.add(new CourseDTO(course));
                             break;

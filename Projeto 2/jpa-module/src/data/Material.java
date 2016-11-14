@@ -1,6 +1,5 @@
 package data;
 
-import dto.CourseDTO;
 import dto.MaterialDTO;
 
 import javax.persistence.*;
@@ -45,8 +44,8 @@ public class Material implements Serializable{
         return filename;
     }
 
-    public CourseDTO getCourse() {
-        return new CourseDTO(this.course);
+    public Course getCourse() {
+        return course;
     }
 
     public String getTimestamp() {

@@ -23,7 +23,7 @@ public class StudentDTO extends UserDTO implements Serializable{
                 student.getInstEmail(), student.getAltEmail(), student.getAddress(), student.getTelephone());
         this.number = student.getNumber();
         this.yearOfCourse = student.getYearOfCourse();
-        this.courses = student.getCourses();
+        this.setCourses(student.getCourses());
     }
 
     public Integer getNumber() {
@@ -52,7 +52,11 @@ public class StudentDTO extends UserDTO implements Serializable{
         return courseList;
     }
 
-    public void setCourses(List<CourseDTO> courses) {
-        this.courses = courses;
+    public void setCourses(List<Course> courses) {
+        this.courses = new ArrayList<>();
+
+        for(Course course : courses){
+            this.courses.add(new CourseDTO(course));
+        }
     }
 }

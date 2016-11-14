@@ -49,8 +49,8 @@ public class MaterialDTO implements Serializable{
         this.filename = filename;
     }
 
-    public void setCourse(CourseDTO course) {
-        this.course = course;
+    public void setCourse(Course course) {
+        this.course = new CourseDTO(course);
     }
 
     public void setTimestamp(String timestamp) {
