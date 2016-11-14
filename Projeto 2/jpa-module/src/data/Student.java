@@ -1,9 +1,11 @@
 package data;
 
+import dto.CourseDTO;
 import dto.StudentDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class Student extends User implements Serializable{
                 studentDTO.getAltEmail(), studentDTO.getAddress(), studentDTO.getTelephone());
         this.number = studentDTO.getNumber();
         this.yearOfCourse = studentDTO.getYearOfCourse();
-        this.courses = getCourses();
+        this.courses = studentDTO.getCourses();
     }
 
     public Integer getNumber() {
@@ -54,8 +56,14 @@ public class Student extends User implements Serializable{
         this.yearOfCourse = yearOfCourse;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<CourseDTO> getCourses() {
+        List<CourseDTO> courseList = new ArrayList<>();
+
+        for(Course course : this.courses){
+            courseList.add(new CourseDTO(course));
+        }
+
+        return courseList;
     }
 
     public void setCourses(List<Course> courses) {

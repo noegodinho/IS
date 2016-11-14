@@ -25,9 +25,9 @@ public class CourseDTO implements Serializable{
     public CourseDTO(Course course){
         this.id = course.getId();
         this.courseName = course.getCourseName();
-        this.setProfessor(course.getProfessor());
-        this.setStudents(course.getStudents());
-        this.setMaterials(course.getMaterials());
+        this.professor = course.getProfessor();
+        this.students = course.getStudents();
+        this.materials = course.getMaterials();
     }
 
     public Integer getId() {
@@ -70,23 +70,15 @@ public class CourseDTO implements Serializable{
         this.courseName = courseName;
     }
 
-    public void setProfessor(Professor professor) {
-        this.professor = new ProfessorDTO(professor);
+    public void setProfessor(ProfessorDTO professor) {
+        this.professor = professor;
     }
 
-    public void setStudents(List<Student> students) {
-        this.students = new ArrayList<>();
-
-        for(Student student : students){
-            this.students.add(new StudentDTO(student));
-        }
+    public void setStudents(List<StudentDTO> students) {
+        this.students = students;
     }
 
-    public void setMaterials(List<Material> materials) {
-        this.materials = new ArrayList<>();
-
-        for(Material material : materials){
-            this.materials.add(new MaterialDTO(material));
-        }
+    public void setMaterials(List<MaterialDTO> materials) {
+        this.materials = materials;
     }
 }

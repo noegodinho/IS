@@ -28,7 +28,7 @@ public class ProfessorDTO extends UserDTO implements Serializable{
         this.office = professor.getOffice();
         this.internalTelephoneNumber = professor.getInternalTelephoneNumber();
         this.salary = professor.getSalary();
-        this.setCourses(professor.getCourses());
+        this.courses = professor.getCourses();
     }
 
     public Integer getInternalNumber() {
@@ -81,11 +81,7 @@ public class ProfessorDTO extends UserDTO implements Serializable{
         return courseList;
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = new ArrayList<>();
-
-        for(Course course : courses){
-            this.courses.add(new CourseDTO(course));
-        }
+    public void setCourses(List<CourseDTO> courses) {
+        this.courses = courses;
     }
 }

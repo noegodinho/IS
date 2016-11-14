@@ -1,9 +1,13 @@
 package data;
 
 import dto.CourseDTO;
+import dto.MaterialDTO;
+import dto.ProfessorDTO;
+import dto.StudentDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -50,16 +54,28 @@ public class Course implements Serializable{
         return courseName;
     }
 
-    public Professor getProfessor() {
-        return professor;
+    public ProfessorDTO getProfessor() {
+        return new ProfessorDTO(this.professor);
     }
 
-    public List<Student> getStudents() {
-        return students;
+    public List<StudentDTO> getStudents() {
+        List<StudentDTO> studentList = new ArrayList<>();
+
+        for(Student student : this.students){
+            studentList.add(new StudentDTO(student));
+        }
+
+        return studentList;
     }
 
-    public List<Material> getMaterials() {
-        return materials;
+    public List<MaterialDTO> getMaterials() {
+        List<MaterialDTO> materialList = new ArrayList<>();
+
+        for(Material material : this.materials){
+            materialList.add(new MaterialDTO(material));
+        }
+
+        return materialList;
     }
 
     public void setCourseName(String courseName) {

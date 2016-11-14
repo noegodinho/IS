@@ -1,9 +1,11 @@
 package data;
 
+import dto.CourseDTO;
 import dto.ProfessorDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,8 +93,14 @@ public class Professor extends User implements Serializable{
         this.salary = salary;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<CourseDTO> getCourses() {
+        List<CourseDTO> courseList = new ArrayList<>();
+
+        for(Course course : this.courses){
+            courseList.add(new CourseDTO(course));
+        }
+
+        return courseList;
     }
 
     public void setCourses(List<Course> courses) {
