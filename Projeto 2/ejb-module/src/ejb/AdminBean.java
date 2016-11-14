@@ -63,15 +63,21 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public boolean createCourse(String courseName, ProfessorDTO professor, List<StudentDTO> studentsDTO){
+    public boolean createCourse(String courseName, String professorEmail, List<String> studentsEmail){
         try{
+            Query query;
             List<Student> students = new ArrayList<>();
 
-            for(StudentDTO studentDTO : studentsDTO){
-                students.add(new Student(studentDTO));
+            for(String s : studentsEmail){
+                query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
+                query.setParameter(1, s);
+                students.add((Student)query.getResultList().get(0));
             }
 
-            Course course = new Course(courseName, new Professor(professor), students);
+            query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
+            query.setParameter(1, professorEmail);
+
+            Course course = new Course(courseName, (Professor)query.getResultList().get(0), students);
 
             entityManager.persist(course);
 
@@ -86,7 +92,7 @@ public class AdminBean implements AdminBeanRemote{
 
     public boolean editStudent(String hashedPassword, String name, Date birth, String instEmail,
                                String altEmail, String address, Integer telephone, Integer number,
-                               Integer yearOfCourse, List<CourseDTO> courses, String newInstEmail){
+                               Integer yearOfCourse, List<String> coursesName, String newInstEmail){
         try{
             Query query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
             query.setParameter(1, instEmail);
@@ -104,8 +110,10 @@ public class AdminBean implements AdminBeanRemote{
 
             List<Course> courseList = new ArrayList<>();
 
-            for(CourseDTO courseDTO : courses){
-                courseList.add(new Course(courseDTO));
+            for(String s : coursesName){
+                query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
+                query.setParameter(1, s);
+                courseList.add((Course)query.getResultList().get(0));
             }
 
             student.setCourses(courseList);
@@ -124,7 +132,7 @@ public class AdminBean implements AdminBeanRemote{
     public boolean editProfessor(String hashedPassword, String name, Date birth, String instEmail,
                                  String altEmail, String address, Integer telephone, Integer internalNumber,
                                  String category, String office, Integer internalTelephoneNumber, double salary,
-                                 List<CourseDTO> courses, String newInstEmail){
+                                 List<String> coursesName, String newInstEmail){
         try{
             Query query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
             query.setParameter(1, instEmail);
@@ -145,8 +153,10 @@ public class AdminBean implements AdminBeanRemote{
 
             List<Course> courseList = new ArrayList<>();
 
-            for(CourseDTO courseDTO : courses){
-                courseList.add(new Course(courseDTO));
+            for(String s : coursesName){
+                query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
+                query.setParameter(1, s);
+                courseList.add((Course)query.getResultList().get(0));
             }
 
             professor.setCourses(courseList);
@@ -162,22 +172,27 @@ public class AdminBean implements AdminBeanRemote{
         return true;
     }
 
-    public boolean editCourse(String courseName, ProfessorDTO professor, List<StudentDTO> students, String newCourseName){
+    public boolean editCourse(String courseName, String professorEmail, List<String> studentsEmail, String newCourseName){
         try{
             Query query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
             query.setParameter(1, courseName);
             Course course = (Course)query.getSingleResult();
 
             course.setCourseName(newCourseName);
-            course.setProfessor(new Professor(professor));
 
-            List<Student> studentList = new ArrayList<>();
+            List<Student> students = new ArrayList<>();
 
-            for(StudentDTO studentDTO : students){
-                studentList.add(new Student(studentDTO));
+            for(String s : studentsEmail){
+                query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
+                query.setParameter(1, s);
+                students.add((Student)query.getResultList().get(0));
             }
 
-            course.setStudents(studentList);
+            query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
+            query.setParameter(1, professorEmail);
+
+            course.setProfessor((Professor)query.getResultList().get(0));
+            course.setStudents(students);
 
             entityManager.persist(course);
 

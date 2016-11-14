@@ -26,9 +26,11 @@ public class ProfBean implements ProfBeanRemote{
         this.logger = LoggerFactory.getLogger(ProfBean.class);
     }
 
-    public boolean uploadMaterial(String filename, String timestamp, CourseDTO course){
+    public boolean uploadMaterial(String filename, String timestamp, String courseName){
         try{
-            Material material = new Material(filename, timestamp, new Course(course));
+            Query query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
+            query.setParameter(1, courseName);
+            Material material = new Material(filename, timestamp, (Course)query.getResultList().get(0));
             entityManager.persist(material);
 
             logger.info("Material: " + filename + " successfully uploaded");
