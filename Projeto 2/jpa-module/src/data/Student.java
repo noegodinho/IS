@@ -1,7 +1,5 @@
 package data;
 
-import dto.StudentDTO;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -28,14 +26,6 @@ public class Student extends User implements Serializable{
         super(hashedPassword, name, birth, instEmail, altEmail, address, telephone);
         this.number = number;
         this.yearOfCourse = yearOfCourse;
-    }
-
-    public Student(StudentDTO studentDTO){
-        super(studentDTO.getId(), studentDTO.getHashedPassword(), studentDTO.getName(), studentDTO.getBirth(), studentDTO.getInstEmail(),
-                studentDTO.getAltEmail(), studentDTO.getAddress(), studentDTO.getTelephone());
-        this.number = studentDTO.getNumber();
-        this.yearOfCourse = studentDTO.getYearOfCourse();
-        this.courses = getCourses();
     }
 
     public Integer getNumber() {

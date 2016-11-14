@@ -1,7 +1,5 @@
 package data;
 
-import dto.ProfessorDTO;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -38,17 +36,6 @@ public class Professor extends User implements Serializable{
         this.office = office;
         this.internalTelephoneNumber = internalTelephoneNumber;
         this.salary = salary;
-    }
-
-    public Professor(ProfessorDTO professorDTO){
-        super(professorDTO.getId(), professorDTO.getHashedPassword(), professorDTO.getName(), professorDTO.getBirth(),
-                professorDTO.getInstEmail(), professorDTO.getAltEmail(), professorDTO.getAddress(), professorDTO.getTelephone());
-        this.internalNumber = professorDTO.getInternalNumber();
-        this.category = professorDTO.getCategory();
-        this.office = professorDTO.getOffice();
-        this.internalNumber = professorDTO.getInternalNumber();
-        this.salary = professorDTO.getSalary();
-        this.courses = professorDTO.getCourses();
     }
 
     public Integer getInternalNumber() {

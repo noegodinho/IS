@@ -1,7 +1,5 @@
 package data;
 
-import dto.CourseDTO;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -32,14 +30,6 @@ public class Course implements Serializable{
         this.courseName = courseName;
         this.professor = professor;
         this.students = students;
-    }
-
-    public Course(CourseDTO courseDTO){
-        this.id = courseDTO.getId();
-        this.courseName = courseDTO.getCourseName();
-        this.professor = courseDTO.getProfessor();
-        this.students = courseDTO.getStudents();
-        this.materials = courseDTO.getMaterials();
     }
 
     public Integer getId() {
