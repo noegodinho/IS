@@ -20,6 +20,8 @@ public class AdminScript{
     private static void menu(ScriptBeanRemote scriptBeanRemote){
         Scanner sc = new Scanner(System.in);
         int option = 0;
+        String input;
+
         System.out.println("Admin script: ");
 
         while(option != 3){
@@ -27,7 +29,13 @@ public class AdminScript{
             System.out.println("2 - Delete an admin account");
             System.out.println("3 - Exit");
             System.out.println("Choose your option: ");
-            option = sc.nextInt();
+            input = sc.nextLine();
+
+            try{
+                option = Integer.parseInt(input);
+            }catch(Exception e){
+                continue;
+            }
 
             switch(option){
                 case 1:
@@ -85,9 +93,34 @@ public class AdminScript{
     }
 
     private static Date joinDate(Scanner sc){
-        Integer day = Integer.parseInt(fillInfo("Day of birth: ", sc));
-        Integer month = Integer.parseInt(fillInfo("Month of birth: ", sc));
-        Integer year = Integer.parseInt(fillInfo("Year of birth: ", sc));
+        Integer day, month, year;
+
+        while(true){
+            try{
+                day = Integer.parseInt(fillInfo("Day of birth: ", sc));
+                break;
+            }catch(Exception e){
+                System.out.println("Invalid number!\n");
+            }
+        }
+
+        while(true){
+            try{
+                month = Integer.parseInt(fillInfo("Month of birth: ", sc));
+                break;
+            }catch(Exception e){
+                System.out.println("Invalid number!\n");
+            }
+        }
+
+        while(true){
+            try{
+                year = Integer.parseInt(fillInfo("Year of birth: ", sc));
+                break;
+            }catch(Exception e){
+                System.out.println("Invalid number!\n");
+            }
+        }
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
