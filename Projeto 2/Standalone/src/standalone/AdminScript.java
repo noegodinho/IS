@@ -15,7 +15,6 @@ public class AdminScript{
         ScriptBeanRemote scriptBeanRemote = (ScriptBeanRemote)InitialContext.doLookup("Web/ScriptBean!ejb.ScriptBeanRemote");
 
         menu(scriptBeanRemote);
-        System.out.println(scriptBeanRemote.adminExists("test"));
     }
 
     private static void menu(ScriptBeanRemote scriptBeanRemote){
