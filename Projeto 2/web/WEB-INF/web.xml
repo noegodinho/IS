@@ -37,5 +37,27 @@
         <url-pattern>/MenuServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>List Students Servlet</servlet-name>
+        <servlet-class>servlet.ListStudentsServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>List Students Servlet</servlet-name>
+        <url-pattern>/ListStudentsServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>New Course Servlet</servlet-name>
+        <servlet-class>servlet.NewCourseServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>New Course Servlet</servlet-name>
+        <url-pattern>/NewCourseServlet</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

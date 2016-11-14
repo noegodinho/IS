@@ -51,7 +51,7 @@ public class RegisterServlet extends HttpServlet{
 
         String hashedPassword = new UtilsServlet().createHash(password);
 
-        if (userType.compareTo("student") == 0){
+        if (userType.equals("student")){
             Integer number = Integer.parseInt(request.getParameter("number"));
             Integer yearOfCourse = Integer.parseInt(request.getParameter("yearOfCourse"));
 
@@ -60,16 +60,18 @@ public class RegisterServlet extends HttpServlet{
 
         }
 
-        else if (userType.compareTo("professor") == 0){
+        else if (userType.equals("professor")){
             Integer internalNumber = Integer.parseInt(request.getParameter("internalNumber"));
             String category = request.getParameter("category");
             String office = request.getParameter("office");
-            Integer number = Integer.parseInt(request.getParameter("number"));
+            Integer number = Integer.parseInt(request.getParameter("internalTelephoneNumber"));
             Double salary = Double.parseDouble(request.getParameter("salary"));
 
             this.ejbremote.createProfessorAccount(hashedPassword, name, birth, instEmail, altEmail, address,
                     telephone, internalNumber, category, office, number, salary);
         }
+
+        request.getRequestDispatcher("menu.jsp").forward(request, response);
     }
 
     @Override
