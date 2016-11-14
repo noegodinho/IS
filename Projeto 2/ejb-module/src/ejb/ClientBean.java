@@ -130,7 +130,8 @@ public class ClientBean implements ClientBeanRemote{
         List<MaterialDTO> materialsDTO = new ArrayList<>();
 
         try{
-            Query query = entityManager.createQuery("Select c from Course c");
+            Query query = entityManager.createQuery("Select m from Material m where m.course.courseName like ?1");
+            query.setParameter(1, courseName);
 
             materials = query.getResultList();
 
