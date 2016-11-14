@@ -1,18 +1,14 @@
 package dto;
 
-import data.Course;
 import data.Student;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StudentDTO extends UserDTO implements Serializable{
     private static final long serialVersionUID = 2L;
 
     private Integer number;
     private Integer yearOfCourse;
-    private List<CourseDTO> courses;
 
     public StudentDTO(){
 
@@ -23,7 +19,6 @@ public class StudentDTO extends UserDTO implements Serializable{
                 student.getInstEmail(), student.getAltEmail(), student.getAddress(), student.getTelephone());
         this.number = student.getNumber();
         this.yearOfCourse = student.getYearOfCourse();
-        this.setCourses(student.getCourses());
     }
 
     public Integer getNumber() {
@@ -40,23 +35,5 @@ public class StudentDTO extends UserDTO implements Serializable{
 
     public void setYearOfCourse(Integer yearOfCourse) {
         this.yearOfCourse = yearOfCourse;
-    }
-
-    public List<Course> getCourses() {
-        List<Course> courseList = new ArrayList<>();
-
-        for(CourseDTO courseDTO : this.courses){
-            courseList.add(new Course(courseDTO));
-        }
-
-        return courseList;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = new ArrayList<>();
-
-        for(Course course : courses){
-            this.courses.add(new CourseDTO(course));
-        }
     }
 }

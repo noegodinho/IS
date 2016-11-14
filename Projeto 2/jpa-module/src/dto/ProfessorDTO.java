@@ -1,11 +1,8 @@
 package dto;
 
-import data.Course;
 import data.Professor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProfessorDTO extends UserDTO implements Serializable{
     private static final long serialVersionUID = 2L;
@@ -14,7 +11,6 @@ public class ProfessorDTO extends UserDTO implements Serializable{
     private String office;
     private Integer internalTelephoneNumber;
     private double salary;
-    private List<CourseDTO> courses;
 
     public ProfessorDTO(){
     }
@@ -28,7 +24,6 @@ public class ProfessorDTO extends UserDTO implements Serializable{
         this.office = professor.getOffice();
         this.internalTelephoneNumber = professor.getInternalTelephoneNumber();
         this.salary = professor.getSalary();
-        this.setCourses(professor.getCourses());
     }
 
     public Integer getInternalNumber() {
@@ -69,23 +64,5 @@ public class ProfessorDTO extends UserDTO implements Serializable{
 
     public void setSalary(double salary) {
         this.salary = salary;
-    }
-
-    public List<Course> getCourses() {
-        List<Course> courseList = new ArrayList<>();
-
-        for(CourseDTO courseDTO : this.courses){
-            courseList.add(new Course(courseDTO));
-        }
-
-        return courseList;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = new ArrayList<>();
-
-        for(Course course : courses){
-            this.courses.add(new CourseDTO(course));
-        }
     }
 }
