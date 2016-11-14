@@ -44,28 +44,27 @@ public class ScriptBean implements ScriptBeanRemote{
             Query query = entityManager.createQuery("Select a.id from Administrator a where a.instEmail like ?1");
             query.setParameter(1, instEmail);
 
-            if(query.getResultList().size() != 0){
+            if(query.getResultList().size() == 0){
                 query = entityManager.createQuery("Select s.id from Student s where s.instEmail like ?1");
                 query.setParameter(1, instEmail);
 
-                if(query.getResultList().size() != 0){
+                if(query.getResultList().size() == 0){
                     query = entityManager.createQuery("Select p.id from Professor p where p.instEmail like ?1");
                     query.setParameter(1, instEmail);
 
-                    if(query.getResultList().size() != 0){
-                        logger.info("Admin exists");
-                        return true;
+                    if(query.getResultList().size() == 0){
+                        logger.info("Admin does not exist");
+                        return false;
                     }
                 }
             }
 
-            logger.info("Admin does not exist");
+            logger.info("Admin exists");
         }catch(PersistenceException pe){
             logger.error("SQL error");
-            return true;
         }
 
-        return false;
+        return true;
     }
 
     public List<String> getAdmins(){
