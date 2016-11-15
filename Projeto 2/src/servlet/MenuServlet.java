@@ -1,5 +1,6 @@
 package servlet;
 
+import dto.CourseDTO;
 import dto.StudentDTO;
 import dto.UserDTO;
 import ejb.AdminBeanRemote;
@@ -33,8 +34,8 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
 
         else if (request.getParameter("action").equals("List Students")){
-            List<StudentDTO> students = this.ejbremote.getStudents();
-            request.setAttribute("studentsList", students);
+            List<CourseDTO> courses = this.ejbremote.getCourses();
+            request.setAttribute("coursesList", courses);
             request.getRequestDispatcher("listStudents.jsp").forward(request, response);
         }
 

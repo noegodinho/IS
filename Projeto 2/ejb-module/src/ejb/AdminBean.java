@@ -306,4 +306,25 @@ public class AdminBean implements AdminBeanRemote{
 
         return professorsDTO;
     }
+
+    public List<CourseDTO> getCourses(){
+        List<Course> courses;
+        List<CourseDTO> coursesDTO = new ArrayList<>();
+
+        try{
+            Query query = entityManager.createQuery("Select c from Course c");
+
+            courses = query.getResultList();
+
+            for(Course course : courses){
+                coursesDTO.add(new CourseDTO(course));
+            }
+
+            logger.info("Courses successfully retrieved");
+        }catch(PersistenceException pe){
+            logger.error("SQL error");
+        }
+
+        return coursesDTO;
+    }
 }

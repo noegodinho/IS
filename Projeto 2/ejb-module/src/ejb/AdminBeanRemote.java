@@ -31,4 +31,5 @@ public interface AdminBeanRemote{
     boolean deleteMaterial(String filename);
     List<StudentDTO> getStudents();
     List<ProfessorDTO> getProfessors();
+    List<CourseDTO> getCourses();
 }
