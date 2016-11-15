@@ -47,7 +47,7 @@ public class ProfBean implements ProfBeanRemote{
         List<StudentDTO> studentsDTO = new ArrayList<>();
 
         try{
-            Query query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
+            Query query = entityManager.createQuery("Select c.students from Course c where c.courseName like ?1");
             query.setParameter(1, courseName);
 
             students = query.getResultList();

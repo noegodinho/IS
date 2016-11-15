@@ -6,6 +6,7 @@ import ejb.ProfBeanRemote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +21,7 @@ import java.util.List;
 @WebServlet(name = "/ListStudentsServlet")
 public class ListStudentsServlet extends HttpServlet {
 
+    @EJB
     private ProfBeanRemote ejbremote;
     private List<StudentDTO> students;
 
@@ -33,8 +35,6 @@ public class ListStudentsServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String courseName = request.getParameter("course");
-
-        System.out.println(courseName);
 
         students = this.ejbremote.getStudentsByCourse(courseName,true);
 
