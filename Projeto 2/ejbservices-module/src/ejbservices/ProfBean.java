@@ -5,7 +5,7 @@ import data.Student;
 
 import dto.StudentDTO;
 
-import ejbcrud.QueriesCrudRemote;
+import ejbcrud.QueriesCrudLocal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.*;
 @Stateless
 public class ProfBean implements ProfBeanRemote{
     @EJB
-    private QueriesCrudRemote queriesCrud;
+    private QueriesCrudLocal queriesCrud;
     private Logger logger;
 
     public ProfBean(){

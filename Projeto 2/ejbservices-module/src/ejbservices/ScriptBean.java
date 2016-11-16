@@ -1,6 +1,6 @@
 package ejbservices;
 
-import ejbcrud.QueriesCrudRemote;
+import ejbcrud.QueriesCrudLocal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import java.util.List;
 @Stateless
 public class ScriptBean implements ScriptBeanRemote{
     @EJB
-    private QueriesCrudRemote queriesCrud;
+    private QueriesCrudLocal queriesCrud;
     private Logger logger;
 
     public ScriptBean(){

@@ -4,7 +4,7 @@ import data.*;
 
 import dto.*;
 
-import ejbcrud.QueriesCrudRemote;
+import ejbcrud.QueriesCrudLocal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.List;
 @Stateless
 public class ClientBean implements ClientBeanRemote{
     @EJB
-    private QueriesCrudRemote queriesCrud;
+    private QueriesCrudLocal queriesCrud;
     private Logger logger;
 
     public ClientBean(){

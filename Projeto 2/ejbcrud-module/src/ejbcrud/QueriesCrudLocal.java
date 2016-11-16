@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Local
-public interface QueriesCrudRemote{
+public interface QueriesCrudLocal{
     List<String> selectAdminsEmail();
     List<Administrator> selectAdmins(String instEmail);
     List<Professor> selectProfessors(String instEmail);

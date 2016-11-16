@@ -8,7 +8,7 @@ import dto.CourseDTO;
 import dto.ProfessorDTO;
 import dto.StudentDTO;
 
-import ejbcrud.QueriesCrudRemote;
+import ejbcrud.QueriesCrudLocal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import java.util.List;
 @Stateless
 public class AdminBean implements AdminBeanRemote{
     @EJB
-    private QueriesCrudRemote queriesCrud;
+    private QueriesCrudLocal queriesCrud;
     private Logger logger;
 
     public AdminBean(){

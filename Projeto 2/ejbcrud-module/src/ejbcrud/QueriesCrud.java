@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Stateless
-public class QueriesCrud implements QueriesCrudRemote{
+public class QueriesCrud implements QueriesCrudLocal{
     @PersistenceContext
     private EntityManager entityManager;
     private Logger logger;
