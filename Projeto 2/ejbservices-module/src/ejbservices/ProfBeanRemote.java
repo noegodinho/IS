@@ -1,6 +1,5 @@
-package ejb;
+package ejbservices;
 
-import dto.CourseDTO;
 import dto.StudentDTO;
 
 import javax.ejb.Remote;

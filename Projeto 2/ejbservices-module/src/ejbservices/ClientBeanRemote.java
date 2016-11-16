@@ -1,4 +1,4 @@
-package ejb;
+package ejbservices;
 
 import dto.CourseDTO;
 import dto.MaterialDTO;

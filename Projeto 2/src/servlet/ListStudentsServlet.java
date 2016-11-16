@@ -1,8 +1,10 @@
 package servlet;
 
 import dto.StudentDTO;
-import ejb.ProfBean;
-import ejb.ProfBeanRemote;
+
+import ejbservices.ProfBean;
+import ejbservices.ProfBeanRemote;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

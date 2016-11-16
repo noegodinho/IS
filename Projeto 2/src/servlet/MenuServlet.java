@@ -1,9 +1,8 @@
 package servlet;
 
 import dto.CourseDTO;
-import dto.StudentDTO;
-import dto.UserDTO;
-import ejb.AdminBeanRemote;
+
+import ejbservices.AdminBeanRemote;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

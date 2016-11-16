@@ -1,6 +1,6 @@
 package standalone;
 
-import ejb.ScriptBeanRemote;
+import ejbservices.ScriptBeanRemote;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class AdminScript{
     public static void main(String[] args) throws NamingException{
-        ScriptBeanRemote scriptBeanRemote = (ScriptBeanRemote)InitialContext.doLookup("Web/ScriptBean!ejb.ScriptBeanRemote");
+        ScriptBeanRemote scriptBeanRemote = (ScriptBeanRemote)InitialContext.doLookup("Web/ScriptBean!ejbservices.ScriptBeanRemote");
 
         menu(scriptBeanRemote);
     }

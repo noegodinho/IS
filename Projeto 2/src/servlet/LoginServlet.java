@@ -4,7 +4,7 @@ import dto.AdministratorDTO;
 import dto.ProfessorDTO;
 import dto.UserDTO;
 
-import ejb.*;
+import ejbservices.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
