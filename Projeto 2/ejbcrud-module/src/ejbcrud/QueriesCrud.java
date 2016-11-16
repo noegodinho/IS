@@ -26,7 +26,7 @@ public class QueriesCrud implements QueriesCrudLocal{
     }
 
     public List<String> selectAdminsEmail(){
-        List<String> admins = null;
+        List<String> admins = new ArrayList<>();
 
         try{
             List<Administrator> administrators = this.selectAdmins("%");
@@ -44,7 +44,7 @@ public class QueriesCrud implements QueriesCrudLocal{
     }
 
     public List<Administrator> selectAdmins(String instEmail){
-        List<Administrator> administrators = null;
+        List<Administrator> administrators = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select a from Administrator a where a.instEmail like ?1");
@@ -60,7 +60,7 @@ public class QueriesCrud implements QueriesCrudLocal{
     }
 
     public List<Professor> selectProfessors(String instEmail){
-        List<Professor> professors = null;
+        List<Professor> professors = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select p from Professor p where p.instEmail like ?1");
@@ -76,7 +76,7 @@ public class QueriesCrud implements QueriesCrudLocal{
     }
 
     public List<Student> selectStudents(String instEmail){
-        List<Student> students = null;
+        List<Student> students = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select s from Student s where s.instEmail like ?1");
@@ -102,7 +102,7 @@ public class QueriesCrud implements QueriesCrudLocal{
     }
 
     public List<Course> selectCourses(String courseName){
-        List<Course> courses = null;
+        List<Course> courses = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select c from Course c where c.courseName like ?1");
@@ -118,7 +118,7 @@ public class QueriesCrud implements QueriesCrudLocal{
     }
 
     public List<Material> selectMaterials(String timestamp, String courseName){
-        List<Material> materials = null;
+        List<Material> materials = new ArrayList<>();
 
         try{
             Query query = entityManager.createQuery("Select m from Material m where m.timestamp like ?1 and m.course.courseName like ?2");
