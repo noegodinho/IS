@@ -30,6 +30,7 @@ public class NewCourseServlet extends HttpServlet {
     private ProfessorDTO choosenProfessor;
     private List<StudentDTO> students;
     private List<String> courseStudents;
+    private boolean found;
 
     Logger logger;
 
@@ -46,29 +47,32 @@ public class NewCourseServlet extends HttpServlet {
         String courseName = request.getParameter("courseName");
         String profEmail = request.getParameter("profEmail");
 
-        /*List<ProfessorDTO> professorsDTO = this.ejbremote.getProfessors();
+        List<ProfessorDTO> professorsDTO = this.ejbremote.getProfessors();
 
         for (ProfessorDTO professor : professorsDTO){
             if (professor.getInstEmail().equals(profEmail))
                 choosenProfessor = professor;
-        }*/
+        }
 
-        //if (!courseName.isEmpty() && choosenProfessor != null && !courseStudents.isEmpty()){
-        if (!courseName.isEmpty() && !profEmail.isEmpty() && !courseStudents.isEmpty()){
+        logger.info("COURSE STUDENTS SIZE: " + String.valueOf(courseStudents.size()));
+
+        if (!courseName.isEmpty() && choosenProfessor != null && !courseStudents.isEmpty()){
             this.ejbremote.createCourse(courseName, profEmail, courseStudents);
             logger.info("Course successfully created");
+            courseStudents.clear();
+            students.clear();
             request.getRequestDispatcher("menu.jsp").forward(request, response);
         }
 
         else {
 
-            if (profEmail.isEmpty()) {
+            if (profEmail.isEmpty() || choosenProfessor == null) {
                 out.println("<script type=\"text/javascript\">");
                 out.println("if (confirm(\"Professor doesn't exist\")) {}");
                 out.println("window.location.replace(\"http://localhost:8080/Web/newCourse.jsp\");");
                 out.println("</script>");
+                out.close();
                 logger.error("Invalid Professor");
-                request.getRequestDispatcher("newCourse.jsp").forward(request, response);
             }
 
             else if (courseStudents.isEmpty()) {
@@ -76,12 +80,13 @@ public class NewCourseServlet extends HttpServlet {
                 out.println("if (confirm(\"Add at least one student\")) {}");
                 out.println("window.location.replace(\"http://localhost:8080/Web/newCourse.jsp\");");
                 out.println("</script>");
+                out.close();
                 logger.error("Add at least one student");
-                request.getRequestDispatcher("newCourse.jsp").forward(request, response);
             }
         }
 
         courseStudents.clear();
+        students.clear();
 
     }
 
@@ -93,8 +98,10 @@ public class NewCourseServlet extends HttpServlet {
 
         if(request.getParameter("action").equals("add")) {
             addStudentToList(request, response);
-            session.setAttribute("students",students);
-            request.getRequestDispatcher("newCourse.jsp").forward(request, response);
+            if (found) {
+                session.setAttribute("students", students);
+                request.getRequestDispatcher("newCourse.jsp").forward(request, response);
+            }
         }
 
         else if(request.getParameter("action").equals("logout")){
@@ -103,13 +110,28 @@ public class NewCourseServlet extends HttpServlet {
         }
     }
 
-    private void addStudentToList(HttpServletRequest request, HttpServletResponse response) {
+    private void addStudentToList(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        PrintWriter out = response.getWriter();
+        found = false;
         String studentEmail = request.getParameter("studentEmail");
         courseStudents.add(studentEmail);
+        logger.info(String.valueOf(courseStudents.size()));
         for (StudentDTO student : this.ejbremote.getStudents()){
-            if (student.getInstEmail().equals(studentEmail))
+            if (student.getInstEmail().equals(studentEmail)) {
                 students.add(student);
+                found = true;
+            }
         }
+
+        if (!found){
+            out.println("<script type=\"text/javascript\">");
+            out.println("if (confirm(\"Student not found\")) {}");
+            out.println("window.location.replace(\"http://localhost:8080/Web/newCourse.jsp\");");
+            out.println("</script>");
+            logger.error("Student not found");
+            out.close();
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
