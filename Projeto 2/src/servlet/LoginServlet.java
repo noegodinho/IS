@@ -85,9 +85,9 @@ public class LoginServlet extends HttpServlet{
         if(user instanceof AdministratorDTO){ //admin
             menuOptions.add("Create New User");
             menuOptions.add("Edit User Information");
+            menuOptions.add("Delete User");
             menuOptions.add("Create New Course");
             menuOptions.add("Edit Course Information");
-            menuOptions.add("Delete User");
             menuOptions.add("Delete Course");
             menuOptions.add("Upload Course Material");
             menuOptions.add("Delete Material");
@@ -102,7 +102,7 @@ public class LoginServlet extends HttpServlet{
             menuOptions.add("Search Student");
         }
 
-        menuOptions.add("List Course");
+        menuOptions.add("List Courses");
         menuOptions.add("List Materials");
     }
 

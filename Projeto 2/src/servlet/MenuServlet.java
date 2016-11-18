@@ -29,17 +29,33 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
 
-        else if(request.getParameter("action").equals("Create New User"))
+        else if(request.getParameter("action").equals("Create New User")) {
             request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
+
+        else if(request.getParameter("action").equals("Edit User Information"));
+
+        else if(request.getParameter("action").equals("Delete User"));
+
+        else if(request.getParameter("action").equals("Create New Course")) {
+            request.getRequestDispatcher("newCourse.jsp").forward(request, response);
+        }
+
+        else if(request.getParameter("action").equals("Edit Course Information"));
+
+        else if(request.getParameter("action").equals("Delete Course"));
+
+        else if(request.getParameter("action").equals("Upload Course Material"));
+
+        else if(request.getParameter("action").equals("Delete Material"));
 
         else if (request.getParameter("action").equals("List Students")){
             List<CourseDTO> courses = this.ejbremote.getCourses();
-            request.setAttribute("coursesList", courses);
+            session.setAttribute("coursesList", courses);
             request.getRequestDispatcher("listStudents.jsp").forward(request, response);
         }
 
-        else if(request.getParameter("action").equals("Create New Course"))
-            request.getRequestDispatcher("newCourse.jsp").forward(request, response);
+        else if(request.getParameter("action").equals("Search Student"));
 
 
 

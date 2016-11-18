@@ -27,14 +27,12 @@ public class ListStudentsServlet extends HttpServlet {
     @EJB
     private ProfBeanRemote ejbremote;
     private List<StudentDTO> students;
-    private List<CourseDTO> courses;
 
     private Logger logger;
 
     public ListStudentsServlet(){
         super();
         this.students = new ArrayList<>();
-        this.courses = new ArrayList<>();
         this.logger = LoggerFactory.getLogger(ProfBean.class);
     }
 
@@ -45,6 +43,7 @@ public class ListStudentsServlet extends HttpServlet {
 
         request.setAttribute("studentsList", students);
         request.setAttribute("number", students.size());
+
         request.getRequestDispatcher("listStudents.jsp").forward(request, response);
 
         students.clear();
