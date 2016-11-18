@@ -59,5 +59,16 @@
         <url-pattern>/NewCourseServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Delete Course Servlet</servlet-name>
+        <servlet-class>servlet.DeleteCourseServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Delete Course Servlet</servlet-name>
+        <url-pattern>/DeleteCourseServlet</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

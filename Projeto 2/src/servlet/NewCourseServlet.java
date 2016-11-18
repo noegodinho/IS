@@ -54,8 +54,6 @@ public class NewCourseServlet extends HttpServlet {
                 choosenProfessor = professor;
         }
 
-        logger.info("COURSE STUDENTS SIZE: " + String.valueOf(courseStudents.size()));
-
         if (!courseName.isEmpty() && choosenProfessor != null && !courseStudents.isEmpty()){
             this.ejbremote.createCourse(courseName, profEmail, courseStudents);
             logger.info("Course successfully created");

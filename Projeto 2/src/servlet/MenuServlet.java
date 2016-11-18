@@ -24,6 +24,9 @@ public class MenuServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
+        List<CourseDTO> courses = this.ejbremote.getCourses();
+        session.setAttribute("coursesList", courses);
+
         if(request.getParameter("action").equals("logout")){
             session.removeAttribute("user");
             request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -43,15 +46,15 @@ public class MenuServlet extends HttpServlet {
 
         else if(request.getParameter("action").equals("Edit Course Information"));
 
-        else if(request.getParameter("action").equals("Delete Course"));
+        else if(request.getParameter("action").equals("Delete Course")){
+            request.getRequestDispatcher("deleteCourse.jsp").forward(request, response);
+        }
 
         else if(request.getParameter("action").equals("Upload Course Material"));
 
         else if(request.getParameter("action").equals("Delete Material"));
 
         else if (request.getParameter("action").equals("List Students")){
-            List<CourseDTO> courses = this.ejbremote.getCourses();
-            session.setAttribute("coursesList", courses);
             request.getRequestDispatcher("listStudents.jsp").forward(request, response);
         }
 

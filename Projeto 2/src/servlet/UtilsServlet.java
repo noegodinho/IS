@@ -1,5 +1,8 @@
 package servlet;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,5 +32,15 @@ public class UtilsServlet{
         }
 
         return null;
+    }
+
+    public void popupMessage(HttpServletResponse response, String message, String webpage) throws IOException {
+        PrintWriter out = response.getWriter();
+
+        out.println("<script type=\"text/javascript\">");
+        out.println("if (confirm(\""+message+"\")) {}");
+        out.println("window.location.replace(\"http://localhost:8080/Web/"+webpage+".jsp\");");
+        out.println("</script>");
+        out.close();
     }
 }
