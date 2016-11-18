@@ -1,6 +1,5 @@
 package servlet;
 
-import dto.CourseDTO;
 import dto.StudentDTO;
 
 import ejbservices.ProfBean;
