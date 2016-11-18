@@ -56,7 +56,7 @@ public class DeleteUserServlet extends HttpServlet {
         }
         else{
             popups.popupMessage(response, "Choose a type of user", "deleteUser");
-            logger.error("User didn't especify type of user to delete");
+            logger.error("User didn't specify type of user to delete");
         }
     }
 
@@ -71,8 +71,6 @@ public class DeleteUserServlet extends HttpServlet {
             session.removeAttribute("user");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-
-
 
     }
 

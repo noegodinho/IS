@@ -36,6 +36,7 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }
 
+        //TODO Edit User Information
         else if(request.getParameter("action").equals("Edit User Information"));
 
         else if(request.getParameter("action").equals("Delete User")){
@@ -46,20 +47,24 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("newCourse.jsp").forward(request, response);
         }
 
+        //TODO Edit Course Information
         else if(request.getParameter("action").equals("Edit Course Information"));
 
         else if(request.getParameter("action").equals("Delete Course")){
             request.getRequestDispatcher("deleteCourse.jsp").forward(request, response);
         }
 
+        //TODO Upload Course Material
         else if(request.getParameter("action").equals("Upload Course Material"));
 
+        //TODO Delete Material
         else if(request.getParameter("action").equals("Delete Material"));
 
         else if (request.getParameter("action").equals("List Students")){
             request.getRequestDispatcher("listStudents.jsp").forward(request, response);
         }
 
+        //TODO Search Student
         else if(request.getParameter("action").equals("Search Student"));
 
 
