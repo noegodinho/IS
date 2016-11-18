@@ -31,6 +31,7 @@ public class NewCourseServlet extends HttpServlet {
     private List<StudentDTO> students;
     private List<String> courseStudents;
     private boolean found;
+    private UtilsServlet utils;
 
     Logger logger;
 
@@ -39,6 +40,7 @@ public class NewCourseServlet extends HttpServlet {
         this.courseStudents = new ArrayList<>();
         this.students = new ArrayList<>();
         this.logger = LoggerFactory.getLogger(AdminBean.class);
+        this.utils = new UtilsServlet();
     }
 
 
@@ -64,12 +66,12 @@ public class NewCourseServlet extends HttpServlet {
         else {
 
             if (profEmail.isEmpty() || choosenProfessor == null) {
-                new UtilsServlet().popupMessage(response,"Professor doesn't exist","newCourse");
+                utils.popupMessage(response,"Professor doesn't exist","newCourse");
                 logger.error("Invalid Professor");
             }
 
             else if (courseStudents.isEmpty()) {
-                new UtilsServlet().popupMessage(response, "Add at least one student", "newCourse");
+                utils.popupMessage(response, "Add at least one student", "newCourse");
                 logger.error("Add at least one student");
             }
         }
@@ -100,7 +102,6 @@ public class NewCourseServlet extends HttpServlet {
     }
 
     private void addStudentToList(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        PrintWriter out = response.getWriter();
         found = false;
         String studentEmail = request.getParameter("studentEmail");
         courseStudents.add(studentEmail);
@@ -113,9 +114,8 @@ public class NewCourseServlet extends HttpServlet {
         }
 
         if (!found){
-            new UtilsServlet().popupMessage(response, "Student not found", "newCourse");
+            utils.popupMessage(response, "Student not found", "newCourse");
             logger.error("Student not found");
-            out.close();
         }
 
     }

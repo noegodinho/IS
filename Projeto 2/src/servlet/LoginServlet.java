@@ -8,6 +8,7 @@ import ejbservices.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.Util;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -30,6 +31,7 @@ public class LoginServlet extends HttpServlet{
     private ClientBeanRemote ejbremote;
     private ScriptBeanRemote scriptRemote;
     private Logger logger;
+    private UtilsServlet utils;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,23 +39,23 @@ public class LoginServlet extends HttpServlet{
     public LoginServlet(){
         super();
         this.logger = LoggerFactory.getLogger(ClientBean.class);
+        this.utils = new UtilsServlet();
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         HttpSession session = request.getSession();
         String instEmail = request.getParameter("instEmail");
         String password = request.getParameter("password");
-        PrintWriter out = response.getWriter();
         ArrayList<String> menuOptions = new ArrayList<>();
 
         if(instEmail.isEmpty() || password.isEmpty()){
-            new UtilsServlet().popupMessage(response, "Need to fill all the fields!", "index");
+            utils.popupMessage(response, "Need to fill all the fields!", "index");
             logger.error("User did not input email and/or password");
         }
 
         else{
             try{
-                String hashedPassword = new UtilsServlet().createHash(password);
+                String hashedPassword = utils.createHash(password);
 
                 UserDTO loggedUser = this.ejbremote.loginUser(instEmail, hashedPassword);
 
@@ -66,7 +68,7 @@ public class LoginServlet extends HttpServlet{
                 }
 
                 else{
-                    new UtilsServlet().popupMessage(response, "Wrong email and/or password","index");
+                    utils.popupMessage(response, "Wrong email and/or password","index");
                     logger.error("Wrong email and/or password");
                 }
             }catch(EJBException ejbe){

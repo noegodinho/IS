@@ -21,7 +21,8 @@ public class DeleteCourseServlet extends HttpServlet {
 
     @EJB
     private AdminBeanRemote ejbremote;
-    Logger logger;
+    private Logger logger;
+    private UtilsServlet utils;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -29,6 +30,7 @@ public class DeleteCourseServlet extends HttpServlet {
     public DeleteCourseServlet(){
         super();
         this.logger = LoggerFactory.getLogger(AdminBean.class);
+        this.utils = new UtilsServlet();
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,11 +38,11 @@ public class DeleteCourseServlet extends HttpServlet {
 
 
         if(this.ejbremote.deleteCourse(courseName)){
-            new UtilsServlet().popupMessage(response, "Course Successfully deleted","deleteCourse");
+            utils.popupMessage(response, "Course Successfully deleted","deleteCourse");
         }
 
         else{
-            new UtilsServlet().popupMessage(response, "Course failed to delete","deleteCourse");
+            utils.popupMessage(response, "Course failed to delete","deleteCourse");
             logger.error("Course failed to delete");
         }
 
