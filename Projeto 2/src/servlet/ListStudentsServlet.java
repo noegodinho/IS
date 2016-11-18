@@ -1,5 +1,6 @@
 package servlet;
 
+import dto.CourseDTO;
 import dto.StudentDTO;
 
 import ejbservices.ProfBean;
@@ -26,12 +27,14 @@ public class ListStudentsServlet extends HttpServlet {
     @EJB
     private ProfBeanRemote ejbremote;
     private List<StudentDTO> students;
+    private List<CourseDTO> courses;
 
     private Logger logger;
 
     public ListStudentsServlet(){
         super();
         this.students = new ArrayList<>();
+        this.courses = new ArrayList<>();
         this.logger = LoggerFactory.getLogger(ProfBean.class);
     }
 
@@ -41,6 +44,7 @@ public class ListStudentsServlet extends HttpServlet {
         students = this.ejbremote.getStudentsByCourse(courseName,true);
 
         request.setAttribute("studentsList", students);
+        request.setAttribute("number", students.size());
         request.getRequestDispatcher("listStudents.jsp").forward(request, response);
 
         students.clear();
@@ -49,6 +53,7 @@ public class ListStudentsServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
+
         if(request.getParameter("action").equals("logout")){
             session.removeAttribute("user");
             request.getRequestDispatcher("index.jsp").forward(request, response);

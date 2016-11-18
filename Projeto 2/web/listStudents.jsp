@@ -27,9 +27,27 @@
         </select>
         <p class="submit"><input type="submit" name="action" value="search" style="width: 150px; height: 50px"></p>
 
-        <c:forEach items="${studentsList}" var="student">
-            <p>"${student.number} ${student.name} ${student.instEmail}"</p>
-        </c:forEach>
+        <table border="1" align="center">
+            <tr bgcolor="#9acd32" style="display:table-row;">
+                <th>Number</th>
+                <th>Name</th>
+                <th>Institutional Email</th>
+            </tr>
+            <c:forEach begin="0" end= "${number}" step="1"
+                       items="${studentsList}" var="student">
+                <tr>
+                    <td>
+                        <c:out value="${student.number}" />
+                    </td>
+                    <td>
+                        <c:out value="${student.name}" />
+                    </td>
+                    <td>
+                        <c:out value="${student.instEmail}" />
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
     </form>
 </body>
 </html>
