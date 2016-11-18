@@ -47,10 +47,7 @@ public class LoginServlet extends HttpServlet{
         ArrayList<String> menuOptions = new ArrayList<>();
 
         if(instEmail.isEmpty() || password.isEmpty()){
-            out.println("<script type=\"text/javascript\">");
-            out.println("if (confirm(\"Need to fill all the fields!\")) {}");
-            out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
-            out.println("</script>");
+            new UtilsServlet().popupMessage(response, "Need to fill all the fields!", "index");
             logger.error("User did not input email and/or password");
         }
 
@@ -69,10 +66,7 @@ public class LoginServlet extends HttpServlet{
                 }
 
                 else{
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("if (confirm(\"Wrong email and/or password!\")) {}");
-                    out.println("window.location.replace(\"http://localhost:8080/Web/index.jsp\");");
-                    out.println("</script>");
+                    new UtilsServlet().popupMessage(response, "Wrong email and/or password","index");
                     logger.error("Wrong email and/or password");
                 }
             }catch(EJBException ejbe){

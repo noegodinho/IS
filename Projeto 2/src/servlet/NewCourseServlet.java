@@ -43,7 +43,6 @@ public class NewCourseServlet extends HttpServlet {
 
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
         String courseName = request.getParameter("courseName");
         String profEmail = request.getParameter("profEmail");
 
@@ -65,20 +64,12 @@ public class NewCourseServlet extends HttpServlet {
         else {
 
             if (profEmail.isEmpty() || choosenProfessor == null) {
-                out.println("<script type=\"text/javascript\">");
-                out.println("if (confirm(\"Professor doesn't exist\")) {}");
-                out.println("window.location.replace(\"http://localhost:8080/Web/newCourse.jsp\");");
-                out.println("</script>");
-                out.close();
+                new UtilsServlet().popupMessage(response,"Professor doesn't exist","newCourse");
                 logger.error("Invalid Professor");
             }
 
             else if (courseStudents.isEmpty()) {
-                out.println("<script type=\"text/javascript\">");
-                out.println("if (confirm(\"Add at least one student\")) {}");
-                out.println("window.location.replace(\"http://localhost:8080/Web/newCourse.jsp\");");
-                out.println("</script>");
-                out.close();
+                new UtilsServlet().popupMessage(response, "Add at least one student", "newCourse");
                 logger.error("Add at least one student");
             }
         }
@@ -122,10 +113,7 @@ public class NewCourseServlet extends HttpServlet {
         }
 
         if (!found){
-            out.println("<script type=\"text/javascript\">");
-            out.println("if (confirm(\"Student not found\")) {}");
-            out.println("window.location.replace(\"http://localhost:8080/Web/newCourse.jsp\");");
-            out.println("</script>");
+            new UtilsServlet().popupMessage(response, "Student not found", "newCourse");
             logger.error("Student not found");
             out.close();
         }
