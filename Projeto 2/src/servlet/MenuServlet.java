@@ -65,9 +65,15 @@ public class MenuServlet extends HttpServlet {
         }
 
         //TODO Search Student
-        else if(request.getParameter("action").equals("Search Student"));
+        else if(request.getParameter("action").equals("Search Student")){
+            request.getRequestDispatcher("searchStudent.jsp").forward(request, response);
+        }
 
+        //TODO List Courses
+        else if (request.getParameter("action").equals("List Courses"));
 
+        //TODO List Materials
+        else if (request.getParameter("action").equals("List Materials"));
 
     }
 

@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet{
 
     @EJB
     private ClientBeanRemote ejbremote;
-    private ScriptBeanRemote scriptRemote;
     private Logger logger;
     private UtilsServlet utils;
 

@@ -81,5 +81,15 @@
         <url-pattern>/DeleteUserServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Search Student Servlet</servlet-name>
+        <servlet-class>servlet.SearchStudentServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Search Student Servlet</servlet-name>
+        <url-pattern>/SearchStudentServlet</url-pattern>
+    </servlet-mapping>
 
 </web-app>

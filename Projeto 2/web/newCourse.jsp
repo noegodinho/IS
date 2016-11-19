@@ -1,6 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%
+    if ( session.getAttribute("user") == null){
+%><jsp:forward page="index.jsp" />
+<%
+    }
+%>
+
 <html>
 <head>
     <title>New Course</title>
