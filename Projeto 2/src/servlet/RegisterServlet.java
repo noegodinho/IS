@@ -22,12 +22,15 @@ public class RegisterServlet extends HttpServlet{
     @EJB
     private AdminBeanRemote ejbremote;
     private Logger logger;
+    private UtilsServlet utils;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
     public RegisterServlet(){
+
         this.logger = LoggerFactory.getLogger(RegisterServlet.class);
+        this.utils = new UtilsServlet();
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -37,38 +40,50 @@ public class RegisterServlet extends HttpServlet{
 
         String name = request.getParameter("name");
         String password = request.getParameter("password");
-        Integer day = Integer.parseInt(request.getParameter("day"));
-        Integer month = Integer.parseInt(request.getParameter("month"));
-        Integer year = Integer.parseInt(request.getParameter("year"));
-        Date birth = new UtilsServlet().getDate(day, month, year);
+        Integer day = request.getParameter("day").isEmpty()?null:Integer.valueOf(request.getParameter("day"));
+        Integer month = request.getParameter("month").isEmpty()?null:Integer.valueOf(request.getParameter("month"));
+        Integer year = request.getParameter("year").isEmpty()?null:Integer.valueOf(request.getParameter("year"));
+        Date birth = utils.getDate(day, month, year);
         String instEmail = request.getParameter("instEmail");
         String altEmail = request.getParameter("altEmail");
         String address = request.getParameter("address");
-        Integer telephone = Integer.parseInt(request.getParameter("telephone"));
+        Integer telephone = request.getParameter("telephone").isEmpty()?null:Integer.valueOf(request.getParameter("telephone"));
 
-        String hashedPassword = new UtilsServlet().createHash(password);
+        String hashedPassword = utils.createHash(password);
 
         if (userType.equals("student")){
-            Integer number = Integer.parseInt(request.getParameter("number"));
-            Integer yearOfCourse = Integer.parseInt(request.getParameter("yearOfCourse"));
+            Integer number = request.getParameter("number").isEmpty()?null:Integer.valueOf(request.getParameter("number"));
+            Integer yearOfCourse = request.getParameter("yearOfCourse").isEmpty()?null:Integer.valueOf(request.getParameter("yearOfCourse"));
 
-            this.ejbremote.createStudentAccount(hashedPassword, name, birth, instEmail, altEmail, address,
-                                                telephone, number, yearOfCourse);
+            if (name.isEmpty() || password.isEmpty() || birth==null || instEmail.isEmpty() || altEmail.isEmpty() || address.isEmpty() || telephone==null || number==null || yearOfCourse==null)
+                utils.popupMessage(response,"Fill all the fields","register");
+            else {
+                this.ejbremote.createStudentAccount(hashedPassword, name, birth, instEmail, altEmail, address,
+                        telephone, number, yearOfCourse);
+                utils.popupMessage(response, "Student successfully created", "menu");
+            }
 
         }
 
         else if (userType.equals("professor")){
-            Integer internalNumber = Integer.parseInt(request.getParameter("internalNumber"));
+            Integer internalNumber = request.getParameter("internalNumber").isEmpty()?null:Integer.valueOf(request.getParameter("internalNumber"));
             String category = request.getParameter("category");
             String office = request.getParameter("office");
-            Integer number = Integer.parseInt(request.getParameter("internalTelephoneNumber"));
-            Double salary = Double.parseDouble(request.getParameter("salary"));
+            Integer number = request.getParameter("internalPhoneNumber").isEmpty()?null:Integer.valueOf(request.getParameter("internalPhoneNumber"));
+            Double salary = request.getParameter("salary").isEmpty()?null:Double.valueOf(request.getParameter("salary"));
 
-            this.ejbremote.createProfessorAccount(hashedPassword, name, birth, instEmail, altEmail, address,
-                    telephone, internalNumber, category, office, number, salary);
+            if (name.isEmpty() || password.isEmpty() || birth == null || instEmail.isEmpty() || altEmail.isEmpty() || address.isEmpty() || telephone == null ||
+                    internalNumber == null || category.isEmpty() || office.isEmpty() || number == null || salary == null)
+                utils.popupMessage(response,"Fill all the fields","register");
+            else {
+                this.ejbremote.createProfessorAccount(hashedPassword, name, birth, instEmail, altEmail, address,
+                        telephone, internalNumber, category, office, number, salary);
+                utils.popupMessage(response, "Professor successfully created", "menu");
+            }
         }
-
-        request.getRequestDispatcher("menu.jsp").forward(request, response);
+        else {
+            utils.popupMessage(response, "Choose a type of user", "register");
+        }
     }
 
     @Override

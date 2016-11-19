@@ -66,7 +66,6 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("listStudents.jsp").forward(request, response);
         }
 
-        //TODO FIX INT FIELDS
         else if(request.getParameter("action").equals("Search Student")){
             request.getRequestDispatcher("searchStudent.jsp").forward(request, response);
         }
@@ -75,7 +74,7 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("ListCoursesServlet").forward(request, response);
         }
 
-        //TODO List Materials
+        //TODO List and Download Materials
         else if (request.getParameter("action").equals("List Materials"));
 
     }

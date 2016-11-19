@@ -47,7 +47,10 @@ public class SearchStudentServlet extends HttpServlet {
         Integer number = request.getParameter("number").isEmpty()?null:Integer.valueOf(request.getParameter("number"));
         Integer yearOfCourse = request.getParameter("yearOfCourse").isEmpty()?null:Integer.valueOf(request.getParameter("yearOfCourse"));
 
-        students = this.ejbremote.searchStudents(name, birth,instEmail,altEmail,address,telephone,number,yearOfCourse);
+        if (name.isEmpty() && birth==null && instEmail.isEmpty() && altEmail.isEmpty() && address.isEmpty() && telephone==null && number==null && yearOfCourse==null)
+            utils.popupMessage(response, "Fill at least one of the fields","searchStudent");
+        else
+            students = this.ejbremote.searchStudents(name, birth,instEmail,altEmail,address,telephone,number,yearOfCourse);
 
         if (students.isEmpty()) {
             utils.popupMessage(response, "No students found", "searchStudent");
