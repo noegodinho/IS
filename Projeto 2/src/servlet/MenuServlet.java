@@ -74,8 +74,10 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("ListCoursesServlet").forward(request, response);
         }
 
-        //TODO List and Download Materials
-        else if (request.getParameter("action").equals("List Materials"));
+        //TODO Download Materials
+        else if (request.getParameter("action").equals("List Materials")){
+            request.getRequestDispatcher("ListMaterialsServlet").forward(request, response);
+        }
 
     }
 

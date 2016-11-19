@@ -114,4 +114,15 @@
         <url-pattern>/UploadMaterialServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>List Materials Servlet</servlet-name>
+        <servlet-class>servlet.ListMaterialsServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>List Materials Servlet</servlet-name>
+        <url-pattern>/ListMaterialsServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
