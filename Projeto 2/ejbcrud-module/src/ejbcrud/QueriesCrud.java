@@ -91,10 +91,10 @@ public class QueriesCrud implements QueriesCrudLocal{
         return students;
     }
 
-    public List<Student> searchSpecificStudent(String toQuery, Map<Integer, String> hashmap){
+    public List<Student> searchSpecificStudent(String toQuery, Map<Integer, Object> hashmap){
         Query query = entityManager.createQuery(toQuery);
 
-        for(Map.Entry<Integer, String> entry : hashmap.entrySet()){
+        for(Map.Entry<Integer, Object> entry : hashmap.entrySet()){
             query.setParameter(entry.getKey(), entry.getValue());
         }
 

@@ -13,7 +13,7 @@ public interface QueriesCrudLocal{
     List<Administrator> selectAdmins(String instEmail);
     List<Professor> selectProfessors(String instEmail);
     List<Student> selectStudents(String instEmail);
-    List<Student> searchSpecificStudent(String toQuery, Map<Integer, String> hashmap);
+    List<Student> searchSpecificStudent(String toQuery, Map<Integer, Object> hashmap);
     List<Course> selectCourses(String courseName);
     List<Material> selectMaterials(String timestamp, String courseName);
     boolean insertAdmin(String hashedPassword, String name, Date birth, String instEmail, String altEmail,

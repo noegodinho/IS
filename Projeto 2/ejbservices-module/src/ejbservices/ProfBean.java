@@ -59,49 +59,49 @@ public class ProfBean implements ProfBeanRemote{
                                         Integer telephone, Integer number, Integer yearOfCourse){
         List<Student> students;
         List<StudentDTO> studentsDTO = new ArrayList<>();
-        Map<Integer, String> map = new HashMap<>();
-        Integer counter = 0;
+        Map<Integer, Object> map = new HashMap<>();
+        Integer counter = 1;
 
         String toQuery = "Select s from Student s where ";
 
         if(!name.isEmpty()){
             toQuery += "s.name like ?" + counter + " and ";
-            map.put(++counter, name);
+            map.put(counter++, name);
         }
 
         if(!birth.toString().isEmpty()){
             toQuery += "s.birth like ?" + counter + " and ";
-            map.put(++counter, birth.toString());
+            map.put(counter++, birth);
         }
 
         if(!instEmail.isEmpty()){
             toQuery += "s.instEmail like ?" + counter + " and ";
-            map.put(++counter, instEmail);
+            map.put(counter++, instEmail);
         }
 
         if(!altEmail.isEmpty()){
             toQuery += "s.altEmail like ?" + counter + " and ";
-            map.put(++counter, altEmail);
+            map.put(counter++, altEmail);
         }
 
         if(!address.isEmpty()){
             toQuery += "s.address like ?" + counter + " and ";
-            map.put(++counter, address);
+            map.put(counter++, address);
         }
 
         if(!telephone.toString().isEmpty()){
             toQuery += "s.telephone = ?" + counter + " and ";
-            map.put(++counter, telephone.toString());
+            map.put(counter++, telephone);
         }
 
         if(!number.toString().isEmpty()){
             toQuery += "s.number = ?" + counter + " and ";
-            map.put(++counter, number.toString());
+            map.put(counter++, number);
         }
 
         if(!yearOfCourse.toString().isEmpty()){
             toQuery += "s.yearOfCourse = ?" + counter;
-            map.put(++counter, telephone.toString());
+            map.put(counter, telephone);
         }
 
         if(toQuery.substring(toQuery.length() - 5, toQuery.length()).equals("and ")){
