@@ -92,4 +92,26 @@
         <url-pattern>/SearchStudentServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>List Courses Servlet</servlet-name>
+        <servlet-class>servlet.ListCoursesServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>List Courses Servlet</servlet-name>
+        <url-pattern>/ListCoursesServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Upload Material Servlet</servlet-name>
+        <servlet-class>servlet.UploadMaterialServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Upload Material Servlet</servlet-name>
+        <url-pattern>/UploadMaterialServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
