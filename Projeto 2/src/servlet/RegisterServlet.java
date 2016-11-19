@@ -69,7 +69,7 @@ public class RegisterServlet extends HttpServlet{
             Integer internalNumber = request.getParameter("internalNumber").isEmpty()?null:Integer.valueOf(request.getParameter("internalNumber"));
             String category = request.getParameter("category");
             String office = request.getParameter("office");
-            Integer number = request.getParameter("internalPhoneNumber").isEmpty()?null:Integer.valueOf(request.getParameter("internalPhoneNumber"));
+            Integer number = request.getParameter("internalTelephoneNumber").isEmpty()?null:Integer.valueOf(request.getParameter("internalTelephoneNumber"));
             Double salary = request.getParameter("salary").isEmpty()?null:Double.valueOf(request.getParameter("salary"));
 
             if (name.isEmpty() || password.isEmpty() || birth == null || instEmail.isEmpty() || altEmail.isEmpty() || address.isEmpty() || telephone == null ||
