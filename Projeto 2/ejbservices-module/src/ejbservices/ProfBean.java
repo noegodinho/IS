@@ -69,7 +69,7 @@ public class ProfBean implements ProfBeanRemote{
             map.put(counter++, name);
         }
 
-        if(!birth.toString().isEmpty()){
+        if(birth != null){
             toQuery += "s.birth like ?" + counter + " and ";
             map.put(counter++, birth);
         }
@@ -89,22 +89,22 @@ public class ProfBean implements ProfBeanRemote{
             map.put(counter++, address);
         }
 
-        if(!telephone.toString().isEmpty()){
+        if(telephone != null){
             toQuery += "s.telephone = ?" + counter + " and ";
             map.put(counter++, telephone);
         }
 
-        if(!number.toString().isEmpty()){
+        if(number != null){
             toQuery += "s.number = ?" + counter + " and ";
             map.put(counter++, number);
         }
 
-        if(!yearOfCourse.toString().isEmpty()){
+        if(yearOfCourse != null){
             toQuery += "s.yearOfCourse = ?" + counter;
-            map.put(counter, telephone);
+            map.put(counter, yearOfCourse);
         }
 
-        if(toQuery.substring(toQuery.length() - 5, toQuery.length()).equals("and ")){
+        if(toQuery.substring(toQuery.length() - 5, toQuery.length()).equals(" and ")){
             toQuery = toQuery.substring(0, toQuery.length() - 5);
         }
 

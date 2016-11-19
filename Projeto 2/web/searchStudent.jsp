@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -33,6 +34,10 @@
     <p><input type="text" name="yearOfCourse" placeholder="Year Of Course" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> </p>
 
     <p class="submit"><input type="submit" name="action" value="search" style="width: 150px; height: 50px"></p>
+
+    <c:forEach items="${studentsList}" var="student">
+        <p>${student.name} ${student.instEmail} ${student.altEmail} ${student.address} ${student.number} </p>
+    </c:forEach>
 </form>
 
 </body>

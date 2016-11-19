@@ -36,16 +36,16 @@ public class SearchStudentServlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
-        Integer day = Integer.parseInt(request.getParameter("day"));
-        Integer month = Integer.parseInt(request.getParameter("month"));
-        Integer year = Integer.parseInt(request.getParameter("year"));
+        Integer day = request.getParameter("day").isEmpty()?null:Integer.valueOf(request.getParameter("day"));
+        Integer month = request.getParameter("month").isEmpty()?null:Integer.valueOf(request.getParameter("month"));
+        Integer year = request.getParameter("year").isEmpty()?null:Integer.valueOf(request.getParameter("year"));
         Date birth = utils.getDate(day, month, year);
         String instEmail = request.getParameter("instEmail");
         String altEmail = request.getParameter("altEmail");
         String address = request.getParameter("address");
-        Integer telephone = Integer.parseInt(request.getParameter("telephone"));
-        Integer number = Integer.parseInt(request.getParameter("number"));
-        Integer yearOfCourse = Integer.parseInt(request.getParameter("yearOfCourse"));
+        Integer telephone = request.getParameter("telephone").isEmpty()?null:Integer.valueOf(request.getParameter("telephone"));
+        Integer number = request.getParameter("number").isEmpty()?null:Integer.valueOf(request.getParameter("number"));
+        Integer yearOfCourse = request.getParameter("yearOfCourse").isEmpty()?null:Integer.valueOf(request.getParameter("yearOfCourse"));
 
         students = this.ejbremote.searchStudents(name, birth,instEmail,altEmail,address,telephone,number,yearOfCourse);
 

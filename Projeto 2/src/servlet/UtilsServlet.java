@@ -8,13 +8,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class UtilsServlet{
-    public Date getDate(int day, int month, int year) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month - 1);
-        cal.set(Calendar.DAY_OF_MONTH, day);
+    public Date getDate(Integer day, Integer month, Integer year) {
+        if (day!= null && month != null && year!=null) {
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month - 1);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+            return cal.getTime();
+        }
 
-        return cal.getTime();
+        else{
+            return null;
+        }
     }
 
     public String createHash(String password){
