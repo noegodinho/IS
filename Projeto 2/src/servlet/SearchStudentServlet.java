@@ -1,7 +1,6 @@
 package servlet;
 
 import dto.StudentDTO;
-import ejbservices.ProfBean;
 import ejbservices.ProfBeanRemote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,7 @@ public class SearchStudentServlet extends HttpServlet {
         super();
         this.students = new ArrayList<>();
         this.utils = new UtilsServlet();
-        this.logger = LoggerFactory.getLogger(ProfBean.class);
+        this.logger = LoggerFactory.getLogger(SearchStudentServlet.class);
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

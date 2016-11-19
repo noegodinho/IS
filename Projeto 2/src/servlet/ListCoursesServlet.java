@@ -3,7 +3,6 @@ package servlet;
 import dto.CourseDTO;
 import dto.ProfessorDTO;
 import dto.StudentDTO;
-import ejbservices.ClientBean;
 import ejbservices.ClientBeanRemote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class ListCoursesServlet extends HttpServlet {
     public ListCoursesServlet(){
         super();
         this.courses = new ArrayList<>();
-        this.logger = LoggerFactory.getLogger(ClientBean.class);
+        this.logger = LoggerFactory.getLogger(ListCoursesServlet.class);
         this.utils = new UtilsServlet();
     }
 
@@ -52,9 +50,7 @@ public class ListCoursesServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         if (session.getAttribute("user") instanceof StudentDTO) {
-            logger.info("USERS ID: "+((StudentDTO) session.getAttribute("user")).getId());
             courses = this.ejbremote.getCourses(((StudentDTO) session.getAttribute("user")).getId(), 2);
-            logger.info("COURSES SIZE: "+courses.size());
             request.setAttribute("coursesIN", courses);
             request.getRequestDispatcher("listCourses.jsp").forward(request, response);
         }

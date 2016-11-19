@@ -1,6 +1,5 @@
 package servlet;
 
-import ejbservices.AdminBean;
 import ejbservices.AdminBeanRemote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ public class DeleteUserServlet extends HttpServlet {
      */
     public DeleteUserServlet(){
         super();
-        this.logger = LoggerFactory.getLogger(AdminBean.class);
+        this.logger = LoggerFactory.getLogger(DeleteUserServlet.class);
         this.popups = new UtilsServlet();
     }
 

@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet{
      */
     public LoginServlet(){
         super();
-        this.logger = LoggerFactory.getLogger(ClientBean.class);
+        this.logger = LoggerFactory.getLogger(LoginServlet.class);
         this.utils = new UtilsServlet();
     }
 

@@ -3,7 +3,6 @@ package servlet;
 import dto.ProfessorDTO;
 import dto.StudentDTO;
 
-import ejbservices.AdminBean;
 import ejbservices.AdminBeanRemote;
 
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public class NewCourseServlet extends HttpServlet {
         super();
         this.courseStudents = new ArrayList<>();
         this.students = new ArrayList<>();
-        this.logger = LoggerFactory.getLogger(AdminBean.class);
+        this.logger = LoggerFactory.getLogger(NewCourseServlet.class);
         this.utils = new UtilsServlet();
     }
 

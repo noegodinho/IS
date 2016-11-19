@@ -1,6 +1,5 @@
 package servlet;
 
-import ejbservices.AdminBean;
 import ejbservices.AdminBeanRemote;
 
 import org.slf4j.Logger;
@@ -28,7 +27,7 @@ public class RegisterServlet extends HttpServlet{
      * @see HttpServlet#HttpServlet()
      */
     public RegisterServlet(){
-        this.logger = LoggerFactory.getLogger(AdminBean.class);
+        this.logger = LoggerFactory.getLogger(RegisterServlet.class);
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

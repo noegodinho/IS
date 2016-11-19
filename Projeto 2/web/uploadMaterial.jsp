@@ -13,7 +13,11 @@
 </head>
 <body>
     <form action="./UploadMaterialServlet" method="POST" enctype="multipart/form-data">
-        <p><input type="text" name="courseName" placeholder="Course Name" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> </p>
+        <h1 align="center">Search For Specific Student</h1>
+        <h3 align="right">Welcome, ${user.name}</h3>
+        <p class="submit" align="right"><input type="submit" name="action" value="logout" style="width: 150px; height: 50px"></p>
+        Add file to course:
+        <input type="text" name="courseName" placeholder="Course Name" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> <br />
         <input type="file" name="file" size="50" />
         <br />
         <p class="submit"><input type="submit" name="action" value="upload" style="width: 150px; height: 50px"></p>
