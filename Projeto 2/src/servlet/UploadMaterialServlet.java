@@ -40,7 +40,7 @@ public class UploadMaterialServlet extends HttpServlet {
             try {
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 String[] extension = fileName.split("\\.");
-                String fileTimestamp = timestamp.toString() + extension[extension.length - 1];
+                String fileTimestamp = timestamp.toString() + "." + extension[extension.length - 1];
                 File file = new File(fileTimestamp);
 
                 outStream = new FileOutputStream(file);
