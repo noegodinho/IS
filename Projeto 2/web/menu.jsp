@@ -12,8 +12,7 @@
     <title>Menu</title>
 </head>
 <body>
-<form action="./MenuServlet" method="POST">
-    <font face="verdana" color="black">
+    <form action="./MenuServlet" method="POST">
         <section align="center">
             <div class="login">
                 <h1>Menu</h1>
@@ -24,7 +23,6 @@
                 </c:forEach>
             </div>
         </section>
-    </font>
-</form>
+    </form>
 </body>
 </html>

@@ -13,7 +13,7 @@
 </head>
 <body>
     <form action="./UploadMaterialServlet" method="POST" enctype="multipart/form-data">
-        <h1 align="center">Search For Specific Student</h1>
+        <h1 align="center">Upload Course Material</h1>
         <h3 align="right">Welcome, ${user.name}</h3>
         <p class="submit" align="right"><input type="submit" name="action" value="logout" style="width: 150px; height: 50px"></p>
         Add file to course:

@@ -43,6 +43,7 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("deleteUser.jsp").forward(request, response);
         }
 
+        //TODO FIX BUG SHOWING STUDENTS NOT ADDED
         else if(request.getParameter("action").equals("Create New Course")) {
             request.getRequestDispatcher("newCourse.jsp").forward(request, response);
         }
@@ -54,7 +55,7 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("deleteCourse.jsp").forward(request, response);
         }
 
-        //TODO Upload Course Material
+        //TODO FIX FILE EXTENSIONS
         else if(request.getParameter("action").equals("Upload Course Material")){
             request.getRequestDispatcher("uploadMaterial.jsp").forward(request, response);
         }
@@ -66,7 +67,7 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("listStudents.jsp").forward(request, response);
         }
 
-        //TODO Search Student
+        //TODO FIX INT FIELDS
         else if(request.getParameter("action").equals("Search Student")){
             request.getRequestDispatcher("searchStudent.jsp").forward(request, response);
         }

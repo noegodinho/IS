@@ -18,14 +18,15 @@
     <h3 align="right">Welcome, ${user.name}</h3>
     <p class="submit" align="right"><input type="submit" name="action" value="logout" style="width: 150px; height: 50px"></p>
 
-    <p><input type="text" name="courseName" placeholder="Name" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> </p>
-    <p><input type="text" name="profEmail" placeholder="Professor Email" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> </p>
-    <p>Add students to the course</p>
+    <p>First, add students to the course</p>
     <p><input type="text" name="studentEmail" placeholder="Student Email" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> </p>
     <p class="submit"><input type="submit" name="action" value="add" style="width: 150px; height: 50px"></p>
     <c:forEach items="${students}" var="student">
         <p>${student.number} ${student.name} ${student.instEmail}</p>
     </c:forEach>
+
+    <p><input type="text" name="courseName" placeholder="Name" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> </p>
+    <p><input type="text" name="profEmail" placeholder="Professor Email" style="text-align: center; font-size:14pt; width: 360px; height: 30px; "> </p>
 
     <p class="submit"><input type="submit" name="action" value="create" style="width: 150px; height: 50px"></p>
 </form>

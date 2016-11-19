@@ -88,13 +88,15 @@ public class NewCourseServlet extends HttpServlet {
         if(request.getParameter("action").equals("add")) {
             addStudentToList(request, response);
             if (found) {
-                session.setAttribute("students", students);
+                request.setAttribute("students", students);
                 request.getRequestDispatcher("newCourse.jsp").forward(request, response);
             }
         }
 
         else if(request.getParameter("action").equals("logout")){
             session.removeAttribute("user");
+            courseStudents.clear();
+            students.clear();
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
