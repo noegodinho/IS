@@ -14,7 +14,7 @@ public class Student extends User implements Serializable{
     @Column(nullable=false)
     private Integer yearOfCourse;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Course> courses;
 
     public Student(){

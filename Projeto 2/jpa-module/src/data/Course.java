@@ -17,10 +17,10 @@ public class Course implements Serializable{
     @ManyToOne
     private Professor professor;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Student> students;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", orphanRemoval = true)
     private List<Material> materials;
 
     public Course(){

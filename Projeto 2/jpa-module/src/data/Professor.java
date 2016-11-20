@@ -20,7 +20,7 @@ public class Professor extends User implements Serializable{
     @Column(nullable=false)
     private double salary;
 
-    @OneToMany(mappedBy = "professor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "professor", orphanRemoval = true)
     private List<Course> courses;
 
     public Professor(){
