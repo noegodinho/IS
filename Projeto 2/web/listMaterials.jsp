@@ -27,9 +27,14 @@
     <p class="submit"><input type="submit" name="action" value="search" style="width: 150px; height: 50px"></p>
 
     Materials:
-    <c:forEach items="${materialsList}" var="material">
-        <p>${material.filename}</p>
-    </c:forEach>
+    <select name="materialSelected" id="material">
+        <option value="dummy">Choose your option</option>
+        <c:forEach items="${materialsList}" var="material">
+            <option>${material.filename}</option>
+        </c:forEach>
+    </select>
+    <p class="submit"><input type="submit" name="action" value="download" style="width: 150px; height: 50px"></p>
+
 </form>
 </body>
 </html>
