@@ -59,8 +59,9 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("uploadMaterial.jsp").forward(request, response);
         }
 
-        //TODO Delete Material
-        else if(request.getParameter("action").equals("Delete Material"));
+        else if(request.getParameter("action").equals("Delete Material")){
+            request.getRequestDispatcher("DeleteMaterialServlet").forward(request, response);
+        }
 
         else if (request.getParameter("action").equals("List Students")){
             request.getRequestDispatcher("listStudents.jsp").forward(request, response);
@@ -74,7 +75,6 @@ public class MenuServlet extends HttpServlet {
             request.getRequestDispatcher("ListCoursesServlet").forward(request, response);
         }
 
-        //TODO Download Materials
         else if (request.getParameter("action").equals("List Materials")){
             request.getRequestDispatcher("ListMaterialsServlet").forward(request, response);
         }

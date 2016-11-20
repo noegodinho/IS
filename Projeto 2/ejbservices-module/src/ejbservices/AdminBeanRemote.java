@@ -1,6 +1,7 @@
 package ejbservices;
 
 import dto.CourseDTO;
+import dto.MaterialDTO;
 import dto.ProfessorDTO;
 import dto.StudentDTO;
 
@@ -32,4 +33,5 @@ public interface AdminBeanRemote{
     List<StudentDTO> getStudents();
     List<ProfessorDTO> getProfessors();
     List<CourseDTO> getCourses();
+    List<MaterialDTO> getMaterials(String courseName);
 }

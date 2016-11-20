@@ -125,4 +125,15 @@
         <url-pattern>/ListMaterialsServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Delete Material Servlet</servlet-name>
+        <servlet-class>servlet.DeleteMaterialServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Delete Material Servlet</servlet-name>
+        <url-pattern>/DeleteMaterialServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

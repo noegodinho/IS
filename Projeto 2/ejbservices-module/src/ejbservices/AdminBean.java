@@ -1,10 +1,12 @@
 package ejbservices;
 
 import data.Course;
+import data.Material;
 import data.Professor;
 import data.Student;
 
 import dto.CourseDTO;
+import dto.MaterialDTO;
 import dto.ProfessorDTO;
 import dto.StudentDTO;
 
@@ -152,5 +154,26 @@ public class AdminBean implements AdminBeanRemote{
 
 
         return coursesDTO;
+    }
+
+    public List<MaterialDTO> getMaterials(String courseName){
+        List<Material> materials;
+        List<MaterialDTO> materialsDTO = new ArrayList<>();
+
+        materials = this.queriesCrud.selectMaterials("%", courseName);
+
+        if(materials.size() != 0){
+            for(Material material : materials){
+                materialsDTO.add(new MaterialDTO(material));
+            }
+
+            logger.info("Materials successfully obtained");
+        }
+
+        else{
+            logger.error("No materials found");
+        }
+
+        return materialsDTO;
     }
 }

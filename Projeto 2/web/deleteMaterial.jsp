@@ -10,11 +10,11 @@
 
 <html>
 <head>
-    <title>List and Download Materials</title>
+    <title>Delete Materials</title>
 </head>
 <body>
-<form action="./ListMaterialsServlet" method="POST">
-    <h1 align = "center">List Materials</h1>
+<form action="./DeleteMaterialServlet" method="POST">
+    <h1 align = "center">Delete Materials</h1>
     <h3 align="right">Welcome, ${user.name}</h3>
     <p class="submit" align="right"><input type="submit" name="action" value="logout" style="width: 150px; height: 50px"></p>
     Select course:
@@ -33,7 +33,7 @@
             <option>${material.filename}</option>
         </c:forEach>
     </select>
-    <p class="submit"><input type="submit" name="action" value="download" style="width: 150px; height: 50px"></p>
+    <p class="submit"><input type="submit" name="action" value="delete" style="width: 150px; height: 50px"></p>
 
 </form>
 </body>
