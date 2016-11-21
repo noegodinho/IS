@@ -51,7 +51,9 @@ public class MenuServlet extends HttpServlet {
         }
 
         //TODO Edit Course Information
-        else if(request.getParameter("action").equals("Edit Course Information"));
+        else if(request.getParameter("action").equals("Edit Course Information")){
+            request.getRequestDispatcher("editCourse.jsp").forward(request, response);
+        }
 
         else if(request.getParameter("action").equals("Delete Course")){
             request.getRequestDispatcher("deleteCourse.jsp").forward(request, response);
