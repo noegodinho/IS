@@ -217,9 +217,9 @@ public class QueriesCrud implements QueriesCrudLocal{
         try{
             Student student = this.selectStudents(instEmail).get(0);
 
-            student.setHashedPassword(hashedPassword);
+            //student.setHashedPassword(hashedPassword);
             student.setName(name);
-            student.setBirth(birth);
+            //student.setBirth(birth);
             student.setInstEmail(newInstEmail);
             student.setAltEmail(altEmail);
             student.setAddress(address);
@@ -227,13 +227,13 @@ public class QueriesCrud implements QueriesCrudLocal{
             student.setNumber(number);
             student.setYearOfCourse(yearOfCourse);
 
-            List<Course> courseList = new ArrayList<>();
+            /*List<Course> courseList = new ArrayList<>();
 
             for(String s : coursesName){
                 courseList.add(this.selectCourses(s).get(0));
             }
 
-            student.setCourses(courseList);
+            student.setCourses(courseList);*/
 
             entityManager.persist(student);
 
@@ -253,9 +253,9 @@ public class QueriesCrud implements QueriesCrudLocal{
         try{
             Professor professor = this.selectProfessors(instEmail).get(0);
 
-            professor.setHashedPassword(hashedPassword);
+            //professor.setHashedPassword(hashedPassword);
             professor.setName(name);
-            professor.setBirth(birth);
+            //professor.setBirth(birth);
             professor.setInstEmail(newInstEmail);
             professor.setAltEmail(altEmail);
             professor.setAddress(address);
@@ -266,13 +266,13 @@ public class QueriesCrud implements QueriesCrudLocal{
             professor.setInternalTelephoneNumber(internalTelephoneNumber);
             professor.setSalary(salary);
 
-            List<Course> courseList = new ArrayList<>();
+            /*List<Course> courseList = new ArrayList<>();
 
             for(String s : coursesName){
                 courseList.add(this.selectCourses(s).get(0));
             }
 
-            professor.setCourses(courseList);
+            professor.setCourses(courseList);*/
 
             entityManager.persist(professor);
 

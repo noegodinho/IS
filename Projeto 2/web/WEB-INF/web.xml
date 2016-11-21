@@ -136,4 +136,15 @@
         <url-pattern>/DeleteMaterialServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Edit User Servlet</servlet-name>
+        <servlet-class>servlet.EditUserServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Edit User Servlet</servlet-name>
+        <url-pattern>/EditUserServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

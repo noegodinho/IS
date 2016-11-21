@@ -35,9 +35,36 @@
 
     <p class="submit"><input type="submit" name="action" value="search" style="width: 150px; height: 50px"></p>
 
-    <c:forEach items="${studentsList}" var="student">
-        <p>${student.name} ${student.instEmail} ${student.altEmail} ${student.address} ${student.number} </p>
-    </c:forEach>
+    Result:
+
+    <table border="1">
+        <tr bgcolor="#9acd32" style="display:table-row;">
+            <th>Name</th>
+            <th>Institutional Email</th>
+            <th>Alternative Email</th>
+            <th>Address</th>
+            <th>Number</th>
+        </tr>
+        <c:forEach items="${studentsList}" var="student">
+            <tr>
+                <td>
+                    <c:out value="${student.name}" />
+                </td>
+                <td>
+                    <c:out value="${student.instEmail}" />
+                </td>
+                <td>
+                    <c:out value="${student.altEmail}" />
+                </td>
+                <td>
+                    <c:out value="${student.address}" />
+                </td>
+                <td>
+                    <c:out value="${student.number}" />
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
 </form>
 
 </body>

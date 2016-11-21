@@ -51,18 +51,17 @@ public class ListCoursesServlet extends HttpServlet {
 
         if (session.getAttribute("user") instanceof StudentDTO) {
             courses = this.ejbremote.getCourses(((StudentDTO) session.getAttribute("user")).getId(), 2);
-            request.setAttribute("coursesIN", courses);
-            request.getRequestDispatcher("listCourses.jsp").forward(request, response);
         }
 
         else if (session.getAttribute("user") instanceof ProfessorDTO) {
             courses = this.ejbremote.getCourses(((ProfessorDTO) session.getAttribute("user")).getId(), 1);
-            request.setAttribute("coursesIN", courses);
-            request.getRequestDispatcher("listCourses.jsp").forward(request, response);
         }
 
         else {
-            utils.popupMessage(response, "Login as either a Professor or a Student", "menu");
+            courses = (List<CourseDTO>) session.getAttribute("coursesList");
         }
+
+        request.setAttribute("coursesIN", courses);
+        request.getRequestDispatcher("listCourses.jsp").forward(request, response);
     }
 }
