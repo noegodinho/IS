@@ -291,14 +291,14 @@ public class QueriesCrud implements QueriesCrudLocal{
 
             course.setCourseName(newCourseName);
 
-            List<Student> students = new ArrayList<>();
+            /*List<Student> students = new ArrayList<>();
 
             for(String s : studentsEmail){
                 students.add(this.selectStudents(s).get(0));
             }
 
             course.setProfessor(this.selectProfessors(professorEmail).get(0));
-            course.setStudents(students);
+            course.setStudents(students);*/
 
             entityManager.persist(course);
 
