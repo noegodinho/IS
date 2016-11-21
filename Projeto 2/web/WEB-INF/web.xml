@@ -147,4 +147,15 @@
         <url-pattern>/EditUserServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Edit Course Servlet</servlet-name>
+        <servlet-class>servlet.EditCourseServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Edit Course Servlet</servlet-name>
+        <url-pattern>/EditCourseServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
