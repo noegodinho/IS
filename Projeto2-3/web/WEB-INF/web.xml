@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <servlet>
+        <servlet-name>Login Servlet</servlet-name>
+        <servlet-class>servlet.LoginServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Login Servlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Register Servlet</servlet-name>
+        <servlet-class>servlet.RegisterServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Register Servlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Menu Servlet</servlet-name>
+        <servlet-class>servlet.MenuServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Menu Servlet</servlet-name>
+        <url-pattern>/MenuServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>List Students Servlet</servlet-name>
+        <servlet-class>servlet.ListStudentsServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>List Students Servlet</servlet-name>
+        <url-pattern>/ListStudentsServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>New Course Servlet</servlet-name>
+        <servlet-class>servlet.NewCourseServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>New Course Servlet</servlet-name>
+        <url-pattern>/NewCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Delete Course Servlet</servlet-name>
+        <servlet-class>servlet.DeleteCourseServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Delete Course Servlet</servlet-name>
+        <url-pattern>/DeleteCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Delete User Servlet</servlet-name>
+        <servlet-class>servlet.DeleteUserServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Delete User Servlet</servlet-name>
+        <url-pattern>/DeleteUserServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Search Student Servlet</servlet-name>
+        <servlet-class>servlet.SearchStudentServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Search Student Servlet</servlet-name>
+        <url-pattern>/SearchStudentServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>List Courses Servlet</servlet-name>
+        <servlet-class>servlet.ListCoursesServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>List Courses Servlet</servlet-name>
+        <url-pattern>/ListCoursesServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Upload Material Servlet</servlet-name>
+        <servlet-class>servlet.UploadMaterialServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Upload Material Servlet</servlet-name>
+        <url-pattern>/UploadMaterialServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>List Materials Servlet</servlet-name>
+        <servlet-class>servlet.ListMaterialsServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>List Materials Servlet</servlet-name>
+        <url-pattern>/ListMaterialsServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Delete Material Servlet</servlet-name>
+        <servlet-class>servlet.DeleteMaterialServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Delete Material Servlet</servlet-name>
+        <url-pattern>/DeleteMaterialServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Edit User Servlet</servlet-name>
+        <servlet-class>servlet.EditUserServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Edit User Servlet</servlet-name>
+        <url-pattern>/EditUserServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Edit Course Servlet</servlet-name>
+        <servlet-class>servlet.EditCourseServlet</servlet-class>
+    </servlet>
+
+    <!-- File Upload -->
+    <servlet-mapping>
+        <servlet-name>Edit Course Servlet</servlet-name>
+        <url-pattern>/EditCourseServlet</url-pattern>
+    </servlet-mapping>
+
+</web-app>
