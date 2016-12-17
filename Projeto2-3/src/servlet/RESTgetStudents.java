@@ -24,7 +24,7 @@ public class RESTgetStudents {
     AdminBeanRemote adminBeanRemote;
 
     public RESTgetStudents() throws NamingException {
-       this.profBeanRemote = (ProfBeanRemote) InitialContext.doLookup("java:global/Web/ProfBean!ejbservices.ProfBeanRemote");
+        this.profBeanRemote = (ProfBeanRemote) InitialContext.doLookup("java:global/Web/ProfBean!ejbservices.ProfBeanRemote");
         this.adminBeanRemote = (AdminBeanRemote) InitialContext.doLookup("java:global/Web/AdminBean!ejbservices.AdminBeanRemote");
     }
 
