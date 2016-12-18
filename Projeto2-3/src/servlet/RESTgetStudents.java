@@ -1,5 +1,6 @@
 package servlet;
 
+import dto.ListCourses;
 import dto.CourseDTO;
 import dto.MaterialDTO;
 import dto.StudentDTO;
@@ -13,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 //To access the methods go to localhost:8080/Web/servlet/project3
@@ -48,22 +48,27 @@ public class RESTgetStudents {
         return listStudents;
     }
 
-    //TODO CHANGE THIS METHOD, IT'S GIVING BODE HUEHUEHUE
     @GET
     @Path("getmaterials")
     @Produces({MediaType.APPLICATION_XML})
-    public List<List<MaterialDTO>> getAllMaterials() {
+    public ListCourses getAllMaterials() {
         System.out.println("getAllMaterials started");
 
         List<CourseDTO> listCourses = adminBeanRemote.getCourses();
 
-        List<List<MaterialDTO>> listAllMaterials = new ArrayList<>();
+        List<MaterialDTO> listAllMaterials = adminBeanRemote.getMaterials("%");
 
-        for(CourseDTO course : listCourses){
-            listAllMaterials.add(adminBeanRemote.getMaterials(course.getCourseName()));
+
+        ListCourses lc = new ListCourses();
+        for (CourseDTO c : listCourses) {
+            for (MaterialDTO m : listAllMaterials)
+                if (m.getCourseID() == c.getId())
+                    c.addMaterial(m);
+            lc.addCourse(c);
         }
 
-        return listAllMaterials;
+        return lc;
+
     }
 }
 

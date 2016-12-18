@@ -10,6 +10,7 @@ public class MaterialDTO implements Serializable{
     private Integer id;
     private String filename;
     private String timestamp;
+    private Integer courseID;
 
     public MaterialDTO(){
 
@@ -19,6 +20,7 @@ public class MaterialDTO implements Serializable{
         this.id = material.getId();
         this.filename = material.getFilename();
         this.timestamp = material.getTimestamp();
+        this.courseID = material.getCourse().getId();
     }
 
     public Integer getId() {
@@ -43,5 +45,9 @@ public class MaterialDTO implements Serializable{
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Integer getCourseID() {
+        return courseID;
     }
 }
