@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:schedulers="http://www.mulesoft.org/schema/mule/schedulers" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/schedulers http://www.mulesoft.org/schema/mule/schedulers/current/mule-schedulers.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
+    <http:request-config name="HTTP_Request_Configuration" protocol="HTTP" host="localhost" port="8080" basePath="Web/servlet/project3" doc:name="HTTP Request Configuration"/>
+    <db:mysql-config name="MySQL_Configuration" host="localhost" port="3306" user="root" password="root" database="IS3" doc:name="MySQL Configuration"/>
+    <smtp:gmail-connector name="Gmail" validateConnections="true" doc:name="Gmail"/>
+    <flow name="SOAPWebService">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
+        <cxf:jaxws-service serviceClass="soap.Soap" doc:name="CXF"/>
+        <choice doc:name="Choice">
+            <when expression="#[method.name.equals(&quot;addSubscription&quot;)]">
+                <flow-ref name="Subscribe" doc:name="Subscribe"/>
+            </when>
+            <when expression="#[method.name.equals(&quot;removeSubscription&quot;)]">
+                <flow-ref name="Unsubscribe" doc:name="Unsubscribe"/>
+            </when>
+            <when expression="#[method.name.equals(&quot;listSubscriptions&quot;)]">
+                <flow-ref name="ListSubs" doc:name="ListSubs"/>
+            </when>
+            <otherwise>
+                <logger level="INFO" doc:name="Logger"/>
+            </otherwise>
+        </choice>
+    </flow>
+    <flow name="Subscribe">
+        <set-variable variableName="email" value="#[payload[0]]" doc:name="SetEmail"/>
+        <set-variable variableName="course" value="#[payload[1]]" doc:name="SetCourse"/>
+        <logger message="#[email] #[course]" level="INFO" doc:name="Logger"/>
+        <db:select config-ref="MySQL_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[SELECT email, course FROM Subscription WHERE email=#[email] AND course=#[course];]]></db:parameterized-query>
+        </db:select>
+        <choice doc:name="Choice">
+            <when expression="#[payload.isEmpty()]">
+                <set-payload value="You are being subscribed to the Course &quot;#[course]&quot; Notification List. Click http://localhost:8081/checkSubscription?email=#[email]&amp;course=#[course] to accept " doc:name="Write Email"/>
+                <smtp:outbound-endpoint host="smtp.gmail.com" port="587" user="isproject3mule%40gmail.com" password="isisisis" connector-ref="Gmail" to="#[email]" subject="Subscribe confirmation" responseTimeout="10000" doc:name="Send Confirmation Email" from="isproject3mule%40gmail.com"/>
+                <db:update config-ref="MySQL_Configuration" doc:name="Database">
+                    <db:parameterized-query><![CDATA[UPDATE Statistics SET numberEmails = numberEmails+1;]]></db:parameterized-query>
+                </db:update>
+            </when>
+            <otherwise>
+                <logger level="INFO" doc:name="Logger" message="Pair already in database"/>
+            </otherwise>
+        </choice>
+    </flow>
+    <flow name="CheckSubscription">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/checkSubscription" allowedMethods="GET,POST" doc:name="HTTP"/>
+        <db:insert config-ref="MySQL_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[INSERT INTO Subscription (email,course)VALUES(#[message.inboundProperties.'http.query.params'.email], #[message.inboundProperties.'http.query.params'.course]);]]></db:parameterized-query>
+        </db:insert>
+        <set-payload value="#[message.inboundProperties.'http.query.params'.email], #[message.inboundProperties.'http.query.params'.course] subscription added." doc:name="Set Payload"/>
+        <echo-component doc:name="Echo"/>
+    </flow>
+    <flow name="Unsubscribe">
+        <set-variable variableName="email" value="#[payload[0]]" doc:name="SetEmail"/>
+        <set-variable variableName="course" value="#[payload[1]]" doc:name="SetCourse"/>
+        <logger message="#[email] #[course]" level="INFO" doc:name="Logger"/>
+        <db:select config-ref="MySQL_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[SELECT email, course FROM Subscription WHERE email=#[email] AND course=#[course];]]></db:parameterized-query>
+        </db:select>
+        <choice doc:name="Choice">
+            <when expression="#[!(payload.isEmpty())]">
+                <set-payload value="You are being unsubscribed from the Course &quot;#[course]&quot; Notification List. Click http://localhost:8081/checkUnsubscription?email=#[email]&amp;course=#[course] to accept " doc:name="Write Email"/>
+                <smtp:outbound-endpoint host="smtp.gmail.com" port="587" user="isproject3mule%40gmail.com" password="isisisis" connector-ref="Gmail" to="#[email]" from="isproject3mule%40gmail.com" subject="Confirm unsubscription" responseTimeout="10000" doc:name="Send Confirmation Email"/>
+                <db:update config-ref="MySQL_Configuration" doc:name="Database">
+                    <db:parameterized-query><![CDATA[UPDATE Statistics SET numberEmails = numberEmails+1;]]></db:parameterized-query>
+                </db:update>
+            </when>
+            <otherwise>
+                <logger message="Pair not found in Database" level="INFO" doc:name="Logger"/>
+            </otherwise>
+        </choice>
+    </flow>
+    <flow name="CheckUnsubscription">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/checkUnsubscription" allowedMethods="GET,POST" doc:name="HTTP"/>
+        <db:delete config-ref="MySQL_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[DELETE FROM Subscription WHERE email=#[message.inboundProperties.'http.query.params'.email] AND course=#[message.inboundProperties.'http.query.params'.course];]]></db:parameterized-query>
+        </db:delete>
+        <set-payload value="#[message.inboundProperties.'http.query.params'.email], #[message.inboundProperties.'http.query.params'.course] successfully unsubscribed." doc:name="Set Payload"/>
+        <echo-component doc:name="Echo"/>
+    </flow>
+    <flow name="ListSubs">
+        <echo-component doc:name="Echo"/>
+    </flow>
+</mule>

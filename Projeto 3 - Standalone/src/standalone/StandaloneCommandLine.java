@@ -77,6 +77,9 @@ public class StandaloneCommandLine{
             course = sc.nextLine();
         }
 
+        System.out.println("EMAIL: "+email);
+        System.out.println("COURSE: "+course);
+
         soap.removeSubscription(email, course);
     }
 
