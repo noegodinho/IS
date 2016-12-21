@@ -81,6 +81,6 @@ public class StandaloneCommandLine{
     }
 
     public static void listSubscriptions(Soap soap){
-        soap.listSubscriptions(); // ?
+        System.out.println(soap.listSubscriptions()); // ?
     }
 }
