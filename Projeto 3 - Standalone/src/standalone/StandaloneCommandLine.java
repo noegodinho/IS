@@ -61,7 +61,7 @@ public class StandaloneCommandLine{
             course = sc.nextLine();
         }
 
-        soap.addSubscription(email, course);
+        System.out.println(soap.addSubscription(email, course));
     }
 
     public static void removeSubscription(Soap soap, Scanner sc){
@@ -77,10 +77,7 @@ public class StandaloneCommandLine{
             course = sc.nextLine();
         }
 
-        System.out.println("EMAIL: "+email);
-        System.out.println("COURSE: "+course);
-
-        soap.removeSubscription(email, course);
+        System.out.println(soap.removeSubscription(email, course));
     }
 
     public static void listSubscriptions(Soap soap){
