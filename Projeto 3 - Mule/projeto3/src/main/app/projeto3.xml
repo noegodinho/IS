@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:twitter="http://www.mulesoft.org/schema/mule/twitter" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:schedulers="http://www.mulesoft.org/schema/mule/schedulers" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:twitter="http://www.mulesoft.org/schema/mule/twitter" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:schedulers="http://www.mulesoft.org/schema/mule/schedulers" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
@@ -14,7 +14,8 @@ http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mul
 http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
 http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
-http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/twitter/current/mule-twitter.xsd">
+http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/twitter/current/mule-twitter.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
     <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration"/>
     <http:request-config name="HTTP_Request_Configuration" protocol="HTTP" host="localhost" port="8080" basePath="Web/servlet/project3" doc:name="HTTP Request Configuration"/>
     <db:mysql-config name="MySQL_Configuration" host="localhost" port="3306" user="root" password="root" database="IS3" doc:name="MySQL Configuration"/>
@@ -23,6 +24,7 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
     <mulexml:jaxb-context name="JAXB_Context" packageNames="generated" doc:name="JAXB Context"/>
     <file:connector name="File1" autoDelete="true" streaming="true" validateConnections="true" doc:name="File"/>
     <twitter:config name="Twitter__Configuration" accessKey="811635275688476672-ZvSznMc9Q5qhB1Wtbtk2tii9gHGR7Iu" accessSecret="1KxWrCnDVFx1BPyF44H5jo23ScJg2nJDwKaD4Rr9n0ggt" consumerKey="mloLYuEEIaZWRT4DqsMKfszY5" consumerSecret="o4eswkJAZYEaX5KIhUcnivCWfPS0DOg9t5fVnfkZxsutGUH9Jt" doc:name="Twitter: Configuration"/>
+    <file:connector name="File2" readFromDirectory="/Users/Rocha/AnypointStudio/workspace/projeto3/data" workFileNamePattern="materials.xml" autoDelete="true" streaming="true" validateConnections="true" doc:name="File"/>
     <flow name="SOAPWebService">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
         <cxf:jaxws-service serviceClass="soap.Soap" doc:name="CXF"/>
@@ -40,6 +42,7 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
                 <logger level="INFO" doc:name="Logger"/>
             </otherwise>
         </choice>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
     <flow name="Subscribe">
         <set-variable variableName="email" value="#[payload[0]]" doc:name="SetEmail"/>
@@ -53,7 +56,7 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
                 <set-payload value="You are being subscribed to the Course &quot;#[course]&quot; Notification List. Click http://localhost:8081/checkSubscription?email=#[email]&amp;course=#[course] to accept " doc:name="Write Email"/>
                 <smtp:outbound-endpoint host="smtp.gmail.com" port="587" user="isproject3mule%40gmail.com" password="isisisis" connector-ref="Gmail" to="#[email]" subject="Subscribe confirmation" responseTimeout="10000" doc:name="Send Confirmation Email" from="isproject3mule%40gmail.com"/>
                 <db:update config-ref="MySQL_Configuration" doc:name="Database">
-                    <db:parameterized-query><![CDATA[UPDATE Statistics SET numberEmails = numberEmails+1;]]></db:parameterized-query>
+                    <db:parameterized-query><![CDATA[UPDATE Statistics SET numberEmails = numberEmails+1, today = today+1;]]></db:parameterized-query>
                 </db:update>
                 <set-payload value="&quot;Confirmation email sent&quot;" doc:name="Set Payload"/>
             </when>
@@ -62,6 +65,7 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
                 <set-payload value="&quot;Pair already in database&quot;" doc:name="Set Payload"/>
             </otherwise>
         </choice>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
     <flow name="CheckSubscription">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/checkSubscription" allowedMethods="GET,POST" doc:name="HTTP"/>
@@ -70,6 +74,7 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
         </db:insert>
         <set-payload value="#[message.inboundProperties.'http.query.params'.email], #[message.inboundProperties.'http.query.params'.course] subscription added." doc:name="Set Payload"/>
         <echo-component doc:name="Echo"/>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
     <flow name="Unsubscribe">
         <set-variable variableName="email" value="#[payload[0]]" doc:name="SetEmail"/>
@@ -83,7 +88,7 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
                 <set-payload value="You are being unsubscribed from the Course &quot;#[course]&quot; Notification List. Click http://localhost:8081/checkUnsubscription?email=#[email]&amp;course=#[course] to accept " doc:name="Write Email"/>
                 <smtp:outbound-endpoint host="smtp.gmail.com" port="587" user="isproject3mule%40gmail.com" password="isisisis" connector-ref="Gmail" to="#[email]" from="isproject3mule%40gmail.com" subject="Confirm unsubscription" responseTimeout="10000" doc:name="Send Confirmation Email"/>
                 <db:update config-ref="MySQL_Configuration" doc:name="Database">
-                    <db:parameterized-query><![CDATA[UPDATE Statistics SET numberEmails = numberEmails+1;]]></db:parameterized-query>
+                    <db:parameterized-query><![CDATA[UPDATE Statistics SET numberEmails = numberEmails+1, today = today + 1;]]></db:parameterized-query>
                 </db:update>
                 <set-payload value="&quot;Confirmation email sent&quot;" doc:name="Set Payload"/>
             </when>
@@ -92,6 +97,7 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
                 <set-payload value="&quot;Pair not found in database&quot;" doc:name="Set Payload"/>
             </otherwise>
         </choice>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
     <flow name="CheckUnsubscription">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/checkUnsubscription" allowedMethods="GET,POST" doc:name="HTTP"/>
@@ -100,35 +106,116 @@ http://www.mulesoft.org/schema/mule/twitter http://www.mulesoft.org/schema/mule/
         </db:delete>
         <set-payload value="#[message.inboundProperties.'http.query.params'.email], #[message.inboundProperties.'http.query.params'.course] successfully unsubscribed." doc:name="Set Payload"/>
         <echo-component doc:name="Echo"/>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
     <flow name="ListSubs">
         <db:select config-ref="MySQL_Configuration" doc:name="Database">
             <db:parameterized-query><![CDATA[SELECT email,course from Subscription;]]></db:parameterized-query>
         </db:select>
         <object-to-string-transformer doc:name="Object to String"/>
-        <catch-exception-strategy doc:name="Catch Exception Strategy">
-            <object-to-string-transformer doc:name="Object to String"/>
-            <file:outbound-endpoint path="/Users/Rocha/AnypointStudio/workspace/projeto3/data" outputPattern="exceptions.txt" connector-ref="File" responseTimeout="10000" doc:name="Exception File"/>
-        </catch-exception-strategy>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
     <flow name="GetMaterials">
         <poll doc:name="Poll">
-            <fixed-frequency-scheduler frequency="30" timeUnit="SECONDS"/>
+            <schedulers:cron-scheduler expression="0 0 0 1/1 * ? *"/>
             <echo-component doc:name="Echo"/>
         </poll>
+        <scripting:component doc:name="Read File to #[materials]">
+            <scripting:script engine="Groovy"><![CDATA[String fileContents = new File('/Users/Rocha/AnypointStudio/workspace/projeto3/data/materials.xml').text
+flowVars['materials'] = fileContents
+fileSuccessfullyDeleted =  new File('/Users/Rocha/AnypointStudio/workspace/projeto3/data/materials.xml').delete()  ]]></scripting:script>
+        </scripting:component>
         <http:request config-ref="HTTP_Request_Configuration" path="/getmaterials" method="GET" doc:name="HTTP"/>
-        <file:outbound-endpoint path="/Users/Rocha/AnypointStudio/workspace/projeto3/data" outputPattern="materialsnew.xml" connector-ref="File1" responseTimeout="10000" doc:name="Write XML response to file"/>
         <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
+        <file:outbound-endpoint path="/Users/Rocha/AnypointStudio/workspace/projeto3/data" outputPattern="materials.xml" connector-ref="File1" responseTimeout="10000" doc:name="File"/>
         <mulexml:jaxb-xml-to-object-transformer returnClass="generated.ListCourses" jaxbContext-ref="JAXB_Context" doc:name="XML to JAXB Object"/>
         <set-variable variableName="materialsNew" value="#[payload]" doc:name="Set Variable materialsNew"/>
-        <scripting:transformer doc:name="Compare XML Groovy">
+        <set-payload value="#[materialsNew]" doc:name="Set Payload"/>
+        <mulexml:jaxb-object-to-xml-transformer jaxbContext-ref="JAXB_Context" doc:name="JAXB Object to XML"/>
+        <logger message="#[payload]" level="INFO" doc:name="Logger"/>
+        <scripting:component doc:name="Count Courses">
+            <scripting:script engine="Groovy"><![CDATA[import generated.ListCourses;
+
+materialsNew = flowVars['materialsNew']
+
+count = materialsNew.getCourses().size();
+
+sessionVars['coursesCount'] = count
+]]></scripting:script>
+        </scripting:component>
+        <set-payload value="#[materials]" doc:name="Set Payload"/>
+        <logger message="#[materialsNew]" level="INFO" doc:name="Logger"/>
+        <mulexml:jaxb-xml-to-object-transformer returnClass="generated.ListCourses" jaxbContext-ref="JAXB_Context" doc:name="XML to JAXB Object"/>
+        <set-variable variableName="materials" value="#[payload]" doc:name="Set Variable materials"/>
+        <logger message="#[materials]" level="INFO" doc:name="Logger"/>
+        <scripting:component doc:name="Compare Materials">
             <scripting:script engine="Groovy" file="/Users/Rocha/AnypointStudio/workspace/projeto3/src/main/java/scripts/compareXML.groovy"/>
-        </scripting:transformer>
+        </scripting:component>
+        <logger message="#[results]" level="INFO" doc:name="Logger"/>
+        <set-variable variableName="mailContainer" value="#[[]]" doc:name="Initialize mailContainer"/>
+        <set-payload value="#[results]" doc:name="Set Payload"/>
+        <foreach doc:name="For Each">
+            <logger message="COURSE : #[payload[0]]" level="INFO" doc:name="Logger"/>
+            <set-variable variableName="courseChanged" value="#[payload[0]]" doc:name="Set courseChanged"/>
+            <set-variable variableName="materialsChanged" value="#[payload[1]]" doc:name="Set materialsChanged"/>
+            <db:select config-ref="MySQL_Configuration" doc:name="Database">
+                <db:parameterized-query><![CDATA[SELECT email FROM Subscription WHERE course=#[courseChanged]]]></db:parameterized-query>
+            </db:select>
+            <set-variable variableName="subscribers" value="#[payload]" doc:name="Set Subscribers"/>
+            <foreach doc:name="For Each">
+                <logger message="SUBSCRIBER: #[payload.email]" level="INFO" doc:name="Logger"/>
+                <set-variable variableName="email" value="#[payload.email]" doc:name="Set email"/>
+                <set-payload value="You are being notified that the course #[courseChanged] has made changes in materials: #[materialsChanged]" doc:name="Write email"/>
+                <scripting:component doc:name="Join Subscribers Mails">
+                    <scripting:script engine="Groovy" file="/Users/Rocha/AnypointStudio/workspace/projeto3/src/main/java/scripts/joinEmails.groovy"/>
+                </scripting:component>
+            </foreach>
+            <logger message="MAIL: #[mailContainer]" level="INFO" doc:name="Logger"/>
+            <http:request config-ref="HTTP_Request_Configuration" path="/getstudents" method="GET" doc:name="HTTP">
+                <http:request-builder>
+                    <http:query-param paramName="course" value="#[courseChanged]"/>
+                </http:request-builder>
+            </http:request>
+            <json:json-to-object-transformer returnClass="java.util.List" doc:name="JSON to Object"/>
+            <foreach doc:name="For Each">
+                <logger message="EMAIL: #[payload.get(&quot;instEmail&quot;)]" level="INFO" doc:name="Logger"/>
+                <set-variable variableName="email" value="#[payload.get(&quot;instEmail&quot;)]" doc:name="Set email"/>
+                <set-payload value="You are being notified that the course #[courseChanged] has made changes in materials: #[materialsChanged]" doc:name="Set Payload"/>
+                <scripting:component doc:name="Join Students Mails">
+                    <scripting:script engine="Groovy" file="/Users/Rocha/AnypointStudio/workspace/projeto3/src/main/java/scripts/joinEmails.groovy"/>
+                </scripting:component>
+            </foreach>
+        </foreach>
+        <set-payload value="#[mailContainer]" doc:name="Set Payload"/>
+        <foreach doc:name="For Each">
+            <set-variable variableName="email" value="#[payload[0]]" doc:name="Set email"/>
+            <set-payload value="#[payload[1]]" doc:name="Set Payload"/>
+            <smtp:outbound-endpoint host="smtp.gmail.com" port="587" user="isproject3mule%40gmail.com" password="isisisis" to="#[email]" from="isproject3mule%40gmail.com" subject="Course materials changed" responseTimeout="10000" doc:name="SMTP"/>
+            <db:update config-ref="MySQL_Configuration" doc:name="Database">
+                <db:parameterized-query><![CDATA[UPDATE Statistics SET numberEmails = numberEmails+1, today = today + 1;]]></db:parameterized-query>
+            </db:update>
+        </foreach>
+        <flow-ref name="Twitter" doc:name="Twitter"/>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
     <flow name="Twitter">
+        <logger message="#[coursesCount]" level="INFO" doc:name="Logger"/>
         <db:select config-ref="MySQL_Configuration" doc:name="Database">
-            <db:parameterized-query><![CDATA[SELECT numberEmails from Statistics;]]></db:parameterized-query>
+            <db:parameterized-query><![CDATA[SELECT numberEmails,today from Statistics;]]></db:parameterized-query>
         </db:select>
-        <twitter:update-status config-ref="Twitter__Configuration" status="CHUPMOS: #[payload[0]]" doc:name="Twitter"/>
+        <set-payload value="#[server.dateTime.dayOfMonth]/#[server.dateTime.month] #[server.dateTime.hours]:#[server.dateTime.minutes] 
+N&#250;mero total de cadeiras: #[coursesCount]
+N&#250;mero de emails enviados hoje: #[payload[0].today] 
+Total de emails enviados: #[payload[0].numberEmails]" doc:name="Set Payload"/>
+        <twitter:update-status config-ref="Twitter__Configuration" status="#[payload]" doc:name="Twitter"/>
+        <db:update config-ref="MySQL_Configuration" doc:name="Database">
+            <db:parameterized-query><![CDATA[UPDATE Statistics SET today = 0;]]></db:parameterized-query>
+        </db:update>
+        <exception-strategy ref="LogExceptions" doc:name="Reference Exception Strategy"/>
     </flow>
+    <catch-exception-strategy name="LogExceptions">
+        <set-payload value="#[org.mule.util.ExceptionUtils.getFullStackTrace(exception)]" doc:name="Set Payload"/>
+        <object-to-string-transformer doc:name="Object to String"/>
+        <file:outbound-endpoint path="/Users/Rocha/AnypointStudio/workspace/projeto3/data" outputPattern="exceptions.txt" connector-ref="File" responseTimeout="10000" doc:name="File"/>
+    </catch-exception-strategy>
 </mule>

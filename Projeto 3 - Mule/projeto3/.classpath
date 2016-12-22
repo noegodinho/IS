@@ -11,5 +11,6 @@
 	<classpathentry kind="src" output="target/test-classes" path="src/test/resources"/>
 	<classpathentry kind="src" path="src/main/wsdl"/>
 	<classpathentry kind="lib" path="src/main/app/lib/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="con" path="MULE_LIB/Twitter/org.mule.tooling.ui.contribution.twitter.3.6.0"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
